@@ -1,0 +1,62 @@
+{
+    "menu": [
+        {
+            "url": "/admin",
+            "name": "Dashboard",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.dashboard"
+        },
+        {
+            "menuHeader": "Users"
+        },
+        {
+            "url": "/admin/users",
+            "name": "List Users",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.users, admin.users.create, admin.users.edit"
+        },
+        {
+            "url": "/admin/pages",
+            "name": "Pages",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.pages, admin.pages.create, admin.pages.edit"
+        },
+        {
+            "url": "/admin/category",
+            "name": "Category",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.category, admin.category.create, admin.category.edit"
+        },
+        {
+            "url": "/admin/subcategory",
+            "name": "Sub Category",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.subcategory, admin.subcategory.create, admin.subcategory.edit"
+        },
+        {
+            "url": "/admin/product",
+            "name": "Product",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.product, admin.product.create, admin.product.edit"
+        },
+        {
+            "url": "/admin/groupProduct",
+            "name": "Product Group",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.groupProduct, admin.groupProduct.create, admin.groupProduct.edit"
+        },
+        {
+            "url": "/admin/orders",
+            "name": "Order",
+            "icon": "menu-icon tf-icons bx bx-home-circle",
+            "slug": "admin.orders, admin.orders.create, admin.orders.edit"
+        },
+        {
+            "url": "/admin/menus",
+            "name": "Menus",
+            "icon": "menu-icon tf-icons bx bx-detail",
+            "slug": "admin.menu, admin.menu.create, admin.menu.edit"
+        }
+
+    ]
+}

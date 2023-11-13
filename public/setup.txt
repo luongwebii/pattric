@@ -1,0 +1,23 @@
+php artisan vendor:publish --tag=lfm_config
+php artisan vendor:publish --tag=lfm_public
+
+Bước 3: Clear cache
+
+php artisan route:clear
+php artisan config:clear
+
+Bước 4: Sysmlink tài nguyên từ storage ra ngoài public để laravel filemanager có thể truy cập đến
+
+php artisan storage:link  
+tao link publish
+
+https://viblo.asia/p/tich-hop-tinymce-va-laravel-filemanager-vao-du-an-laravel-bJzKmP2X59N
+
+
+auth()->user()->some_column
+{{ Auth::user()->email }} 
+
+php artisan make:migration create_menus_table --create=menus
+
+php artisan view:clear
+php artisan cache:clear

@@ -1,0 +1,331 @@
+@extends('layouts/contentNavbarLayout')
+@section('title')
+{{ isset($product->id) ? 'Update product' : 'Create product' }}
+@endsection
+@push('css')
+
+@endpush
+@section('content')
+<div class="product-breadcrumb d-none d-md-flex align-items-center mb-3">
+  <div class="breadcrumb-title pr-3">Dashboard</div>
+  <div class="pl-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb mb-0 p-0">
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="product">
+          {{ isset($product->id) ? 'Update product' : 'Create product' }}</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<form action="{{ isset($product->id) ? route('admin.product.update', $product->id) : route('admin.product.store') }}" method="post" enctype="multipart/form-data">
+  @csrf
+  @isset($product->id)
+  @method('PUT')
+  @endisset
+  <div class="row">
+    <div class="col-12 col-lg-8">
+      <div class="card radius-15 border-lg-top-info">
+        <div class="card-header border-bottom-0">
+          <div class="d-flex align-items-center">
+            <div>
+              <h5 class="mb-lg-0">Create product</h5>
+            </div>
+            <div class="ml-auto">
+           
+              <a class="btn btn-primary" href="{{ route('admin.product') }}" data-toggle="tooltip" title="Back to products &#9194;"><i class="bx bx-rewind"></i>Back</a>
+           
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-body">
+
+            <div class="form-row">
+
+              <div class="form-group col-md-6">
+                <label class=" col-form-label">Category <span class="text-danger">*</span></label>
+                <select class="form-control single-select" name="category_id1" id="category_id1">
+                  @foreach ($categories as $category)
+                  <option value="{{ $category->id }}" @isset($product->id)
+                    {{ $product->category_id == $category->id ? 'selected' : '' }}
+                    @endisset
+                    >
+                    {{ $category->category_name_en }} / {{ $category->category_name_bn }}
+                  </option>
+                  @endforeach
+                </select>
+              </div>
+            </div>
+
+  
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="col-form-label">Product Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control  @error('product_name_en') is-invalid @enderror" name="product_name_en" value="{{ $product->product_name_en ?? old('product_name_en') }}" placeholder="Product Name" required>
+                @error('product_name_en')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="col-form-label">Quantity <span class="text-danger">*</span></label>
+                <input type="text" class="form-control  @error('product_qty') is-invalid @enderror" name="product_qty" value="{{ $product->product_qty ?? old('product_qty') }}" placeholder="Product quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="5" required>
+                @error('product_qty')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="col-form-label">Price <span class="text-danger">*</span></label>
+                <input type="text" class="form-control  @error('price') is-invalid @enderror" name="price" value="{{ $product->price ?? old('price') }}" placeholder="Product Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="10" required>
+                @error('price')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="col-form-label">Discount %</label>
+                <input type="text" class="form-control  @error('discount') is-invalid @enderror" name="discount" value="{{ $product->discount ?? old('discount') }}" placeholder="Product Discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="2">
+                @error('discount')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">Short Description</label>
+              <textarea name="short_description_en" id="short_description_en" class="form-control  @error('short_description_en') is-invalid @enderror" placeholder="Short description">{{ $product->short_description_en ?? old('short_description_en') }}</textarea>
+              @error('short_description_en')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+
+            <div class="form-group">
+              <label class="col-form-label">Long description <span class="text-danger">*</span></label>
+              <textarea name="long_description_en" id="long_description_en" class="form-control" required>{{ $product->long_description_en ?? old('long_description_en') }}</textarea>
+              @error('long_description_en')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-lg-4">
+      <div class="card radius-15 border-lg-top-info">
+        <div class="card-header border-bottom-0 mb-4">
+          <div class="d-flex align-items-center">
+            <div>
+              <h5 class="mb-0">Other information</h5>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="form-body">
+            <div class="form-row">
+              <div class="form-group col">
+                <label class="col-form-label">Product tags <span class="text-danger">*</span></label>
+                <input type="text" data-role="tagsinput" class="form-control  @error('product_tags_en') is-invalid @enderror" name="product_tags_en" value="{{ $product->product_tags_en ?? old('product_tags_en') }}" placeholder="Product tags English" {{ !isset($product) ? '' : '' }}>
+                @error('product_tags_en')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="col-form-label">Size</label>
+                  <input data-role="tagsinput" value="{{ isset($product->id) ? $product->size : 'S,M,L,XL'}}" type="text" class="form-control  @error('size') is-invalid @enderror" name="size" placeholder="Product size">
+                  @error('size')
+                  <span class="text-danger" product="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                  @enderror
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="col">
+                <div class="form-group">
+                  <label class="col-form-label">Color</label>
+                  <input data-role="tagsinput" value="{{ isset($product->id) ? $product->product_color : 'Red,Black,Green'}}" type="text" class="form-control  @error('product_color') is-invalid @enderror" name="product_color" placeholder="Product color ">
+                  @error('product_color')
+                  <span class="text-danger" product="alert">
+                    <strong>{{ $message }}</strong>
+                  </span>
+                  @enderror
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Main Thambnail <span class="text-danger">*</span></label>
+              <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($product->image))
+              data-default-file="/{{ $product->image }}" @endif
+              {{ !isset($product->id) ? 'required' : '' }} />
+              @error('image')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            @isset($product->id)
+
+            @else
+            <div class="form-group">
+              <div class="image-upload-wrap">
+                <input class="file-upload-input" type='file' id="files" name="multi_img[]" multiple accept="image/*" />
+                <div class="drag-text">
+                  <h3>Product Multiple Image</h3>
+                </div>
+              </div>
+            </div>
+            @endisset
+
+
+            <div class="form-group">
+              <label class="col-form-label">Meta Kewords</label>
+              <textarea name="meta_keywords_en" id="meta_keywords_en" class="form-control  @error('title') is-invalid @enderror" placeholder="Meta description">{{ $product->meta_keywords_en ?? old('meta_keywords_en') }}</textarea>
+              @error('meta_keywords_en')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">Meta Description</label>
+              <textarea name="meta_description_en" id="meta_description_en" class="form-control  @error('title') is-invalid @enderror" placeholder="Meta description">{{ $product->meta_description_en ?? old('meta_description_en') }}</textarea>
+              @error('meta_description_en')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="hot_deals" name="hot_deals" @isset($product->id)
+                  {{ $product->hot_deals == 1 ? 'checked' : '' }}
+                  @endisset>
+                  <label class="custom-control-label" for="hot_deals">Hot Deals</label>
+                </div>
+                @error('hot_deals')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="featured" name="featured" @isset($product->id)
+                  {{ $product->featured == 1 ? 'checked' : '' }}
+                  @endisset>
+                  <label class="custom-control-label" for="featured">Featured</label>
+                </div>
+                @error('featured')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="special_offer" name="special_offer" @isset($product->id)
+                  {{ $product->special_offer == 1 ? 'checked' : '' }}
+                  @endisset>
+                  <label class="custom-control-label" for="special_offer">Special Offer</label>
+                </div>
+                @error('special_offer')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+              <div class="form-group col-md-6">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="special_deals" name="special_deals" @isset($product->id)
+                  {{ $product->special_deals == 1 ? 'checked' : '' }}
+                  @endisset>
+                  <label class="custom-control-label" for="special_deals">Special Deals</label>
+                </div>
+                @error('special_deals')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="custom-control custom-switch">
+              <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($product->id)
+              {{ $product->status == 1 ? 'checked' : '' }}
+              @endisset
+              >
+              <label class="custom-control-label" for="status">Status</label>
+            </div>
+            <div class="float-right">
+              <div class="btn-group">
+                @if (isset($product->id))
+                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;"><i class="bx bx-task"></i> Update</button>
+                @else
+                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> <i class="bx bx-save"></i>Save</button>
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</form>
+<script type="text/javascript">
+  window.onload = function() {
+
+    $('.dropify').dropify({
+    messages: {
+      'default': 'Drag and drop a file here or click'
+      , 'replace': 'Drag and drop or click to replace'
+      , 'remove': 'Remove'
+      , 'error': 'Ooops, something wrong happended.'
+    }
+  });
+  }
+
+</script>
+@endsection
