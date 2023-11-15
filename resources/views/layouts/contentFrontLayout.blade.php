@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html class="light-style layout-menu-fixed layout-navbar-fixed" data-theme="theme-default" data-assets-path="{{ asset('/assets') . '/' }}" data-base-url="{{url('/')}}" data-framework="laravel" data-template="vertical-menu-laravel-template-free">
+<html lang="en" >
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-  <title>@yield('title')  </title>
-  <meta name="description" content="{{ config('variables.templateDescription') ? config('variables.templateDescription') : '' }}" />
-  <meta name="keywords" content="{{ config('variables.templateKeyword') ? config('variables.templateKeyword') : '' }}">
   <!-- laravel CRUD token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <!-- Canonical SEO -->
-  <link rel="canonical" href="{{ config('variables.productPage') ? config('variables.productPage') : '' }}">
-  <!-- Favicon -->
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <title>@yield('title', 'St. Patricks of Texas')</title>
   <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
+  <!-- Core theme CSS -->
+  <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />      
+
+  <!-- Core theme CSS -->
+  <link href="{{ asset('assets/css/style-guide.css') }}" rel="stylesheet" />
+  
+  <!-- Awesome Fonts -->
+  <link href="{{ asset('assets/vendor/font-awesome/css/fontawesome-all.min.css') }} " rel="stylesheet" type="text/css">
+  
+   <!-- Scroll Style -->
+  <link rel="stylesheet" href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets/css/scroll-style.css') }}" />
 
   <!-- Include Styles -->
-  @include('layouts/sections/styles')
+
 
   <!-- Include Scripts for customizer, helper, analytics, config -->
   @include('layouts/sections/scriptsIncludes')
@@ -24,10 +36,12 @@
 <body>
   <!-- Layout Content -->
   @yield('layoutContent')
+
+  @include('layouts/frontend/navbar')
   <!--/ Layout Content -->
   @yield('content')
   <div id="miniCart"></div>
-
+  @include('layouts/frontend/footer')
   <!-- Include Scripts -->
   @include('layouts/sections/scripts')
   <script type="text/javascript">
@@ -93,7 +107,8 @@
             }
         })
     }
-    miniCart();
+   // miniCart();
+   showMiniCart();
 
     function miniCart(){
 
@@ -177,7 +192,21 @@
                         title:data.error,
                     })
                 }
-                miniCart();
+                //miniCart();
+                showMiniCart();
+            }
+        })
+    }
+
+    function showMiniCart(){
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: "{{ route('getMiniCartProduct') }}",
+            success: function(response){
+               // $('span[id="cartSubTotal"]').text(response.cart_total);
+                //$('span[id="cartQty"]').text(response.cart_qty);
+                $('.total-cart').text(response.cart_qty);
             }
         })
     }
@@ -226,6 +255,49 @@
             url: "{{ route('removeMiniCartProduct') }}" ,
             success: function(data){
                 miniCart();
+                //start message
+                const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 3000
+                })
+                if($.isEmptyObject(data.error)){
+                    Toast.fire({
+                        type:'success',
+                        title: data.success,
+                    })
+                }else{
+                    Toast.fire({
+                        type: 'error',
+                        title:data.error,
+                    })
+                }
+                //end message
+            }
+        });
+    }
+
+    function removeRowCart(rowId){
+       
+        $.ajax({
+            type:'GET',
+            dataType: 'json',
+            data: 'rowId='+ rowId,
+            url: "{{ route('removeRowCart') }}" ,
+            success: function(data){
+                if(data.success == 'Product Remove from Cart'){
+                    $('#'+ rowId).remove();
+                    showMiniCart();
+                    $('.subtotal').text(data.data.subtotal);
+                    $('.tax').text(data.data.tax);
+                    $('.cart_total').text(data.data.cart_total);
+
+                    
+                }
+             
+               
                 //start message
                 const Toast = Swal.mixin({
                         toast: true,

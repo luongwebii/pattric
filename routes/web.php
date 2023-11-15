@@ -170,6 +170,9 @@ Route::get('/product/mini/cart', [App\Http\Controllers\CartController::class,'ge
 // remove item from mini cart route
 Route::get('/minicart/product-remove', [App\Http\Controllers\CartController::class,'removeMiniCart'])->name('removeMiniCartProduct');
 Route::get('/minicart/product-update', [App\Http\Controllers\CartController::class,'updateMiniCart'])->name('updateMiniCartProduct');
+Route::get('/remove-row-cart-page',[App\Http\Controllers\CartController::class,'removeRowCartPage'])->name('removeRowCart');
+
+
 
 Route::get('/checkout-page',[App\Http\Controllers\CheckoutController::class,'checkoutPage'])->name('checkout-page');
 Route::post('/checkout-store',[App\Http\Controllers\CheckoutController::class, 'checkoutStore'])->name('checkout.store');
@@ -179,3 +182,8 @@ Route::get('/remove/from-cart/{rowId}',[App\Http\Controllers\CartPageController:
 Route::get('/add/in-cart/{rowId}',[App\Http\Controllers\CartPageController::class,'addQtyToCart'])->name('addQtyToCart');
 Route::get('/reduce/from-cart/{rowId}',[App\Http\Controllers\CartPageController::class,'reduceQtyFromCart'])->name('reduceQtyFromCart');
 
+Route::get('/{id}/category',[App\Http\Controllers\FrontEndController::class,'listProductCategory'])->name('category.front.list');
+
+Route::get('/shopping-cart-page',[App\Http\Controllers\FrontEndController::class,'shoppingCartPage'])->name('shopping.cart.page');
+
+Route::get('/product-listing-page',[App\Http\Controllers\FrontEndController::class,'showAllCategory'])->name('product.listing,page');

@@ -12,7 +12,7 @@ All subcategories
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">subCategories</li>
       </ol>
@@ -61,7 +61,7 @@ All subcategories
               </div>
             </td>
             <td>{{ $subcategory->subcategory_name_en }}</td>
-            <td>{{ $subcategory->category->category_name_en }} / {{ $subcategory->category->category_name_bn }} </td>
+            <td>{{ $subcategory->category->category_name_en }} </td>
             <td>
               @if ($subcategory->status)
               <span class="badge badge-info rounded " data-toggle="tooltip" title="SubCategory status is true &#128077">Active</span>

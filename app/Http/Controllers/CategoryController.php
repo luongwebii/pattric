@@ -21,7 +21,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-
+        $categories = Category::latest('id')->get();
         return view('categories.form');
     }
 
@@ -32,16 +32,21 @@ class CategoryController extends Controller
         $this->validate($request, [
             'category_name_en'      => 'required|string|unique:categories,category_name_en',
             'meta_description_en'           => 'nullable',
+            'parent_id'           => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
-        $category = Category::create([
+
+       
+        $data = [
             'icon'                  => $request->icon,
             'category_name_en'      => $request->category_name_en,
             'category_slug_en'      =>  Str::slug($request->category_name_en),
             'meta_description_en'      => $request->meta_description_en,
-
+            'parent_id'      => $request->parent_id,
             'status'                => $request->filled('status'),
-        ]);
+        ];
+      
+        $category = Category::create($data);
         $file                   = $request->hasFile('image');
         if ($file) {
             if (file_exists($category->image)) {
@@ -68,6 +73,7 @@ class CategoryController extends Controller
         $this->validate($request, [
             'category_name_en'      => 'required|string|unique:categories,category_name_en,'.$category->id,
             'meta_description_en'   => 'nullable',
+            'parent_id'           => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
 
@@ -75,6 +81,7 @@ class CategoryController extends Controller
             'icon'                  => $request->icon,
             'category_name_en'      => $request->category_name_en,
             'category_slug_en'      => Str::slug($request->category_name_en),
+            'parent_id'      => $request->parent_id,
             'meta_description_en'      => $request->meta_description_en,
             'status'             => $request->filled('status'),
         ]);

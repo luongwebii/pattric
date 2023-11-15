@@ -13,7 +13,7 @@ All categories
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">Categories</li>
       </ol>
@@ -41,7 +41,7 @@ All categories
             <th>#</th>
             <th>Image</th>
             <th>Name</th>
-       
+            <th>Parent Category</th>
             <th>Status</th>
             <th>Action</th>
           </tr>
@@ -60,7 +60,7 @@ All categories
               </div>
             </td>
             <td>{{ $category->category_name_en }}</td>
-         
+            <td>{{ $categoryDataArray[$category->parent_id] ?? '' }}</td>
             <td>
               @if ($category->status)
               <span class="badge badge-info rounded " data-toggle="tooltip" title="Category status is true &#128077">Active</span>

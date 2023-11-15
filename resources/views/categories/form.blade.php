@@ -11,7 +11,7 @@
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{ isset($category->id) ? 'Update category' : 'Create category' }}</li>
       </ol>
@@ -42,7 +42,7 @@
           <div class="form-body">
             <div class="form-group">
               <label class="col-form-label">Name</label>
-              <input type="text" class="form-control  @error('category_name_en') is-invalid @enderror" name="category_name_en" value="{{ $category->category_name_en ?? old('category_name_en') }}" placeholder="category_name_en" {{ !isset($category) ? 'required' : '' }}>
+              <input type="text" class="form-control  @error('category_name_en') is-invalid @enderror" name="category_name_en" value="{{ $category->category_name_en ?? old('category_name_en') }}" placeholder="" {{ !isset($category) ? 'required' : '' }}>
               @error('category_name_en')
               <span class="text-danger" role="alert">
                 <strong>{{ $message }}</strong>
@@ -76,7 +76,33 @@
           </div>
         </div>
         <div class="card-body">
+
           <div class="form-body">
+
+          <div class="form-group">
+              <label class="col-form-label">Select Parent Category</label>
+
+              <select class="form-control single-select" name="parent_id">
+
+              <option value="">Select a Category</option>
+
+                @foreach ($categoryData as $categoryList)
+                    @if (empty($categoryList->parent_id))
+                    <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('parent_id') ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
+                    @if ($categoryList->children)
+                        @foreach ($categoryList->children as $child)
+                            <option value="{{ $child->id }}" {{ $child->id === old('parent_id') ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
+                        @endforeach
+                    @endif
+                    @endif
+                @endforeach
+
+               
+              </select>
+
+              
+            </div>
+
             <div class="form-group">
               <label class="col-form-label">category image</label>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($category->image)) data-default-file="/{{ $category->image }}" @endif
@@ -97,9 +123,10 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($category->id))
-                <button type="submit" class="btn btn-primary px-2" ><i class="bx bx-task"></i> Update</button>
+                <button type="submit" class="btn btn-primary px-2" >Update</button>
                 @else
-                <button type="submit" class="btn btn-primary px-4" > <i class="bx bx-save"></i> Save</button>
+
+                <button id ="af" class="btn btn-round btn-primary" type="submit">Submit</button>
                 @endif
               </div>
             </div>

@@ -13,7 +13,7 @@ class CreateMenuItemsWpTable extends Migration
      */
     public function up()
     {
-        Schema::create( config('menu.table_prefix') . config('menu.table_name_items') , function (Blueprint $table) {
+        Schema::create( 'admin_menu_items', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('label');
             $table->string('link');
@@ -24,9 +24,6 @@ class CreateMenuItemsWpTable extends Migration
             $table->integer('depth')->default(0);
             $table->timestamps();
 
-            $table->foreign('menu')->references('id')->on(config('menu.table_prefix') . config('menu.table_name_menus'))
-            ->onDelete('cascade')
-            ->onUpdate('cascade');
         });
     }
 

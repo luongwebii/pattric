@@ -13,12 +13,8 @@ class HomeController extends Controller
     {
         //Cart::add('293ad', 'Product 1', 1, 9.99, 550);
        // $t = Cart::content();print_r($t );
-       $categories = Category::with(['subcategory', 'products'])->orderBy('category_name_en', 'ASC')->get();
-       foreach( $categories as  $category){
-       // echo '<pre>';
-      //      print_r($category->products);
-       }
-     //  die();
+       $categories = Category::orderBy('category_name_en', 'ASC')->get();
+   
        return view('home.index',compact('categories'));
     }
 }
