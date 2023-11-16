@@ -58,11 +58,13 @@ $(function() {
               
                 optionHtml += "<tr><td>";
                 optionHtml +=  `<form class="form-inline">
-                                <div class="form-check form-check-inline">
+                                <div class="form-check form-check-inline  product-qty-box">
                                 <label id="product-name">${score.name}:</label>
+                                <div class="form-group qty-input">
                                 <input type="hidden" name="productIds[]" value="${score.id}" />
-                                <input type="text" id="qty" name="qtys[]" value="1" class="form-control1">
-                                <button id="add-button" class="btn btn-primary">Add To Cart</button>
+                                <input type="text" id="qty" name="qtys[]" value="1" class="form-control">
+                                </div>
+                                <button href="javascript:void(0);"  onclick="addToCart(this)"  class="btn btn-primary">Add To Cart</button>
                                 </div>
                                 </div>`;
                 optionHtml += "</td></tr>";

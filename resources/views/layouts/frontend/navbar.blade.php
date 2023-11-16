@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-xl navbar-dark fixed-top">
-  <a class="navbar-brand" href="index.html"><img src="{!! url('assets/img/St-Patricks-Texas-logo.svg') !!}" alt="dry-care-footer-logo"></a>
+  <a class="navbar-brand" href="/"><img src="{!! url('assets/img/St-Patricks-Texas-logo.svg') !!}" alt="dry-care-footer-logo"></a>
   
   <button  class="navbar-toggler collapsed"  type="button"   data-toggle="collapse"  data-target="#navbarCollapse"  aria-controls="navbarCollapse"  aria-expanded="false" aria-label="Toggle navigation"
   >

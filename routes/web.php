@@ -187,3 +187,5 @@ Route::get('/{id}/category',[App\Http\Controllers\FrontEndController::class,'lis
 Route::get('/shopping-cart-page',[App\Http\Controllers\FrontEndController::class,'shoppingCartPage'])->name('shopping.cart.page');
 
 Route::get('/product-listing-page',[App\Http\Controllers\FrontEndController::class,'showAllCategory'])->name('product.listing,page');
+
+Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPage'])->name('show.page');

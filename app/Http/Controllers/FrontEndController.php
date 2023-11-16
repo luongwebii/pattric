@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\UserProfile;
+use App\Models\Page;
 use Cart;
 
 class FrontEndController extends Controller
@@ -24,12 +25,24 @@ class FrontEndController extends Controller
         //
     }
 
+    public function showPage($id)
+    {
+        //
+        $page = Page::find($id);
+        
+        return view('front.page', [
+            'page' => $page
+        ]);
+    }
+
     public function listProductCategory($id)
     {
         //
+        $pages = Page::orderBy('title', 'ASC')->get();
         $categories = Category::find($id);
         return view('front.list_pro', [
-            'categories' => $categories
+            'categories' => $categories,
+            'pages' => $pages
         ]);
     }
 
@@ -70,9 +83,11 @@ class FrontEndController extends Controller
     public function showAllCategory()
     {
         //
+        $pages = Page::orderBy('title', 'ASC')->get();
         $categories = Category::get();
         return view('front.list_all_pro', [
-            'categories' => $categories
+            'categories' => $categories,
+            'pages' => $pages
         ]);
     }
 

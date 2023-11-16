@@ -22,7 +22,7 @@
       <ol class="breadcrumb mb-0 p-0">
         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ isset($category->id) ? 'Update category' : 'Create category' }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ isset($groupProduct->id) ? 'Update Group' : 'Create Group' }}</li>
       </ol>
     </nav>
   </div>
