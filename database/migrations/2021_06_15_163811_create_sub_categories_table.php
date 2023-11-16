@@ -21,11 +21,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('image')->nullable();
             $table->boolean('status')->default(true);
             $table->text('description')->nullable();
-            $table->foreign('category_id')
-                ->references('id')
-                ->on('categories')
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+
             $table->timestamps();
         });
     }

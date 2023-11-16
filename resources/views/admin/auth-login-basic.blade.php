@@ -17,8 +17,8 @@
           <!-- Logo -->
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
-              <span class="app-brand-logo demo">@include('_partials.macros',["width"=>25,"withbg"=>'#696cff'])</span>
-              <span class="app-brand-text demo text-body fw-bolder">{{config('variables.templateName')}}</span>
+
+              <img src="{!! url('assets/img/St-Patricks-Texas-logo.svg') !!}" alt="dry-care-footer-logo">
             </a>
           </div>
           <!-- /Logo -->
@@ -33,7 +33,7 @@
           <form method="POST" action="{{ route('admin.login.submit') }}">
            @csrf
             <div class="mb-3">
-              <label for="email" class="form-label">Email or Username</label>
+              <label for="email" class="form-label">Email</label>
               <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email or username" autofocus>
               @error('email')
                 <span class="invalid-feedback" role="alert">

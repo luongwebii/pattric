@@ -9,7 +9,7 @@
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="page">{{ isset($subcategory->id) ? 'Update subcategory' : 'Create subcategory' }}</li>
       </ol>
@@ -77,11 +77,12 @@
             <div class="form-group">
               <label class=" col-form-label">Select Category</label>
               <select class="form-control single-select" name="category_id">
-                @foreach ($categories as $category) <option value="{{ $category->id }}" @isset($subcategory->id)
+                @foreach ($categories as $category) 
+                <option value="{{ $category->id }}" @isset($subcategory->id)
                 {{ $subcategory->category_id == $category->id ? 'selected' : '' }}
                 @endisset
                 >
-                {{ $category->category_name_en }} / {{ $category->category_name_bn }}
+                {{ $category->category_name_en }} 
                 </option>
                 @endforeach
 

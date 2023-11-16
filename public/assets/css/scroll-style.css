@@ -1,0 +1,97 @@
+
+
+#examples{overflow: hidden;}
+/* #demo.showcase{ min-width: 740px; } */
+.horizontal-images.content li img{
+	width: auto;
+	padding: 0;
+}
+
+.showcase #content-1.content{ height: 620px; }
+
+.showcase #content-2.content{ height: 620px; }
+
+.showcase #content-2.content h2{ color: #333; }
+
+.showcase #content-3.content{
+	background-color: #412626;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAJ0lEQVQIW2NkwA7+M2IR/w8UY0SXAAuCFCNLwAWRJVAEYRIYgiAJALsgBgYbCawOAAAAAElFTkSuQmCC");
+	margin-right: 40px;
+	width: 310px;
+}
+
+.showcase #content-3.content h2{ color: #eb3755; }
+
+.showcase #content-4.content{ background-color: #1C383F; }
+
+.showcase #content-4.content h2{ color: #ddd; }
+
+.showcase #content-6.horizontal-images.content{
+	padding: 10px 0 5px 0;
+	background-color: #444;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAG0lEQVQIW2NkYGA4A8QmQAwGjDAGNgGwSgwVAFVOAgV/1mwxAAAAAElFTkSuQmCC");
+}
+
+.showcase #content-6.horizontal-images.content .mCSB_scrollTools{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.showcase #content-6.horizontal-images.content ul{
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.showcase #content-6.horizontal-images.content h2{
+	color: #222;
+	background-color: #c2beb2;
+}
+
+.showcase #content-6.horizontal-images.content h2, .showcase #content-6.horizontal-images.content li img{ height: 105px; }
+
+.showcase #content-7.content{ height: 620px; }
+
+.showcase #content-8.content{
+	width:100%;
+	height: auto;
+	padding: 0;
+	
+	margin-right: 0;
+	margin-bottom:30px;
+}
+
+#examples.resizable{ 
+	background:#444; 
+	padding-bottom: 30px; 
+}
+
+#resizable.content{
+	overflow: hidden;
+	width: 640px;
+	max-width: 80%;
+	-webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; /* jquery ui resizable bug: http://bugs.jqueryui.com/ticket/8932 */
+}
+
+
+.transitions #examples{
+	-webkit-perspective: 1000;
+	-moz-perspective: 1000;
+}
+
+.transitions .content{
+	-webkit-transition: all .6s ease-out; 
+	-moz-transition: all .6s ease-out; 
+	-o-transition: all .6s ease-out; 
+	transition: all .6s ease-out; 
+}
+
+
+footer a{ margin-right: 20px; }
+
+@media only screen and (min-width: 1229px){
+	.showcase .horizontal-images.content{ width: 1060px; }
+}
+
+@media only screen and (min-width: 1629px){
+	.showcase .horizontal-images.content{ width: 700px; }
+}

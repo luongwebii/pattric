@@ -10,6 +10,8 @@ class Category extends Model
     use HasFactory;
     protected $fillable = [
         'category_name_en',
+        'category_slug_en',
+        'parent_id',
         'icon',
         'image',
         'status',
@@ -17,9 +19,9 @@ class Category extends Model
         'meta_description_en',
     ];
 
-    public function subcategory()
+    public function children()
     {
-        return $this->hasMany(SubCategory::class, 'category_id', 'id');
+      return $this->hasMany(Category::class, 'parent_id');
     }
 
     public function products(){

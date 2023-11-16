@@ -122,9 +122,9 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $data['categories'] = Category::latest()->get();
+        $data['categories'] = Category::latest('id')->get();
         $data['product']   = $product;
-        return view('product.create', $data);
+        return view('product.edit', $data);
     }
 
     public function update(Request $request, Product $product)

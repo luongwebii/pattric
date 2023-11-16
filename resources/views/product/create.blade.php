@@ -15,7 +15,7 @@
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="product">
           {{ isset($product->id) ? 'Update product' : 'Create product' }}</li>
@@ -52,15 +52,31 @@
                 <label class=" col-form-label">Category <span class="text-danger">*</span></label>
                 <select class="form-control single-select" name="category_id1" id="category_id1">
                   <option value="">Select Category</option>
-                  @foreach ($categories as $category)
+
+                 
+
+                  @foreach ($categoryData as $categoryList)
+                  @if (empty($categoryList->parent_id))
+                    <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('parent_id') ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
+                    @if ($categoryList->children)
+                        @foreach ($categoryList->children as $child)
+                            <option value="{{ $child->id }}" {{ $child->id === old('parent_id') ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
+                        @endforeach
+                    @endif
+                    @endif
+
                   <option value="{{ $category->id }}" @isset($product->id)
                     {{ $product->category_id == $category->id ? 'selected' : '' }}
                     @endisset
                     >
-                    {{ $category->category_name_en }} / {{ $category->category_name_bn }}
+                    {{ $category->category_name_en }} 
                   </option>
                   @endforeach
                 </select>
+                @if ($errors->has('category_id1'))
+                        <span class="text-danger text-left">{{ $errors->first('category_id1') }}</span>
+                    @endif
+                
               </div>
             </div>
 
@@ -306,9 +322,9 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($product->id))
-                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;"><i class="bx bx-task"></i> Update</button>
+                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;">Update</button>
                 @else
-                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> <i class="bx bx-save"></i>Save</button>
+                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> Save</button>
                 @endif
               </div>
             </div>

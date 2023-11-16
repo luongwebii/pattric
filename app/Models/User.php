@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     
-    public function getRoleArray(){
+    public static function getRoleArray(){
         $providerType = ['' => 'Select Role' , 'Admin' => 'Admin', 'Office' => 'Office', 'Student' => 'Student'];
         return $providerType;
     }

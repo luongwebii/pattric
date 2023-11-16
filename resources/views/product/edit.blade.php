@@ -3,7 +3,11 @@
 {{ isset($product->id) ? 'Update product' : 'Create product' }}
 @endsection
 @push('css')
-
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/select2/css/select2.min.css') }}" />
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/select2/css/select2-bootstrap4.css') }}" />
+<link rel="stylesheet" href="{{ asset('backend/assets/plugins/input-tags/css/tagsinput.css') }}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
+<link rel="stylesheet" href="{{ asset('backend/assets/css/multiimage.css') }}" />
 @endpush
 @section('content')
 <div class="product-breadcrumb d-none d-md-flex align-items-center mb-3">
@@ -11,7 +15,7 @@
   <div class="pl-3">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb mb-0 p-0">
-        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"><i class='bx bx-home-alt'></i></a>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
         <li class="breadcrumb-item active" aria-current="product">
           {{ isset($product->id) ? 'Update product' : 'Create product' }}</li>
@@ -30,7 +34,7 @@
         <div class="card-header border-bottom-0">
           <div class="d-flex align-items-center">
             <div>
-              <h5 class="mb-lg-0">Create product</h5>
+              <h5 class="mb-lg-0"> {{ isset($product->id) ? 'Update product' : 'Create product' }}</h5>
             </div>
             <div class="ml-auto">
            
@@ -47,22 +51,44 @@
               <div class="form-group col-md-6">
                 <label class=" col-form-label">Category <span class="text-danger">*</span></label>
                 <select class="form-control single-select" name="category_id1" id="category_id1">
-                  @foreach ($categories as $category)
-                  <option value="{{ $category->id }}" @isset($product->id)
-                    {{ $product->category_id == $category->id ? 'selected' : '' }}
-                    @endisset
-                    >
-                    {{ $category->category_name_en }} / {{ $category->category_name_bn }}
-                  </option>
+                  <option value="">Select Category</option>
+
+                 
+
+                  @foreach ($categoryData as $categoryList)
+                  @if (empty($categoryList->parent_id))
+                    <option value="{{ $categoryList->id }}" {{ $categoryList->id === $product->category_id ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
+                    @if ($categoryList->children)
+                        @foreach ($categoryList->children as $child)
+                            <option value="{{ $child->id }}" {{ $child->id === $product->category_id ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
+                        @endforeach
+                    @endif
+                    @endif
+
+                 
                   @endforeach
                 </select>
+                @if ($errors->has('category_id1'))
+                        <span class="text-danger text-left">{{ $errors->first('category_id1') }}</span>
+                    @endif
+                
               </div>
             </div>
 
-  
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <label class="col-form-label">Model <span class="text-danger">*</span></label>
+                <input type="text" class="form-control  @error('model') is-invalid @enderror" name="model" value="{{ $product->model ?? old('model') }}" placeholder="Model" required>
+                @error('model')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
 
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-12">
                 <label class="col-form-label">Product Name <span class="text-danger">*</span></label>
                 <input type="text" class="form-control  @error('product_name_en') is-invalid @enderror" name="product_name_en" value="{{ $product->product_name_en ?? old('product_name_en') }}" placeholder="Product Name" required>
                 @error('product_name_en')
@@ -71,8 +97,8 @@
                 </span>
                 @enderror
               </div>
-
             </div>
+
 
             <div class="form-row">
               <div class="form-group col-md-12">
@@ -96,14 +122,13 @@
                 </span>
                 @enderror
               </div>
-
             </div>
 
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label class="col-form-label">Discount %</label>
-                <input type="text" class="form-control  @error('discount') is-invalid @enderror" name="discount" value="{{ $product->discount ?? old('discount') }}" placeholder="Product Discount" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="2">
-                @error('discount')
+                <label class="col-form-label">Drawing</label>
+                <input type="text" class="form-control  @error('drawing') is-invalid @enderror" name="drawing" value="{{ $product->drawing ?? old('drawing') }}" placeholder="Drawing" >
+                @error('drawing')
                 <span class="text-danger" product="alert">
                   <strong>{{ $message }}</strong>
                 </span>
@@ -112,9 +137,73 @@
             </div>
 
             <div class="form-group">
-              <label class="col-form-label">Short Description</label>
-              <textarea name="short_description_en" id="short_description_en" class="form-control  @error('short_description_en') is-invalid @enderror" placeholder="Short description">{{ $product->short_description_en ?? old('short_description_en') }}</textarea>
-              @error('short_description_en')
+              <label class="col-form-label">Orient</label>
+              <input type="text" class="form-control  @error('orient') is-invalid @enderror" name="orient" value="{{ $product->orient ?? old('orient') }}" placeholder="Orient" >
+              @error('orient')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Orient</label>
+              <input type="text" class="form-control  @error('orient') is-invalid @enderror" name="orient" value="{{ $product->orient ?? old('orient') }}" placeholder="Orient" >
+              @error('orient')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Orient</label>
+              <input type="text" class="form-control  @error('orient') is-invalid @enderror" name="orient" value="{{ $product->orient ?? old('orient') }}" placeholder="Orient" >
+              @error('orient')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">AreaSM</label>
+              <input type="text" class="form-control  @error('area_sm') is-invalid @enderror" name="area_sm" value="{{ $product->area_sm ?? old('area_sm') }}" placeholder="AreaSM" >
+              @error('area_sm')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Bottom Butter</label>
+              <input type="text" class="form-control  @error('bottom_butter') is-invalid @enderror" name="bottom_butter" value="{{ $product->bottom_butter ?? old('bottom_butter') }}" placeholder="Bottom Butter" >
+              @error('bottom_butter')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Racking Butter</label>
+              <input type="text" class="form-control  @error('racking_butter') is-invalid @enderror" name="racking_butter" value="{{ $product->racking_butter ?? old('racking_butter') }}" placeholder="Racking Butter" >
+              @error('racking_butter')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+            <div class="form-group">
+              <label class="col-form-label">Man Way</label>
+              <input type="text" class="form-control  @error('man_way') is-invalid @enderror" name="man_way" value="{{ $product->man_way ?? old('man_way') }}" placeholder="Man Way" >
+              @error('man_way')
+              <span class="text-danger" product="alert">
+                <strong>{{ $message }}</strong>
+              </span>
+              @enderror
+            </div>
+
+            <div class="form-group">
+              <label class="col-form-label">Capacity</label>
+              <input type="text" class="form-control  @error('capacity') is-invalid @enderror" name="capacity" value="{{ $product->capacity ?? old('capacity') }}" placeholder="Capacity" >
+              @error('capacity')
               <span class="text-danger" product="alert">
                 <strong>{{ $message }}</strong>
               </span>
@@ -148,45 +237,12 @@
         </div>
         <div class="card-body">
           <div class="form-body">
-            <div class="form-row">
-              <div class="form-group col">
-                <label class="col-form-label">Product tags <span class="text-danger">*</span></label>
-                <input type="text" data-role="tagsinput" class="form-control  @error('product_tags_en') is-invalid @enderror" name="product_tags_en" value="{{ $product->product_tags_en ?? old('product_tags_en') }}" placeholder="Product tags English" {{ !isset($product) ? '' : '' }}>
-                @error('product_tags_en')
-                <span class="text-danger" product="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
-            </div>
 
-            <div class="form-row">
-              <div class="col">
-                <div class="form-group">
-                  <label class="col-form-label">Size</label>
-                  <input data-role="tagsinput" value="{{ isset($product->id) ? $product->size : 'S,M,L,XL'}}" type="text" class="form-control  @error('size') is-invalid @enderror" name="size" placeholder="Product size">
-                  @error('size')
-                  <span class="text-danger" product="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                  @enderror
-                </div>
-              </div>
-            </div>
+           
 
-            <div class="form-row">
-              <div class="col">
-                <div class="form-group">
-                  <label class="col-form-label">Color</label>
-                  <input data-role="tagsinput" value="{{ isset($product->id) ? $product->product_color : 'Red,Black,Green'}}" type="text" class="form-control  @error('product_color') is-invalid @enderror" name="product_color" placeholder="Product color ">
-                  @error('product_color')
-                  <span class="text-danger" product="alert">
-                    <strong>{{ $message }}</strong>
-                  </span>
-                  @enderror
-                </div>
-              </div>
-            </div>
+
+
+
             <div class="form-group">
               <label class="col-form-label">Main Thambnail <span class="text-danger">*</span></label>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($product->image))
@@ -198,9 +254,7 @@
               </span>
               @enderror
             </div>
-            @isset($product->id)
 
-            @else
             <div class="form-group">
               <div class="image-upload-wrap">
                 <input class="file-upload-input" type='file' id="files" name="multi_img[]" multiple accept="image/*" />
@@ -209,7 +263,7 @@
                 </div>
               </div>
             </div>
-            @endisset
+
 
 
             <div class="form-group">
@@ -221,6 +275,7 @@
               </span>
               @enderror
             </div>
+
 
             <div class="form-group">
               <label class="col-form-label">Meta Description</label>
@@ -234,23 +289,11 @@
 
 
             <div class="form-row">
-              <div class="form-group col-md-6">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="hot_deals" name="hot_deals" @isset($product->id)
-                  {{ $product->hot_deals == 1 ? 'checked' : '' }}
-                  @endisset>
-                  <label class="custom-control-label" for="hot_deals">Hot Deals</label>
-                </div>
-                @error('hot_deals')
-                <span class="text-danger" product="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
+
               <div class="form-group col-md-6">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input" id="featured" name="featured" @isset($product->id)
-                  {{ $product->featured == 1 ? 'checked' : '' }}
+                  {{ $product->featured == 1 ? 'selected' : '' }}
                   @endisset>
                   <label class="custom-control-label" for="featured">Featured</label>
                 </div>
@@ -262,34 +305,7 @@
               </div>
             </div>
 
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="special_offer" name="special_offer" @isset($product->id)
-                  {{ $product->special_offer == 1 ? 'checked' : '' }}
-                  @endisset>
-                  <label class="custom-control-label" for="special_offer">Special Offer</label>
-                </div>
-                @error('special_offer')
-                <span class="text-danger" product="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
-              <div class="form-group col-md-6">
-                <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="special_deals" name="special_deals" @isset($product->id)
-                  {{ $product->special_deals == 1 ? 'checked' : '' }}
-                  @endisset>
-                  <label class="custom-control-label" for="special_deals">Special Deals</label>
-                </div>
-                @error('special_deals')
-                <span class="text-danger" product="alert">
-                  <strong>{{ $message }}</strong>
-                </span>
-                @enderror
-              </div>
-            </div>
+
 
             <div class="custom-control custom-switch">
               <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($product->id)
@@ -301,9 +317,9 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($product->id))
-                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;"><i class="bx bx-task"></i> Update</button>
+                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;">Update</button>
                 @else
-                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> <i class="bx bx-save"></i>Save</button>
+                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> Save</button>
                 @endif
               </div>
             </div>
@@ -314,7 +330,10 @@
   </div>
   </div>
 </form>
+
+
 <script type="text/javascript">
+    
   window.onload = function() {
 
     $('.dropify').dropify({
@@ -325,7 +344,38 @@
       , 'error': 'Ooops, something wrong happended.'
     }
   });
+
+  tinymce.init({
+        selector: "#long_description_en",
+        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
+        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media insertfile',
+        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader',
+
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'rmartel',
+        tinycomments_author_name: 'Rosalina Martel',
+        file_picker_callback: function(callback, value, meta) {
+            let x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            let y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+            let type = 'image' === meta.filetype ? 'Images' : 'Files',
+                url = '/laravel-filemanager?editor=tinymce5&type=' + type;
+
+            tinymce.activeEditor.windowManager.openUrl({
+                url: url,
+                title: 'Filemanager',
+                width: x * 0.8,
+                height: y * 0.8,
+                onMessage: (api, message) => {
+                    callback(message.content);
+                }
+            });
+        }
+
+    });
+
   }
 
 </script>
 @endsection
+
