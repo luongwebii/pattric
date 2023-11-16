@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\UserProfile;
 use Cart;
 
 class FrontEndController extends Controller
@@ -31,19 +35,36 @@ class FrontEndController extends Controller
 
     public function shoppingCartPage()
     {
-        $carts = Cart::content();
-        $cart_qty = Cart::count();
-        $cart_total = Cart::total();
-        $subtotal = Cart::subtotal();
-        $tax = Cart::tax();
+        if (Auth::check()) {
 
-        return view('front.shopping_cart_page', [
-            'carts' => $carts,
-            'cart_qty' => $cart_qty,
-            'cart_total' => round($cart_total),
-            'subtotal' => round($subtotal),
-            'tax' => round($tax),
-        ]);
+            $carts = Cart::content();
+            $cart_qty = Cart::count();
+            $cart_total = Cart::total();
+            $subtotal = Cart::subtotal();
+            $tax = Cart::tax();
+            $user_id = Auth::user()->id;
+            $userProfile = UserProfile::where('user_id', '=', $user_id)->first();
+         
+            if (empty($userProfile)) {
+                $userProfile = new UserProfile;
+            }
+
+
+            return view('front.shopping_cart_page', [
+                'carts' => $carts,
+                'cart_qty' => $cart_qty,
+                'cart_total' => $cart_total,
+                'subtotal' => $subtotal,
+                'tax' => $tax,
+                'userProfile' => $userProfile,
+            ]);
+        } else {
+            $notification = [
+                'message' => 'You need to Login First for Checkout',
+                'alert-type' => 'error'
+            ];
+            return redirect()->route('user.login')->with($notification);
+        }
     }
 
     public function showAllCategory()
@@ -54,7 +75,7 @@ class FrontEndController extends Controller
             'categories' => $categories
         ]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
