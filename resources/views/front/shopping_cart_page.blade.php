@@ -60,6 +60,7 @@
   @foreach ($carts as $key => $cart)
     <tr id="{{$cart->rowId}}">
        <td>
+        
         {{$cart->name}} 
       </td>
       
@@ -67,9 +68,9 @@
       <input type="text" class="form-control" name="qty[{{$cart->rowId}}]" value="{{$cart->qty}}" placeholder="0" id="qty">
       </div></td>
 	  
-	 <td class="price-text-box">${{$cart->name}}</td>
+	 <td class="price-text-box">${!! Helper::format_numbers($cart->price) !!}</td>
 	 <td><div class="form-group write-notes-input">
-      <input type="text" class="form-control" placeholder="Write Notes" name="notes[{{$cart->rowId}}]" >
+      <input type="text" class="form-control" placeholder="Write Notes" name="notes[{{$cart->rowId}}]" value="{{$cart->options->has('notes') ?? $cart->options->notes}}" >
         </div></td>
 	 
 	  <td><a href="javascript:void(0)"  onclick="removeRowCart('{{$cart->rowId}}')" class="remove" index="{{$cart->rowId}}"><img src="{!! url('assets/img/close-icon.svg') !!}" alt="close-icon"></a></td>
