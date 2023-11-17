@@ -165,6 +165,8 @@ Route::get('/my-cart/list',[CartPageController::class,'showmyCartList'])->name('
 // Cart routes
 // Add to cart Product route
 Route::post('/cart/data/store', [App\Http\Controllers\CartController::class,'addToCart'])->name('productaddToCart');
+Route::post('/cart/data/store/group', [App\Http\Controllers\CartController::class,'addToCartGroup'])->name('productaddToCartGroup');
+
 // mini cart product data get route
 Route::get('/product/mini/cart', [App\Http\Controllers\CartController::class,'getMiniCart'])->name('getMiniCartProduct');
 // remove item from mini cart route

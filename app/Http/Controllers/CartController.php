@@ -12,6 +12,46 @@ use Illuminate\Support\Facades\Session;
 
 class CartController extends Controller
 {
+    
+
+    public function addToCartGroup(Request $request)//, $id
+    {
+        
+        
+        $input = $request->all();
+
+        $productIds = $input['productIds'];
+        $qtys = $input['qtys'];
+        foreach($productIds as $key => $productId){
+            if(!empty($productId)) {
+                $qty = $qtys[$key];
+
+                if(!empty($qty)) {
+                    $product = Product::findOrFail($productId);
+                    Cart::add([
+                        'id' => $productId,
+                        'name' => $product->product_name_en,
+                        'qty' => $qty,
+                        'price' => $product->price,
+                        'weight' => 1,
+                        'options' => [
+                            'image' => $product->image
+                            ]
+                    ]);
+        
+
+
+                }
+
+            }
+        }
+       
+        return response()->json(['success' => 'Successfully added on your cart'],200);
+
+       
+       
+    }
+
     public function addToCart(Request $request)//, $id
     {
         $input = $request->all();

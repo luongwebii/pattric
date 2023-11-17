@@ -58,6 +58,14 @@ class PageController extends Controller
             foreach($product->groupItems as $item){
                 $pro = [];
                 $pro['name'] = $item->product->product_name_en;
+                $pro['model'] = $item->product->model;
+                $pro['price'] = $item->product->price;
+                $pro['drawing'] = $item->product->drawing;
+                $pro['orient'] = $item->product->orient;
+                $pro['area_sm'] = $item->product->area_sm;
+                $pro['bottom_butter'] = $item->product->bottom_butter;
+                $pro['racking_butter'] = $item->product->racking_butter;
+
                 $pro['category'] = $item->product->category->category_name_en;
                 $pro['id'] = $item->product_id;
                 $products[] = $pro;
