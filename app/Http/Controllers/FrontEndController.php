@@ -29,16 +29,18 @@ class FrontEndController extends Controller
     {
         //
         $page = Page::find($id);
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         
         return view('front.page', [
-            'page' => $page
+            'page' => $page,
+            'pages'=> $pages
         ]);
     }
 
     public function listProductCategory($id)
     {
         //
-        $pages = Page::orderBy('title', 'ASC')->get();
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         $categories = Category::find($id);
         return view('front.list_pro', [
             'categories' => $categories,
@@ -83,7 +85,7 @@ class FrontEndController extends Controller
     public function showAllCategory()
     {
         //
-        $pages = Page::orderBy('title', 'ASC')->get();
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         $categories = Category::get();
         return view('front.list_all_pro', [
             'categories' => $categories,
