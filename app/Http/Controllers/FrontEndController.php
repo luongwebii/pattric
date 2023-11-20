@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
-use App\Models\Product;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\UserProfile;
 use App\Models\Page;
@@ -29,16 +29,18 @@ class FrontEndController extends Controller
     {
         //
         $page = Page::find($id);
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         
         return view('front.page', [
-            'page' => $page
+            'page' => $page,
+            'pages'=> $pages
         ]);
     }
 
     public function listProductCategory($id)
     {
         //
-        $pages = Page::orderBy('title', 'ASC')->get();
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         $categories = Category::find($id);
         return view('front.list_pro', [
             'categories' => $categories,
@@ -83,7 +85,7 @@ class FrontEndController extends Controller
     public function showAllCategory()
     {
         //
-        $pages = Page::orderBy('title', 'ASC')->get();
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         $categories = Category::get();
         return view('front.list_all_pro', [
             'categories' => $categories,
@@ -156,5 +158,31 @@ class FrontEndController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        //
+      
+      
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
+        
+        return view('front.search', [
+            'pages'=> $pages,
+        ]);
+    }
+
+
+    public function register()
+    {
+       $user = User::create([
+            'first_name' => "Test",
+            'last_name' => "Test",
+            'role' => "admin",
+            'email' => 'luong@webii.net',
+            'password' => bcrypt('123456'),
+        ]);
+      
+       die();
     }
 }

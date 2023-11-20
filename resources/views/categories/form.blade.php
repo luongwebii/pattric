@@ -123,7 +123,7 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($category->id))
-                <button type="submit" class="btn btn-primary px-2" >Update</button>
+                <button type="submit" class="btn btn-primary px-2 submit" >Update</button>
                 @else
 
                 <button id ="af" class="btn btn-round btn-primary submit" type="submit">Submit</button>

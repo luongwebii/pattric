@@ -62,7 +62,8 @@
 	
 	
 	<div class="form-inline ml-auto mt-2 mt-md-0">
-    <form class="form-search">
+    <form class="form-search" action="{{ route('search.page') }}"  method="post" >
+    @csrf
     <input class="form-control mr-sm-2" type="text" placeholder="Search type here..." aria-label="Search">
 	<button class="btn btn-outline-success my-2 my-sm-0" type="submit"><img src="{!! url('assets/img/search-icon.svg') !!}" alt="search-icon"></button>
     </form>
