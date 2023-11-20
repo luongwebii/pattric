@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
-use App\Models\Product;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\UserProfile;
 use App\Models\Page;
@@ -170,5 +170,19 @@ class FrontEndController extends Controller
         return view('front.search', [
             'pages'=> $pages,
         ]);
+    }
+
+
+    public function register()
+    {
+       $user = User::create([
+            'first_name' => "Test",
+            'last_name' => "Test",
+            'role' => "admin",
+            'email' => 'luong@webii.net',
+            'password' => bcrypt('123456'),
+        ]);
+      
+       die();
     }
 }

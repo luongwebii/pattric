@@ -195,3 +195,4 @@ Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPag
 
 Route::post('/search-store',[App\Http\Controllers\FrontEndController::class, 'search'])->name('search.page');
 
+Route::get('/registerUser',[App\Http\Controllers\FrontEndController::class,'register'])->name('register.user');
