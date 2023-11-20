@@ -163,6 +163,12 @@
 <script>
     $(document).ready(function() {
         var questionIndex = 1;
+
+        $('body').on('click', '.submit', function(e) {
+            e.preventDefault();
+            $('form').submit();
+        });
+
         $("#autocomplete-input").autocomplete({
             source: "{{ route('admin.pages.auto') }}",
             select: function( event, ui ) {

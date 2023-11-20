@@ -159,4 +159,16 @@ class FrontEndController extends Controller
     {
         //
     }
+
+    public function search(Request $request)
+    {
+        //
+      
+      
+        $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
+        
+        return view('front.search', [
+            'pages'=> $pages,
+        ]);
+    }
 }
