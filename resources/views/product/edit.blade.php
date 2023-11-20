@@ -317,9 +317,9 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($product->id))
-                <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;">Update</button>
+                <button type="submit" class="btn btn-primary px-2 submit" data-toggle="tooltip" title="Update those data &#128190;">Update</button>
                 @else
-                <button type="submit" class="btn btn-primary px-4" data-toggle="tooltip" title="Save to database &#128190;"> Save</button>
+                <button type="submit" class="btn btn-primary px-4 submit" data-toggle="tooltip" title="Save to database &#128190;"> Save</button>
                 @endif
               </div>
             </div>
@@ -333,7 +333,14 @@
 
 
 <script type="text/javascript">
-    
+    $(document).ready(function() {
+
+        $('body').on('click', '.submit', function(e) {
+            e.preventDefault();
+            $('form').submit();
+        });
+    });
+
   window.onload = function() {
 
     $('.dropify').dropify({
