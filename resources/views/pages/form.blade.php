@@ -135,6 +135,14 @@ Create static pages
                             @enderror
                         </div>
                         <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="is_home" name="is_home" @isset($page->id)
+                            {{ $page->is_home == 1 ? 'checked' : '' }}
+                            @endisset
+                            >
+                            <label class="custom-control-label" for="is_home">Is Home</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($page->id)
                             {{ $page->status == 1 ? 'checked' : '' }}
                             @endisset
@@ -180,6 +188,7 @@ Create static pages
         valid_elements : '*[*]',
         cleanup: false,
         allow_script_urls:true,
+        relative_urls : false,
         tinycomments_mode: 'embedded',
         tinycomments_author: 'rmartel',
         tinycomments_author_name: 'Rosalina Martel',

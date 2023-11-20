@@ -33,6 +33,7 @@
             <th>#</th>
             <th>Image</th>
             <th>Title</th>
+            <th>Is Home</th>
             <th>Status</th>
             <th>Last modified</th>
             <th>Action</th>
@@ -54,6 +55,14 @@
               </div>
             </td>
             <td>{{ $page->title }}</td>
+            <td>
+              @if ($page->is_home)
+              <span class="badge badge-info rounded " data-toggle="tooltip" title="Home Page is true &#128077">True</span>
+              @else
+              <span class="badge badge-danger" data-toggle="tooltip" title="Home Page is false &#128078">False</span>
+              @endif
+            </td>
+
             <td>
               @if ($page->status)
               <span class="badge badge-info rounded " data-toggle="tooltip" title="Page status is true &#128077">Active</span>

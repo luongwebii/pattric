@@ -17,7 +17,7 @@ class PageController extends Controller
 
     public function index()
     {
-
+        //php artisan storage:link
         $pages   = Page::latest('id')->get();
         return view('pages.index', compact('pages'));
     }
@@ -117,6 +117,7 @@ class PageController extends Controller
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
             'status'            => $request->filled('status'),
+            'is_home'            => $request->filled('is_home'),
         ]);
         $file = $request->hasFile('image');
         if ($file) {
@@ -153,6 +154,7 @@ class PageController extends Controller
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
             'status'            => $request->filled('status'),
+            'is_home'            => $request->filled('is_home'),
         ]);
         // upload images
         $file                   = $request->hasFile('image');

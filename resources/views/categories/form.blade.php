@@ -126,7 +126,7 @@
                 <button type="submit" class="btn btn-primary px-2" >Update</button>
                 @else
 
-                <button id ="af" class="btn btn-round btn-primary" type="submit">Submit</button>
+                <button id ="af" class="btn btn-round btn-primary submit" type="submit">Submit</button>
                 @endif
               </div>
             </div>
@@ -139,6 +139,16 @@
 
 
 <script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+        $('body').on('click', '.submit', function(e) {
+            e.preventDefault();
+            $('form').submit();
+        });
+    });
+
   window.onload = function() {
 
         $('.dropify').dropify({
