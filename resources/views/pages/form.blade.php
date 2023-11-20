@@ -135,6 +135,14 @@ Create static pages
                             @enderror
                         </div>
                         <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="is_home" name="is_home" @isset($page->id)
+                            {{ $page->is_home == 1 ? 'checked' : '' }}
+                            @endisset
+                            >
+                            <label class="custom-control-label" for="is_home">Is Home</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($page->id)
                             {{ $page->status == 1 ? 'checked' : '' }}
                             @endisset
@@ -177,7 +185,10 @@ Create static pages
         plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
         toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media insertfile',
         toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader myCustomButton custom_button custom_button2',
-
+        valid_elements : '*[*]',
+        cleanup: false,
+        allow_script_urls:true,
+        relative_urls : false,
         tinycomments_mode: 'embedded',
         tinycomments_author: 'rmartel',
         tinycomments_author_name: 'Rosalina Martel',
@@ -264,6 +275,7 @@ Create static pages
             .then(response => response.json())
             .then(data => {
                 // Process the response and display the autocomplete suggestions
+                console.log(data);
                 displaySuggestions(data);
             })
             .catch(error => {

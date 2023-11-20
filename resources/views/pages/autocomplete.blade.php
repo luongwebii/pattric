@@ -34,14 +34,18 @@
   </div>
 </div>
 
-<div class="d-none" id="form-template">
+<div class="d-none product-cart-box" id="form-template">
 <form class="form-inline">
  
-  <div class="form-check form-check-inline">
+  <div class="form-check form-check-inline product-qty-box">
     <label id="product-name">Product:</label>
-    <input type="hidden" name="productId" id="productId"/>
-    <input type="text" id="qty" name="qty" value="1" class="form-control1">
-    <button id="add-button" class="btn btn-primary">Add To Cart</button>
+    <span>qty.</span>
+    <div class="form-group qty-input">
+        <input type="hidden" name="productId" id="productId"/>
+        <input type="text" id="qty" name="qty" value="1" class="form-control">
+    </div>
+    <a href="javascript:void(0);"  onclick="addToCart(this)" class="primary-btn ccc">Add to cart</a>
+   
   </div>
 </form>
 

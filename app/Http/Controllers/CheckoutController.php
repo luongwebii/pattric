@@ -9,6 +9,7 @@ use App\Http\Requests\CheckoutStoreRequest;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Cart;
+use Helper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
@@ -109,39 +110,63 @@ class CheckoutController extends Controller
             'shipping_company_name'   => 'nullable',
             'shipping_department'   => 'nullable',
             'shipping_street'   => 'required',
-            'shipping_suite'   => 'required',
+          //  'shipping_suite'   => 'required',
             'shipping_city'   => 'required',
             'shipping_state'   => 'required',
-            'shipping_zip'   => 'required',
+          //  'shipping_zip'   => 'required',
             'shipping_country'   => 'required',
             'shipping_instructions'             => 'nullable',
-            'billing_address'   => 'required',
+            'address'   => 'required',
             'billing_suite'   => 'required',
             'billing_city'   => 'required',
             'billing_state'   => 'required',
-            'billing_zip'   => 'required',
+         //   'billing_zip'   => 'required',
             'card_name'   => 'required',
             'card_number'   => 'required',
-            'card_expired'   => 'required',
+            'card_month'   => 'required',
+            'card_year'   => 'required',
+        //    'card_expired'   => 'required',
             'card_code'   => 'required',
 
         ]);
 
+        // update cart
+        $input = $request->all();
+        $qty =  $input['qty'];
+        $notes =  $input['notes'];
+        foreach( $qty as $rowId => $value){
+            Cart::update($rowId, ['qty' => $value,  'options' => ['notes' =>  $notes[$rowId]] ]);
+        }
+
         $data = [];
-        $data['shipping_company_name'] = $request->shipping_company_name;
-        $data['shipping_department'] = $request->shipping_department;
-        $data['shipping_street'] = $request->shipping_street;
-        $data['shipping_suite'] = $request->shipping_suite;
-        $data['shipping_state'] = $request->shipping_state;
-        $data['shipping_zip'] = $request->shipping_zip;
-        $data['shipping_country'] = $request->shipping_country;
-        $data['shipping_instructions'] = $request->shipping_instructions;
-        $data['billing_address'] = $request->billing_address;
+        $user_id = Auth::user()->id;
+      //  $data['shipping_company_name'] = $request->shipping_company_name;
+      //  $data['shipping_department'] = $request->shipping_department;
+        $data['user_id'] =  $user_id ;
+        $data['billing_first_name'] = $request->first_name;
+        $data['billing_last_name'] = $request->last_name;
+        $data['billing_email'] = $request->email;
+        $data['billing_phone'] = $request->phone;
+
+        $data['billing_address'] = $request->address;
         $data['billing_suite'] = $request->billing_suite;
         $data['billing_city'] = $request->billing_city;
         $data['billing_state'] = $request->billing_state;
-        $data['billing_zip'] = $request->billing_zip;
-        $user_id = Auth::user()->id;
+        //$data['billing_zip'] = $request->billing_zip;
+        $data['billing_country'] = $request->billing_country;
+
+     
+        $data['shipping_quote'] = $request->shipping_quote;
+        $data['shipping_package'] = $request->shipping_package;
+        $data['shipping_street'] = $request->shipping_street;
+        $data['shipping_suite'] = $request->shipping_suite;
+        $data['shipping_state'] = $request->shipping_state;
+        $data['shipping_city'] = $request->shipping_city;
+    //    $data['shipping_zip'] = $request->shipping_zip;
+        $data['shipping_country'] = $request->shipping_country;
+     //   $data['shipping_instructions'] = $request->shipping_instructions;
+       
+      
 
         $userProfile = UserProfile::where('user_id','=', $user_id)->first();
 
@@ -154,9 +179,9 @@ class CheckoutController extends Controller
         if(Session::has('coupon')){
             $total_amount = Session::get('coupon')['total_amount'];
         }else{
-            $total_amount = round(Cart::total());
+            $total_amount = Cart::total();
         }
-
+        $total_amount = Helper::format_number_db($total_amount);
         // Order Service Area
         $order_id = Order::insertGetId([
             'user_id' => Auth::id(),
@@ -164,23 +189,30 @@ class CheckoutController extends Controller
             'last_name'           => $request->last_name,
             'phone'              => $request->phone,
             'email'  => $request->email,
-            'shipping_company_name'   => $request->shipping_company_name,
-            'shipping_department'   => $request->shipping_department,
+
+            'billing_address'   => $request->billing_address,
+            'billing_suite'   => $request->billing_suite,
+            'billing_city'   => $request->billing_city,
+            'billing_state'   => $request->billing_state,
+            'billing_zip'   => $request->billing_zip,
+            'billing_country'=> $request->billing_country,
+
+          //  'shipping_company_name'   => $request->shipping_company_name,
+          //  'shipping_department'   => $request->shipping_department, 
+            'shipping_quote'   => $request->shipping_quote,
+            'shipping_package'   => $request->shipping_package,
             'shipping_street'   => $request->shipping_street,
             'shipping_suite'   => $request->shipping_suite,
             'shipping_city'   => $request->shipping_city,
             'shipping_state'   => $request->shipping_state,
             'shipping_zip'   => $request->shipping_zip,
             'shipping_country'   => $request->shipping_country,
-            'shipping_instructions'             => $request->shipping_instructions,
-            'billing_address'   => $request->billing_address,
-            'billing_suite'   => $request->billing_suite,
-            'billing_city'   => $request->billing_city,
-            'billing_state'   => $request->billing_state,
-            'billing_zip'   => $request->billing_zip,
+          //  'shipping_instructions'             => $request->shipping_instructions,
+           
             'card_name'   => $request->card_name,
             'card_number'   => $request->card_number,
-            'card_expired'   => $request->card_expired,
+            'card_month'   => $request->card_month,
+            'card_year'   => $request->card_year,
             'card_code'   => $request->card_code,
             'transaction_id' =>  uniqid(),
             'amount' => $total_amount,
@@ -212,15 +244,17 @@ class CheckoutController extends Controller
                 'racking_butter' => $product->racking_butter,
                 'man_way' => $product->man_way,
                 'capacity' => $product->capacity,
+                'notes' => $cart->options->notes,
             ]);
         }
         Cart::destroy();
         $notification = array(
-			'message' => 'Your Order Place Successfully',
+			'success' => 'Your Order Place Successfully',
 			'alert-type' => 'success'
 		);
+        return response()->json(['success' => 'Your Order Place Successfully'],200);
 
-		return redirect()->route('home')->with($notification);
+		//return redirect()->route('home')->with($notification);
 /*
         $carts = Cart::content();
         $cart_qty = Cart::count();

@@ -22,7 +22,7 @@
       <ol class="breadcrumb mb-0 p-0">
         <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}"></a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ isset($category->id) ? 'Update category' : 'Create category' }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ isset($groupProduct->id) ? 'Update Group' : 'Create Group' }}</li>
       </ol>
     </nav>
   </div>
@@ -143,9 +143,9 @@
             <div class="float-right">
               <div class="btn-group">
                 @if (isset($groupProduct->id))
-                <button type="submit" class="btn btn-primary px-2" ><i class="bx bx-task"></i> Update</button>
+                <button type="submit" class="btn btn-primary px-2 submit">  Update</button>
                 @else
-                <button type="submit" class="btn btn-primary px-4" > <i class="bx bx-save"></i> Save</button>
+                <button type="submit" class="btn btn-primary px-4 submit" > Save</button>
                 @endif
               </div>
             </div>
@@ -182,6 +182,7 @@
                 </tr>
                 `;
                 $('.list-products').append(optionHtml);
+                $("#autocomplete-input").val('');
                 questionIndex++;
               //  $('#product-name').html(ui.item.value);
              //   $('#productId').val(ui.item.id);
@@ -192,6 +193,11 @@
         $('.list-products').on('click', '.remove-option', function(e) {
             e.preventDefault();
             $(this).closest('.question').remove();
+        });
+
+        $('.list-products').on('click', '.submit', function(e) {
+            e.preventDefault();
+            $('form').submit();
         });
     });
   window.onload = function() {

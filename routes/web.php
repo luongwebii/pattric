@@ -165,6 +165,8 @@ Route::get('/my-cart/list',[CartPageController::class,'showmyCartList'])->name('
 // Cart routes
 // Add to cart Product route
 Route::post('/cart/data/store', [App\Http\Controllers\CartController::class,'addToCart'])->name('productaddToCart');
+Route::post('/cart/data/store/group', [App\Http\Controllers\CartController::class,'addToCartGroup'])->name('productaddToCartGroup');
+
 // mini cart product data get route
 Route::get('/product/mini/cart', [App\Http\Controllers\CartController::class,'getMiniCart'])->name('getMiniCartProduct');
 // remove item from mini cart route
@@ -187,3 +189,5 @@ Route::get('/{id}/category',[App\Http\Controllers\FrontEndController::class,'lis
 Route::get('/shopping-cart-page',[App\Http\Controllers\FrontEndController::class,'shoppingCartPage'])->name('shopping.cart.page');
 
 Route::get('/product-listing-page',[App\Http\Controllers\FrontEndController::class,'showAllCategory'])->name('product.listing,page');
+
+Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPage'])->name('show.page');

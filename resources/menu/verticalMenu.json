@@ -28,12 +28,6 @@
             "slug": "admin.category, admin.category.create, admin.category.edit"
         },
         {
-            "url": "/admin/subcategory",
-            "name": "Sub Category",
-            "icon": "menu-icon tf-icons bx bx-home-circle",
-            "slug": "admin.subcategory, admin.subcategory.create, admin.subcategory.edit"
-        },
-        {
             "url": "/admin/product",
             "name": "Product",
             "icon": "menu-icon tf-icons bx bx-home-circle",

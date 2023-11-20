@@ -17,7 +17,7 @@ class PageController extends Controller
 
     public function index()
     {
-
+        //php artisan storage:link
         $pages   = Page::latest('id')->get();
         return view('pages.index', compact('pages'));
     }
@@ -58,6 +58,14 @@ class PageController extends Controller
             foreach($product->groupItems as $item){
                 $pro = [];
                 $pro['name'] = $item->product->product_name_en;
+                $pro['model'] = $item->product->model;
+                $pro['price'] = $item->product->price;
+                $pro['drawing'] = $item->product->drawing;
+                $pro['orient'] = $item->product->orient;
+                $pro['area_sm'] = $item->product->area_sm;
+                $pro['bottom_butter'] = $item->product->bottom_butter;
+                $pro['racking_butter'] = $item->product->racking_butter;
+
                 $pro['category'] = $item->product->category->category_name_en;
                 $pro['id'] = $item->product_id;
                 $products[] = $pro;
@@ -109,6 +117,7 @@ class PageController extends Controller
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
             'status'            => $request->filled('status'),
+            'is_home'            => $request->filled('is_home'),
         ]);
         $file = $request->hasFile('image');
         if ($file) {
@@ -145,6 +154,7 @@ class PageController extends Controller
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
             'status'            => $request->filled('status'),
+            'is_home'            => $request->filled('is_home'),
         ]);
         // upload images
         $file                   = $request->hasFile('image');

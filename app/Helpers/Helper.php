@@ -12,4 +12,11 @@ class Helper
         return number_format($my_number, $number_decimals, $dec_separator, $thousands_separator);
 
     }
+
+    public static function format_number_db($my_number)
+    {
+      
+        return (float) str_replace(',', '', $my_number);
+
+    }
 }

@@ -41,11 +41,11 @@
 	 <div class="form-group">
           
           <div class="select-dropdown">
-			<select class="form-select" aria-label="Default select example">
-			  <option selected="">Variable Capacity Tank</option>
-			  <option value="1">Variable Capacity Tank</option>
-			  <option value="2">Variable Capacity Tank</option>
-			  <option value="3">Three Name</option>
+			<select class="form-select" aria-label="Default select example" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                <option value="">Select Option</option>
+            @foreach ($pages as $page)
+			    <option value="{{ route('show.page', $page->id) }}">{{$page->title}}</option>
+            @endforeach
 			</select>
 		</div>
         </div>
