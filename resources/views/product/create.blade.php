@@ -56,7 +56,7 @@
                  
 
                   @foreach ($categoryData as $categoryList)
-                  @if (empty($categoryList->parent_id))
+                  @if (!empty($categoryList->parent_id))
                     <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('parent_id') ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
                     @if ($categoryList->children)
                         @foreach ($categoryList->children as $child)
@@ -65,12 +65,7 @@
                     @endif
                     @endif
 
-                  <option value="{{ $category->id }}" @isset($product->id)
-                    {{ $product->category_id == $category->id ? 'selected' : '' }}
-                    @endisset
-                    >
-                    {{ $category->category_name_en }} 
-                  </option>
+                  
                   @endforeach
                 </select>
                 @if ($errors->has('category_id1'))
