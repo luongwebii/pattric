@@ -11,27 +11,52 @@
 
   <div class="collapse navbar-collapse collapse show" id="navbarCollapse">
  
-
-	 
-      <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
-	  
-	 
-      @foreach ($left_menus as $menuDataValueLeft)
-        
-       
-        @foreach ($menuDataValueLeft->childs as $menuDataValue)
-        <li class="nav-item" style="margin-bottom:15px;">
-            <a class="nav-link" href="{{$menuDataValue->url}}">
-              <span class="nav-link-text">{{$menuDataValue->title}}</span>
+  
+  
+  
+    <ul class="navbar-nav mr-auto sidenav" id="navAccordion">
+      
+    @foreach ($categoryData as $categoryList)
+    @if (empty($categoryList->parent_id))
+      <li class="nav-item">
+        <a
+          class="nav-link nav-link-collapse"
+          href="#"
+          id="hasSubItems"
+          data-toggle="collapse"
+          data-target="#collapseSubItems{{$categoryList->id}}"
+          aria-controls="collapseSubItems{{$categoryList->id}}"
+          aria-expanded="true"
+        ><span>{{$categoryList->category_name_en}}</span></a>
+        @if ($categoryList->children)
+        <ul class="nav-second-level collapse show" id="collapseSubItems{{$categoryList->id}}" data-parent="#navAccordion">
+        @foreach ($categoryList->children as $sub)  
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('category.front.list', $sub->id) }}">
+              <span class="nav-link-text">{{$sub->category_name_en}}</span>
             </a>
           </li>
         @endforeach
 
-       
-    
-
+        </ul>
+        @endif
+      </li>
+      @endif
       @endforeach
-	   
+
+      
+	  
+	 
+	  
+	  
+	  
+	   <li class="nav-item all-parts-link">
+        <a class="nav-link" href="{{ route('product.listing,page') }}">All Parts</a>
+      </li>
+      
+	   <li class="nav-item order-shipping-info">
+        <a class="nav-link" href="{{ route('shopping.cart.page') }}">Order and Shipping Info</a>
+      </li>
 	  
     </ul>
 	

@@ -82,13 +82,13 @@ $(document).ready(function(){
 // Add Cart Button Script
 $(function(){
 $('.filter-option-heading').on('click', function(){
-    $('.filter-option-heading').toggleClass('img-open');
+    $(this).closest('.subcategory-product-box').find('.filter-option-heading').toggleClass('img-open');
 
 });
 });
 
 $('.filter-option-heading').click(function() {
-    $('.filter-option-content').slideToggle('fast').addClass( "show" );
+    $(this).closest('.subcategory-product-box').find('.filter-option-content').slideToggle('fast').addClass( "show" );
     return false;
 });
 

@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="breadcrumb-container">
-                        <nav aria-label="breadcrumb">
+                        <nav aria-label="breadcrumb" style="display:none;">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">home</a></li>
                                 <li class="breadcrumb-item"><a href="#">product category</a></li>

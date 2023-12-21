@@ -35,11 +35,17 @@ class CategoryServiceProvider extends ServiceProvider
         if($menus == null) {
             $menus = [];
         }
+
+        $left_menus = Menu::where('title', 'like', 'Left Category Menu')->orderBy('id', 'ASC')->get();
+        if($left_menus == null) {
+            $left_menus = [];
+        }
         
 
         \View::share('categoryData', $categoryData);
         \View::share('categoryDataArray', $categoryDataArray);
         \View::share('menuDataArray', $menus);
+        \View::share('left_menus', $left_menus);
 
 
     }

@@ -26,20 +26,31 @@ class MenuController extends Controller
         $request->validate([
 
            'title' => 'required',
+          
 
         ]);
 
         $input = $request->all();
+      
         if(empty($input['id'])) {
-            $input['parent_id'] = empty($input['parent_id']) ? 0 : $input['parent_id'];
+           // $input['parent_id'] = empty($input['parent_id']) ? 0 : $input['parent_id'];
+          
+           // Menu::create($input);
+            $menu = new Menu();
+            $menu->title = $input['title'];
+            $menu->url = $input['url'];
+            $menu->parent_id = empty($input['parent_id']) ? 0 : $input['parent_id'];
+            $menu->save();
 
-            Menu::create($input);
-    
+      
+
+         
             return back()->with('success', 'Menu added successfully.');
     
         } else {
             $menu = Menu::find($input['id']);
             $menu->title = $input['title'];
+            $menu->url = $input['url'];
             $menu->parent_id = empty($input['parent_id']) ? 0 : $input['parent_id'];
             $menu->save();
          

@@ -196,3 +196,9 @@ Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPag
 Route::post('/search-store',[App\Http\Controllers\FrontEndController::class, 'search'])->name('search.page');
 
 Route::get('/registerUser',[App\Http\Controllers\FrontEndController::class,'register'])->name('register.user');
+
+
+Route::get('forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');

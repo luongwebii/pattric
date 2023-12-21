@@ -12,9 +12,11 @@
   <div class="breadcrumb-container">
     <nav aria-label="breadcrumb">
    <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">home</a></li>
-    <li class="breadcrumb-item"><a href="#">product category</a></li>
-    <li class="breadcrumb-item active" aria-current="page">product name</li>
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    @if(isset($categories->id))
+    <li class="breadcrumb-item"><a href="{{ route('category.front.list', $categories->id) }}">{{$categories->category_name_en}}</a></li>
+    @endif
+
   </ol>
 	</nav>
 	</div>
@@ -93,7 +95,7 @@
 	<div class="product-qty-box"><span>qty.</span>
 	<div class="form-group qty-input">
     <input type="hidden" name="productId" value="{{ $product->id}}" />
-    <input type="text" class="form-control" name="qty" placeholder="0" id="qty">
+    <input type="text" class="form-control" value="1" name="qty" placeholder="0" id="qty">
     </div>
 	<a href="javascript:void(0);"  onclick="addToCart(this)"  class="primary-btn" >Add to cart</a>
 	</div>

@@ -12,9 +12,10 @@
   <div class="breadcrumb-container">
     <nav aria-label="breadcrumb">
    <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">home</a></li>
-    <li class="breadcrumb-item"><a href="#">product category</a></li>
-    <li class="breadcrumb-item active" aria-current="page">product name</li>
+    <li class="breadcrumb-item"><a href="/">home</a></li>
+    @if(isset($page->id))
+    <li class="breadcrumb-item"><a href="{{ route('show.page', $page->id) }}">{{$page->title}}</a></li>
+    @endif
   </ol>
 	</nav>
 	</div>
