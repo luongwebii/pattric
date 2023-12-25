@@ -186,6 +186,9 @@ Route::get('/reduce/from-cart/{rowId}',[App\Http\Controllers\CartPageController:
 
 Route::get('/{id}/category',[App\Http\Controllers\FrontEndController::class,'listProductCategory'])->name('category.front.list');
 
+Route::get('/{id}/load-more-ajax',[App\Http\Controllers\FrontEndController::class,'loadMoreAjax'])->name('load.more.products');
+
+
 Route::get('/shopping-cart-page',[App\Http\Controllers\FrontEndController::class,'shoppingCartPage'])->name('shopping.cart.page');
 
 Route::get('/product-listing-page',[App\Http\Controllers\FrontEndController::class,'showAllCategory'])->name('product.listing,page');

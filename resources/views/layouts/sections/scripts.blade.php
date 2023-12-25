@@ -3,7 +3,7 @@
 <script src="{!! url('assets/vendor/libs/popper/popper.js') !!}"></script>
 <script src="{!! url('assets/vendor/js/bootstrap.js') !!}"></script>
 <script src="{!! url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') !!}"></script>
-<script src="{!! url('assets/vendor/jquery/script.js') !!}"></script>
+<script src="{!! url('assets/vendor/jquery/script.js').'?x='.time() !!}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.0.1/ckeditor.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>

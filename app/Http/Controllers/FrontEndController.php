@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\UserProfile;
+use App\Models\Product;
 use App\Models\Page;
 use Cart;
 
@@ -42,10 +43,33 @@ class FrontEndController extends Controller
         //
         $pages = Page::where('is_home', '!=', 1)->orderBy('title', 'ASC')->get();
         $categories = Category::find($id);
+
+        $products = Product::where('category_id', '=', $id)
+                    ->where('status', '=', 1)
+                    ->paginate(1);
+
         return view('front.list_pro', [
             'categories' => $categories,
+            'products' => $products,
             'pages' => $pages
         ]);
+    }
+
+    public function loadMoreAjax($id, Request $request)
+    {
+        //
+        $offset = $request->input('offset'); 
+        $limit = $request->input('limit'); 
+ 
+        
+        
+        $categories = Category::find($id);
+
+        $products = Product::where('category_id', '=', $id)
+                    ->where('status', '=', 1)
+                    ->skip($offset)->take($limit)->get(); 
+
+        return response()->json($products); 
     }
 
     public function shoppingCartPage()

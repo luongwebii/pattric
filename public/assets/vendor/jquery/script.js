@@ -81,16 +81,20 @@ $(document).ready(function(){
 
 // Add Cart Button Script
 $(function(){
-$('.filter-option-heading').on('click', function(){
-    $(this).closest('.subcategory-product-box').find('.filter-option-heading').toggleClass('img-open');
 
-});
+    $('body').on('click', '.filter-option-heading', function() {
+		$(this).closest('.subcategory-product-box').find('.filter-option-heading').toggleClass('img-open');
+		if($(this).closest('.subcategory-product-box').find('.filter-option-heading').hasClass( "img-open" )) {
+			$(this).closest('.subcategory-product-box').find('.filter-option-content').show();
+		} else {
+			$(this).closest('.subcategory-product-box').find('.filter-option-content').hide();
+		}
+		//$(this).closest('.subcategory-product-box').find('.filter-option-content').slideToggle('fast').addClass( "show" );
+		
+
+	});
 });
 
-$('.filter-option-heading').click(function() {
-    $(this).closest('.subcategory-product-box').find('.filter-option-content').slideToggle('fast').addClass( "show" );
-    return false;
-});
 
 
 

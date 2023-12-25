@@ -73,18 +73,7 @@
 	
 	
 	
-	
-	
-	
-	
-	<div class="row">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-	<div class="lore-more-box">
-	<h6> <img src="{!! url('assets/img/load-more-icon.svg') !!}" alt="load-more-icon" class="img-fluid">load more</h6>
-	 </div>
-	</div>
-	</div>	
-	
+
 	
 	
 	
