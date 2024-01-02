@@ -18,6 +18,7 @@
     </nav>
   </div>
 </div>
+
 <form action="{{ isset($category->id) ? route('admin.category.update', $category->id) : route('admin.category.store') }}" method="post" enctype="multipart/form-data">
   @csrf
   @isset($category->id)
@@ -52,8 +53,8 @@
             </div>
 
             <div class="form-group">
-              <label class="col-form-label">Description <span class="text-danger">*</span></label>
-              <textarea name="meta_description_en" id="meta_description_en" class="form-control" required>{{ $product->meta_description_en ?? old('meta_description_en') }}</textarea>
+              <label class="col-form-label">Description <span class="text-danger"></span></label>
+              <textarea name="meta_description_en" id="meta_description_en" class="form-control" >{{ $category->meta_description_en ?? old('meta_description_en') }}</textarea>
               @error('meta_description_en')
               <span class="text-danger" product="alert">
                 <strong>{{ $message }}</strong>
@@ -163,19 +164,28 @@
         
     tinymce.init({
         selector: "#meta_description_en",
-        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave  charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen  preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
-        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media insertfile',
-        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader',
+        plugins: "   advlist  anchor  autolink autoresize   charmap  code codesample directionality  emoticons    help image importcss  insertdatetime link  lists media    nonbreaking pagebreak   preview quickbars save searchreplace table   tinydrive   visualblocks visualchars wordcount",
+        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media   forecolor backcolor ',
+        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader myCustomButton ',
+        convert_urls: false,
+        valid_elements : '*[*]',
+        cleanup: false,
+        allow_script_urls:true,
+        init_instance_callback: function (editor) {
+            editor.on("OpenWindow", function(e) {
+                const uploadBtns = document.querySelectorAll(".tox-dialog__body-nav-item.tox-tab")
+                if(uploadBtns.length === 2) {
+                    uploadBtns[1].style.display = "none";
 
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'rmartel',
-        tinycomments_author_name: 'Rosalina Martel',
+                }
+            })
+        },
         file_picker_callback: function(callback, value, meta) {
             let x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
             let y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
             let type = 'image' === meta.filetype ? 'Images' : 'Files',
-                url = '/laravel-filemanager?editor=tinymce5&type=' + type;
+                url = '/filemanager?editor=tinymce5&type=' + type;
 
             tinymce.activeEditor.windowManager.openUrl({
                 url: url,

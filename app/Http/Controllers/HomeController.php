@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Page;
 use Cart;
 class HomeController extends Controller
@@ -29,9 +30,11 @@ class HomeController extends Controller
         $categories =  Category::whereHas('products', function($query) {
             $query->where('featured', 1);
          })->get();
+
+         $products = Product::where('featured', 1)->get();
      
        return view('home.index', [
-        'categories'=> $categories, 
+        'products'=> $products, 
         'page'=> $page, 
        ]);
     }

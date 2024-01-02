@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-All categories
+SPoT – Product Groups
 @endsection
 @push('css')
 <!-- DataTables -->
@@ -65,21 +65,17 @@ All categories
               @if ($groupProduct->status)
               <span class="badge badge-info rounded " data-toggle="tooltip" title="Category status is true &#128077">Active</span>
               @else
-              <span class="badge badge-danger" data-toggle="tooltip" title="Category status is false &#128078">Inactive</span>
+              <span class="badge badge-danger" data-toggle="tooltip" title="Category status is false &#128078">Draft</span>
               @endif
             </td>
             <td>
           
               <a class="btn btn-sm btn-success" href="{{ route('admin.groupProduct.edit', $groupProduct->id) }}" data-toggle="tooltip" title="Edit &#128221"><i class="fadeIn animated bx bx-edit"></i>
               </a>
-           
-              <form action="{{ route('admin.groupProduct.update', $groupProduct->id) }}" style="display: inline-block" method="POST">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-sm btn-danger delete-confirm" type="submit" data-toggle="tooltip" title="Delete &#128683">
-                  <i class="fadeIn animated bx bx-trash"></i>
-                </button>
-              </form>
+              <a class="btn btn-sm btn-danger " href="#"   onclick="return deleteItem({{$groupProduct->id}});"  ><i class="fadeIn animated bx bx-trash"></i>
+              </a>
+             
+            
             
             </td>
           </tr>
@@ -89,16 +85,24 @@ All categories
     </div>
   </div>
 </div>
-
-@endsection
-@push('js')
-<!--Data Tables js-->
-<!-- DataTables  & Plugins -->
-
 <script>
-  $(function() {
-
-  });
+    function deleteItem(id) {
+        
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "{{ route('admin.groupProduct.delete') }}?id=" + id;
+            }
+        });
+        return false;
+    }
 
 </script>
-@endpush
+@endsection

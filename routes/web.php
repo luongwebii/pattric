@@ -28,6 +28,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/create', [App\Http\Controllers\UsersController::class, 'create'])->name('admin.users.create');
     Route::post('/create', [App\Http\Controllers\UsersController::class, 'store'])->name('admin.users.store');
 
+    Route::get('/delete/user', [App\Http\Controllers\UsersController::class, 'deleteUser'])->name('admin.users.delete');
+
+
     Route::get('/{user}/show', [App\Http\Controllers\UsersController::class, 'show'])->name('admin.users.show');
     Route::get('/{user}/edit', [App\Http\Controllers\UsersController::class, 'edit'])->name('admin.users.edit');
     Route::patch('/{user}/update', [App\Http\Controllers\UsersController::class, 'update'])->name('admin.users.update');
@@ -47,11 +50,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/{page}/editPage', [App\Http\Controllers\PageController::class, 'edit'])->name('admin.pages.editPage');
     Route::patch('/{page}/updatePage', [App\Http\Controllers\PageController::class, 'update'])->name('admin.pages.updatePage');
 
+    Route::get('/delete/page', [App\Http\Controllers\PageController::class, 'deletePage'])->name('admin.pages.delete');
+
 
     Route::get('/category', [App\Http\Controllers\CategoryController::class, 'index'])->name('admin.category');
     
     Route::get('/category/create', [App\Http\Controllers\CategoryController::class, 'create'])->name('admin.category.create');
     Route::post('/category/create', [App\Http\Controllers\CategoryController::class, 'store'])->name('admin.category.store');
+
+
+    Route::get('/delete/category', [App\Http\Controllers\CategoryController::class, 'deleteCategory'])->name('admin.category.delete');
+              
 
     Route::get('/{category}/show', [App\Http\Controllers\CategoryController::class, 'show'])->name('admin.category.show');
     Route::get('/{category}/editCategory', [App\Http\Controllers\CategoryController::class, 'edit'])->name('admin.category.edit');
@@ -66,6 +75,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/{groupProduct}/editGroupProduct', [App\Http\Controllers\ProductGroupController::class, 'edit'])->name('admin.groupProduct.edit');
     Route::patch('/{groupProduct}/updateGroupProduct', [App\Http\Controllers\ProductGroupController::class, 'update'])->name('admin.groupProduct.update');
 
+    Route::get('/delete/groupProduct', [App\Http\Controllers\ProductGroupController::class, 'deleteGroupProduct'])->name('admin.groupProduct.delete');
+
+
     Route::get('/subcategory', [App\Http\Controllers\SubCategoryController::class, 'index'])->name('admin.subcategory');
     
     Route::get('/subcategory/createSubCategory', [App\Http\Controllers\SubCategoryController::class, 'create'])->name('admin.subcategory.create');
@@ -77,7 +89,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::delete('/subcategory/destroySubCategory', [App\Http\Controllers\SubCategoryController::class, 'destroy'])->name('admin.subcategory.destroy');
 
     Route::get('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product');
+
+    Route::post('/product', [App\Http\Controllers\ProductController::class, 'index'])->name('admin.product.post');
     
+    Route::get('/delete/product', [App\Http\Controllers\ProductController::class, 'deleteProduct'])->name('admin.product.delete');
+               
+
     Route::get('/product/create', [App\Http\Controllers\ProductController::class, 'create'])->name('admin.product.create');
     Route::post('/product/create', [App\Http\Controllers\ProductController::class, 'store'])->name('admin.product.store');
 
@@ -132,7 +149,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', [App\Http\Controllers\AdminAuthController::class, 'showLoginForm'])->name('admin.login');
     Route::post('/login',  [App\Http\Controllers\AdminAuthController::class, 'login'])->name('admin.login.submit');
-    Route::post('/logout', [App\Http\Controllers\AdminAuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/logout', [App\Http\Controllers\AdminAuthController::class, 'logout'])->name('admin.logout');
 });
 
 // Front-end login/logout routes
@@ -143,10 +160,11 @@ Route::get('/autocompleteList', [App\Http\Controllers\PageController::class, 'au
 
 Route::get('/autocompleteGroups', [App\Http\Controllers\PageController::class, 'autocompleteGroups'])->name('page.autocompleteGroups');
 
+/*
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
-
+*/
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('user.login');
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->name('login.submit');
 Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('user.logout');
@@ -196,7 +214,9 @@ Route::get('/product-listing-page',[App\Http\Controllers\FrontEndController::cla
 Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPage'])->name('show.page');
 
 
-Route::post('/search-store',[App\Http\Controllers\FrontEndController::class, 'search'])->name('search.page');
+Route::get('/search-store',[App\Http\Controllers\FrontEndController::class, 'search'])->name('search.page');
+Route::get('/search-store-autocomplete',[App\Http\Controllers\FrontEndController::class, 'searchAutocomplete'])->name('search.page.autocomplete');
+
 
 Route::get('/registerUser',[App\Http\Controllers\FrontEndController::class,'register'])->name('register.user');
 

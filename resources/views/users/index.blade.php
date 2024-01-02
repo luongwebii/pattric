@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Dashboard - Users')
+@section('title', 'SPoT – Manage Users')
 
 
 

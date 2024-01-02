@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
 
         $this->validate($request, [
-            'category_name_en'      => 'required|string|unique:categories,category_name_en',
+            'category_name_en'      => 'required',
             'meta_description_en'           => 'nullable',
             'parent_id'           => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
@@ -38,7 +38,7 @@ class CategoryController extends Controller
 
        
         $data = [
-            'icon'                  => $request->icon,
+         
             'category_name_en'      => $request->category_name_en,
             'category_slug_en'      =>  Str::slug($request->category_name_en),
             'meta_description_en'      => $request->meta_description_en,
@@ -71,14 +71,14 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->validate($request, [
-            'category_name_en'      => 'required|string|unique:categories,category_name_en,'.$category->id,
+            'category_name_en'      => 'required',
             'meta_description_en'   => 'nullable',
             'parent_id'           => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
 
         $category->update([
-            'icon'                  => $request->icon,
+         
             'category_name_en'      => $request->category_name_en,
             'category_slug_en'      => Str::slug($request->category_name_en),
             'parent_id'      => $request->parent_id,
@@ -108,6 +108,21 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories')->withSuccess(__('Category deleted successfully.'));
     }
+
+    public function deleteCategory(Request $request)
+    {
+
+        $data = $request->all();
+        $id = $data['id'];
+
+        $model = Category::find($id);
+        
+        $model->delete();
+
+        // toastr()->success('Product deleted successfully');
+        return redirect()->back()->withSuccess(__('Category deleted successfully.'));
+    }
+
     //Image intervetion
     protected function uploadeImage($request)
     {

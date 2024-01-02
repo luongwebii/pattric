@@ -2,8 +2,8 @@
 
   <!-- ! Hide app brand if navbar-full -->
   <div class="app-brand demo">
-    <a href="{{url('/')}}" class="app-brand-link">
-    <img src="{!! url('assets/img/St-Patricks-Texas-logo.svg') !!}" alt="dry-care-footer-logo">
+    <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
+    <img src="{!! url('assets/img/logo-admin.png') !!}" alt="dry-care-footer-logo">
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-autod-block d-xl-none">

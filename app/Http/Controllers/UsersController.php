@@ -53,7 +53,7 @@ class UsersController extends Controller
         $input = $request->all();
         $userData = $request->validated();
         $userData['password'] = bcrypt($input['password']);
-
+        $userData['role'] = 'admin';
         $user->create( $userData);
 
         return redirect()->route('admin.users')
@@ -108,6 +108,7 @@ class UsersController extends Controller
         } else {
             unset($userData['password']);
         }
+        $userData['role'] = 'admin';
        
 
         $user->update($userData);
@@ -132,6 +133,21 @@ class UsersController extends Controller
         return redirect()->route('users.index')
             ->withSuccess(__('User deleted successfully.'));
     }
+
+    public function deleteUser(Request $request)
+    {
+
+        $data = $request->all();
+        $id = $data['id'];
+
+        $model = User::find($id);
+        
+        $model->delete();
+
+        // toastr()->success('Product deleted successfully');
+        return redirect()->back()->withSuccess(__('User deleted successfully.'));
+    }
+
 }
 
 

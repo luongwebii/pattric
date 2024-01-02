@@ -61,7 +61,7 @@ All subsubcategories
               @if ($subsubcategory->status)
               <span class="badge badge-info rounded " data-toggle="tooltip" title="subSubCategory status is true &#128077">Active</span>
               @else
-              <span class="badge badge-danger" data-toggle="tooltip" title="subSubCategory status is false &#128078">Inactive</span>
+              <span class="badge badge-danger" data-toggle="tooltip" title="subSubCategory status is false &#128078">Draft</span>
               @endif
             </td>
             <td>

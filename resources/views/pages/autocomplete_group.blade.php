@@ -66,7 +66,7 @@
             <!-- content -->
             <div id="content-8" class="content">
 
-                <table class="table">
+                <table class="table  table-responsive">
                     <thead class="thead-dark">
                         <tr>
                             <th scope="col">Model</th>
@@ -123,7 +123,7 @@
                             <td>
                                 <div class="form-group qty-input">
                                 <input type="hidden" name="productIds[]" value="${score.id}" id="productId"/>
-                                    <input type="text" class="form-control	" name="qtys[]"  placeholder="0" id="qty">
+                                    <input type="text" class="form-control	" name="qtys[]" value="1" placeholder="0" id="qty">
                                 </div>
                             </td>
                             <td class="dra-link"><a href="#">${score.drawing}</a></td>

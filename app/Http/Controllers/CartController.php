@@ -67,13 +67,17 @@ class CartController extends Controller
         if(Session::has('coupon')){
             Session::forget('coupon');
         }
+        $price = $product->price;
+        if(!empty($product->sale_price)){
+            $price = $product->sale_price;
+        }
 
         if($product->discount_price == NULL){
             Cart::add([
                 'id' => $input['productId'],
                 'name' => $product->product_name_en,
                 'qty' => $request->qty,
-                'price' => $product->price,
+                'price' => $price,
                 'weight' => 1,
                 'options' => [
                     'image' => $product->image
@@ -106,7 +110,7 @@ class CartController extends Controller
         return response()->json([
             'carts' => $carts,
             'cart_qty' => $cart_qty,
-            'cart_total' => round($cart_total),
+            'cart_total' => $cart_total,
         ], 200);
     }
     

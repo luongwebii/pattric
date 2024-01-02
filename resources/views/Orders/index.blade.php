@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-All Orders
+SPoT – Orders
 @endsection
 @section('content')
     <section class="content">
@@ -25,8 +25,9 @@ All Orders
                                                     <th>#</th>
                                                     <th>Date</th>
                                                     <th>Invoice</th>
+                                                    <th>Name</th>
                                                     <th>Amount</th>
-                                                    <th>Method</th>
+                                                    <th>Qty</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -39,8 +40,9 @@ All Orders
                                                     </td>
                                                     <td class="sorting_1">{{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }} </td>
                                                     <td class="soring_1">{{ $order->invoice_number }}</td>
-                                                    <td class="sorting_1">{{ $order->amount }}</td>
-                                                    <td class="sorting_1">{{ $order->payment_method }}</td>
+                                                    <td class="soring_1">{{ $order->first_name }} {{ $order->last_name }}</td>
+                                                    <td class="sorting_1">${{ Helper::format_numbers($order->amount) }}</td>
+                                                    <td class="soring_1">{{ $order->qty ? $order->qty : '' }}</td>
                                                     <td class="sorting_1">
                                                         @if ($order->status == 'pending')
                                                         <span class="badge badge-primary">{{ $order->status }}</span>

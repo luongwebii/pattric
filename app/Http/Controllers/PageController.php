@@ -103,10 +103,10 @@ class PageController extends Controller
 
         $this->validate($request, [
             'title'             => 'required|string|unique:pages',
-            'excerpt'           => 'required',
-            'body'              => 'required',
-            'meta_description'  => 'string',
-            'meta_keywords.*'   => 'string',
+            'excerpt'           => 'nullable',
+            'body'              => 'nullable',
+            'meta_description'  => 'nullable',
+            'meta_keywords.*'   => 'nullable',
             'image'             => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
         $page   = Page::create([
@@ -140,10 +140,10 @@ class PageController extends Controller
       //  print_r( $request ); die();
         $this->validate($request, [
             'title'             => 'required|string|unique:pages,title,' . $page->id,
-            'excerpt'           => 'required',
-            'body'              => 'required',
-            'meta_description'  => 'string',
-            'meta_keywords.*'   => 'string',
+            'excerpt'           => 'nullable',
+            'body'              => 'nullable',
+            'meta_description'  => 'nullable',
+            'meta_keywords.*'   => 'nullable',
             'image'             => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
         $page->update([
@@ -176,6 +176,20 @@ class PageController extends Controller
         $page->delete();
         //toastr()->success('Page Successfully Deleted.', 'Deleted');
         return back();
+    }
+
+    public function deletePage(Request $request)
+    {
+
+        $data = $request->all();
+        $id = $data['id'];
+
+        $model = Page::find($id);
+        
+        $model->delete();
+
+        // toastr()->success('Product deleted successfully');
+        return redirect()->back()->withSuccess(__('Page deleted successfully.'));
     }
     //Image intervetion
     protected function uploadeImage($request)

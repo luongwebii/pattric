@@ -2,6 +2,10 @@
 
 
 @section('content')
+<style>
+table{width:100%;}
+
+</style>
 <main class="content-wrapper">
 
 
@@ -61,11 +65,7 @@
 	<section class="vent-subcategory-product-section">
 	<div class="container-fluid">
 	
-	<div class="row">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-	<h2>subcategory name</h2>
-	</div>
-	</div>	
+
 	
 
     {!! html_entity_decode($page->body) !!}
@@ -74,7 +74,7 @@
 	
 	
 
-	
+    </div>
 	
 	
 	

@@ -29,7 +29,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'role' => 'required',
+            'role' => 'nullable',
             'email' => 'required|email:rfc,dns|unique:users,email,'.$user->id,
             'password' => [
                 'nullable',

@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-All categories
+PoT - Menus
 @endsection
 
 @section('content')

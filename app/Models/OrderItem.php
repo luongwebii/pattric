@@ -11,9 +11,11 @@ class OrderItem extends Model
 
     protected $guarded = ['id'];
 
+    protected $table = 'order_items';
+
     public function order()
     {
-        return $this->belongsTo(Order::class)->withDefault();
+        return $this->belongsTo(Order::class,  'order_id', 'id');
     }
 
     public function product()

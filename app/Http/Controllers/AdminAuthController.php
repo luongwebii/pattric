@@ -89,8 +89,11 @@ class AdminAuthController extends Controller
        // return redirect()->intended($this->redirectPath());
     }
     // Redirect to the correct route after successful logout
-    protected function loggedOut(Request $request)
+    public function logout(Request $request)
     {
-        return redirect('/');
+        Auth::logout();
+
+        return redirect()->route('admin.login');
+       
     }
 }

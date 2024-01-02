@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-Order Details
+SPoT – Orders
 @endsection
 @section('content')
     <section class="content">
@@ -31,14 +31,7 @@ Order Details
                             </tr>
                           
                           
-                            <tr>
-                                <th> Company Name: </th>
-                                <th> {{ $order->shipping_company_name }} </th>
-                            </tr>
-                            <tr>
-                                <th> Department : </th>
-                                <th> {{ $order->shipping_department }} </th>
-                            </tr>
+                          
                             <tr>
                                 <th> Street : </th>
                                 <th> {{ $order->shipping_street }} </th>
@@ -49,12 +42,9 @@ Order Details
                             </tr>
                             <tr>
                                 <th> City : </th>
-                                <th> {{ $order->shipping_department }} </th>
-                            </tr>
-                            <tr>
-                                <th> Department : </th>
                                 <th> {{ $order->shipping_city }} </th>
                             </tr>
+                           
                             <tr>
                                 <th> State/Province : </th>
                                 <th> {{ $order->shipping_state }} </th>
@@ -67,10 +57,7 @@ Order Details
                                 <th> Country : </th>
                                 <th> {{ $order->shipping_country }} </th>
                             </tr>
-                            <tr>
-                                <th> Instructions : </th>
-                                <th> {{ $order->shipping_instructions }} </th>
-                            </tr>
+                           
                         </table>
                     </div>
                     <!-- /.box-body -->
@@ -157,7 +144,7 @@ Order Details
             <div class="col-md-12 col-lg-12">
                 <div class="box box-bordered border-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Order View</h3>
+                        <h3 class="box-title">Products</h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
@@ -175,40 +162,21 @@ Order Details
                                             <label for=""> Model</label>
                                         </td>
                                         <td class="text-dark">
-                                            <label for=""> Drawing </label>
+                                            <label for=""> Qty </label>
                                         </td>
-                                        <td class="text-dark">
-                                            <label for=""> Orient </label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Area Sm </label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Orient </label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Bottom Butter </label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Racking Butter </label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Man Way</label>
-                                        </td>
-                                        <td class="text-dark">
-                                            <label for=""> Capacity</label>
-                                        </td>
+                            
                                         <td class="text-dark">
                                             <label for=""> Price </label>
                                         </td>
                                         <td class="text-dark">
-                                            <label for=""> Download </label>
+                                            <label for=""> Sub Total </label>
                                         </td>
+                                        
                                     </tr>
                                     @foreach ($orderItems as $item)
                                         <tr>
                                             <td class="col-md-1">
-                                                <label for=""><img src="{{ asset( $item->product->product_thumbnail ) }}"
+                                                <label for=""><img src="{{ asset( $item->product->image ) }}"
                                                         height="50px;" width="50px;"> </label>
                                             </td>
                                             <td class="col-md-3">
@@ -217,52 +185,21 @@ Order Details
                                             <td class="col-md-3">
                                                 <label for=""> {{ $item->product->model }}</label>
                                             </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->drawing }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->orient }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->area_sm }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->bottom_butter }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->racking_butter }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->man_way }}</label>
-                                            </td>
-                                            <td class="col-md-2">
-                                                <label for=""> {{ $item->capacity }}</label>
-                                            </td>
+                                 
+                                           
                                             <td class="col-md-2">
                                                 <label for=""> {{ $item->qty }}</label>
                                             </td>
 
                                             <td class="col-md-3">
-                                                <label for=""> ${{ $item->unit_price }}  </label>
+                                                <label for=""> ${{ Helper::format_numbers($item->unit_price) }}  </label>
                                             </td>
-                                            @php
-                                                $file = App\Models\Product::where('id', $item->product_id)->first();
-                                            @endphp
 
-                                            <td class="col-md-1">
-                                                @if ($order->status == 'pending')
-                                                    <strong>
-                                                        <span class="badge badge-pill badge-success" style="background: #418DB9;"> No
-                                                            File</span> </strong>
-
-                                                @elseif($order->status == 'confirm')
-
-                                                    <a target="_blank" href="{{ asset('upload/pdf/' . $file->digital_file) }}">
-                                                        <strong>
-                                                            <span class="badge badge-pill badge-success" style="background: #FF0000;">
-                                                                Download Ready</span> </strong> </a>
-                                                @endif
+                                            <td class="col-md-3">
+                                                <label for=""> ${{ Helper::format_numbers($item->unit_price * $item->qty )}}  </label>
                                             </td>
+                                           
+                                            
                                         </tr>
                                     @endforeach
                                 </tbody>

@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-Create static pages
+SPoT – Pages
 @endsection
 
 @section('content')
@@ -109,7 +109,7 @@ Create static pages
                         <div class="form-group">
                             <label class="col-form-label">Image</label>
                             <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($page->image)) data-default-file="/{{ $page->image }}" @endif
-                            {{ !isset($page->id) ? 'required' : '' }} />
+                            {{ !isset($page->id) ? '' : '' }} />
                             @error('image')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>
@@ -182,12 +182,22 @@ Create static pages
     // toolbar: "aligncenter alignjustify alignleft alignnone alignright| anchor | blockquote blocks | backcolor | bold | copy | cut | fontfamily fontsize forecolor h1 h2 h3 h4 h5 h6 hr indent | italic | language | lineheight | newdocument | outdent | paste pastetext | print | redo | remove removeformat | selectall | strikethrough | styles | subscript superscript underline | undo | visualaid | a11ycheck advtablerownumbering typopgraphy anchor restoredraft casechange charmap checklist code codesample addcomment showcomments ltr rtl editimage fliph flipv imageoptions rotateleft rotateright emoticons export footnotes footnotesupdate formatpainter fullscreen help image insertdatetime link openlink unlink bullist numlist media mergetags mergetags_list nonbreaking pagebreak pageembed permanentpen preview quickimage quicklink quicktable cancel save searchreplace spellcheckdialog spellchecker | table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader | tableofcontents tableofcontentsupdate | template typography | insertfile | visualblocks visualchars | wordcount",
     tinymce.init({
         selector: "#body",
-        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
-        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media insertfile',
-        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader myCustomButton custom_button custom_button2',
+        plugins: "   advlist  anchor  autolink autoresize   charmap  code codesample directionality  emoticons    help image importcss  insertdatetime link  lists media    nonbreaking pagebreak   preview quickbars save searchreplace table   tinydrive   visualblocks visualchars wordcount",
+        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media   forecolor backcolor ',
+        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader  myCustomButton custom_button custom_button2 ',
+        convert_urls: false,
         valid_elements : '*[*]',
         cleanup: false,
         allow_script_urls:true,
+        init_instance_callback: function (editor) {
+            editor.on("OpenWindow", function(e) {
+                const uploadBtns = document.querySelectorAll(".tox-dialog__body-nav-item.tox-tab")
+                if(uploadBtns.length === 2) {
+                    uploadBtns[1].style.display = "none";
+
+                }
+            })
+        },
         relative_urls : false,
         tinycomments_mode: 'embedded',
         tinycomments_author: 'rmartel',
@@ -197,7 +207,7 @@ Create static pages
             let y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
             let type = 'image' === meta.filetype ? 'Images' : 'Files',
-                url = '/laravel-filemanager?editor=tinymce5&type=' + type;
+                url = '/filemanager?editor=tinymce5&type=' + type;
 
             tinymce.activeEditor.windowManager.openUrl({
                 url: url,

@@ -30,7 +30,7 @@ class ProductGroupController extends Controller
     {
 
         $this->validate($request, [
-            'product_group_name'      => 'required|string|unique:product_group,product_group_name',
+            'product_group_name'      => 'required',
             'description'   => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
@@ -61,34 +61,36 @@ class ProductGroupController extends Controller
     public function updateProductGroup($groupProductData, $product_group_id)
     {
         //print_r($groupProductData); die();
-        $productIds =  $groupProductData['productIds'];
-        $productIdArray = [];
-        foreach ($productIds as  $key => $productId) {
-            //  print_r($question); die();
-            // Create a new question
-            if (!empty($productId)) {
-                $productIdArray[] = $productId;
-                $id = $groupProductData['productGroupIds'][$key];
+        if(isset($groupProductData['productIds'])) {
+            $productIds =  $groupProductData['productIds'];
+            $productIdArray = [];
+            foreach ($productIds as  $key => $productId) {
+                //  print_r($question); die();
+                // Create a new question
+                if (!empty($productId)) {
+                    $productIdArray[] = $productId;
+                    $id = $groupProductData['productGroupIds'][$key];
 
-                if (!empty($id)) {
-                    $item = ProductGroupItem::find($id);
-                    $item->product_group_id = $product_group_id;
-                    $item->product_id = $productId;
-                    $item->save();
-                } else {
-                    ProductGroupItem::create([
-                        'product_group_id'      => $product_group_id,
-                        'product_id'           => $productId
-                    ]);
+                    if (!empty($id)) {
+                        $item = ProductGroupItem::find($id);
+                        $item->product_group_id = $product_group_id;
+                        $item->product_id = $productId;
+                        $item->save();
+                    } else {
+                        ProductGroupItem::create([
+                            'product_group_id'      => $product_group_id,
+                            'product_id'           => $productId
+                        ]);
 
-                   
+                    
+                    }
                 }
             }
-        }
 
-        // delete remove question
-        if (!empty($productIdArray)) {
-            ProductGroupItem::where('product_group_id', '=', $product_group_id)->whereNotIn('product_id', $productIdArray)->delete();
+            // delete remove question
+            if (!empty($productIdArray)) {
+                ProductGroupItem::where('product_group_id', '=', $product_group_id)->whereNotIn('product_id', $productIdArray)->delete();
+            }
         }
     }
 
@@ -106,7 +108,7 @@ class ProductGroupController extends Controller
     public function update(Request $request, ProductGroup $groupProduct)
     {
         $this->validate($request, [
-            'product_group_name'      => 'required|string|unique:product_group,product_group_name,' . $groupProduct->id,
+            'product_group_name'      => 'required',
             'description'   => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
         ]);
@@ -141,6 +143,21 @@ class ProductGroupController extends Controller
 
         return redirect()->route('admin.groupProduct')->withSuccess(__('Category deleted successfully.'));
     }
+
+    public function deleteGroupProduct(Request $request)
+    {
+
+        $data = $request->all();
+        $id = $data['id'];
+
+        $model = ProductGroup::find($id);
+        
+        $model->delete();
+
+        // toastr()->success('Product deleted successfully');
+        return redirect()->back()->withSuccess(__('Product Group deleted successfully.'));
+    }
+
     //Image intervetion
     protected function uploadeImage($request)
     {

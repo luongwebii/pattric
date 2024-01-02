@@ -18,7 +18,7 @@
           <div class="app-brand justify-content-center">
             <a href="{{url('/')}}" class="app-brand-link gap-2">
 
-              <img src="{!! url('assets/img/St-Patricks-Texas-logo.svg') !!}" alt="dry-care-footer-logo">
+              <img src="{!! url('assets/img/logo-admin.png') !!}" alt="dry-care-footer-logo">
             </a>
           </div>
           <!-- /Logo -->

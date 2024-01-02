@@ -9,7 +9,7 @@
 				<span class="icon-bar bottom-bar"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarCollapse">
+  <div class="collapse navbar-collapse collapse show" id="navbarCollapse">
  
 
 	 

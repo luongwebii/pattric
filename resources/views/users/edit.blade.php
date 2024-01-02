@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 
-@section('title', 'Users - Edit')
+@section('title', 'SPoT – Manage Users')
 
 
 
@@ -60,17 +60,7 @@
                         <span class="text-danger text-left">{{ $errors->first('password') }}</span>
                     @endif
                 </div>
-                <div class="mb-3 col-md-6">
-                    <label for="username" class="form-label">Role</label>
-                    <select class="form-select form-select-lg" name="role" aria-label="Default select example">
-                    @foreach($roleArray as $key => $type)
-                            <option value="{{ $key }}" {{ ($user->role == $key ? "selected":"") }}>{{ $type }}</option>
-                    @endforeach
-                    </select>
-                    @if ($errors->has('role'))
-                        <span class="text-danger text-left">{{ $errors->first('role') }}</span>
-                    @endif
-                </div>
+              
 
                 <button type="submit" class="btn btn-primary">Update user</button>
                 

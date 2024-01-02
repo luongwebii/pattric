@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutStoreRequest;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -105,8 +106,8 @@ class CheckoutController extends Controller
         $this->validate($request, [
             'first_name'             => 'required',
             'last_name'           => 'required',
-            'phone'              => 'required',
-            'email'  => 'required|email',
+          //  'phone'              => 'required',
+            'email'  => 'required',
             'shipping_company_name'   => 'nullable',
             'shipping_department'   => 'nullable',
             'shipping_street'   => 'required',
@@ -116,8 +117,8 @@ class CheckoutController extends Controller
           //  'shipping_zip'   => 'required',
             'shipping_country'   => 'required',
             'shipping_instructions'             => 'nullable',
-            'address'   => 'required',
-            'billing_suite'   => 'required',
+            'billing_address'   => 'required',
+            'billing_suite'   => 'nullable',
             'billing_city'   => 'required',
             'billing_state'   => 'required',
          //   'billing_zip'   => 'required',
@@ -128,8 +129,26 @@ class CheckoutController extends Controller
         //    'card_expired'   => 'required',
             'card_code'   => 'required',
 
-        ]);
+        ],
+        ['card_month.required' => 'Field is required.', 'card_year.required' => 'Field is required.']);
 
+
+        $create_account = $request->create_account;
+        if(!empty($create_account)) {
+            $hasExpenseSavedForUser = User::query()
+                ->where('email', $request->email)
+                ->exists();
+
+            if ($hasExpenseSavedForUser) {
+                return response()->json(array(
+                    'success' => false,
+                    'errors' => [
+                        'email' => 'The email has already been taken'
+                    ]
+            
+                ), 422);
+            }
+        }
         // update cart
         $input = $request->all();
         $qty =  $input['qty'];
@@ -139,7 +158,24 @@ class CheckoutController extends Controller
         }
 
         $data = [];
-        $user_id = Auth::user()->id;
+        $user_id = 0;
+      
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+        } else {
+            if(!empty($create_account)) {
+                $user_id = User::insertGetId([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'email' => $request->email,
+                    'role' => 'user',
+                    'password' => bcrypt(Str::random(8)),
+                ]);
+            }
+        }
+
+       
+       
       //  $data['shipping_company_name'] = $request->shipping_company_name;
       //  $data['shipping_department'] = $request->shipping_department;
         $data['user_id'] =  $user_id ;
@@ -148,7 +184,7 @@ class CheckoutController extends Controller
         $data['billing_email'] = $request->email;
         $data['billing_phone'] = $request->phone;
 
-        $data['billing_address'] = $request->address;
+        $data['billing_address'] = $request->billing_address;
         $data['billing_suite'] = $request->billing_suite;
         $data['billing_city'] = $request->billing_city;
         $data['billing_state'] = $request->billing_state;
@@ -166,14 +202,14 @@ class CheckoutController extends Controller
         $data['shipping_country'] = $request->shipping_country;
      //   $data['shipping_instructions'] = $request->shipping_instructions;
        
-      
+        if(!empty($user_id)) {
+            $userProfile = UserProfile::where('user_id','=', $user_id)->first();
 
-        $userProfile = UserProfile::where('user_id','=', $user_id)->first();
-
-        if(empty($userProfile)) {
-            UserProfile::create($data);
-        } else {
-            $userProfile->update($data);
+            if(empty($userProfile)) {
+                UserProfile::create($data);
+            } else {
+                $userProfile->update($data);
+            }
         }
 
         if(Session::has('coupon')){
@@ -182,9 +218,13 @@ class CheckoutController extends Controller
             $total_amount = Cart::total();
         }
         $total_amount = Helper::format_number_db($total_amount);
+        $qty = 0;
+        foreach(Cart::content() as $row) {
+            $qty += $row->qty;
+        }
         // Order Service Area
         $order_id = Order::insertGetId([
-            'user_id' => Auth::id(),
+            'user_id' => $user_id,
             'first_name'             => $request->first_name,
             'last_name'           => $request->last_name,
             'phone'              => $request->phone,
@@ -216,12 +256,15 @@ class CheckoutController extends Controller
             'card_code'   => $request->card_code,
             'transaction_id' =>  uniqid(),
             'amount' => $total_amount,
+            'qty' => $qty,
             'order_number' => '',
             'invoice_number' => 'AAF'.mt_rand(10000000,99999999),
             'order_date' => Carbon::now()->format('d F Y'),
             'order_month' => Carbon::now()->format('F'),
             'order_year' => Carbon::now()->format('Y'),
             'status' => 'pending',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
 
@@ -236,7 +279,7 @@ class CheckoutController extends Controller
                 'qty' => $cart->qty,
                 'model' => $product->model,
                 'price' => $product->price,
-                'unit_price' => $product->price,
+                'unit_price' => $cart->price,
                 'drawing' => $product->drawing,
                 'orient' => $product->orient,
                 'area_sm' => $product->area_sm,

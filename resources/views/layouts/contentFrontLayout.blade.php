@@ -11,7 +11,7 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>@yield('title', 'St. Patricks of Texas')</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon/favicon.ico') }}?x=4" />
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css'>
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css'>
     <!-- Core theme CSS -->
@@ -27,9 +27,24 @@
     <!-- Scroll Style -->
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/scroll-style.css') }}" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
 
     <!-- Include Styles -->
-
+    {{--custom css item suggest search--}}
+<style>
+    .autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+    .autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+    .autocomplete-selected { background: #F0F0F0; }
+    /*.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }*/
+    .autocomplete-group { padding: 2px 5px; }
+    .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+    .ui-autocomplete { position: absolute; cursor: default;z-index:9999 !important;}  
+    .ui-widget {
+        font-family: 'Barlow', sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+    }
+</style>
 
     <!-- Include Scripts for customizer, helper, analytics, config -->
     @include('layouts/sections/scriptsIncludes')
@@ -51,7 +66,17 @@
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
-        })
+        });
+        $(function() {
+            $("#autocomplete-input-search").autocomplete({
+                source: "{{ route('search.page.autocomplete') }}",
+                select: function( event, ui ) {
+                    event.preventDefault();
+                  
+                }
+            });
+        });
+
         // start product view with Modal
         function productView(id) {
             $.ajax({

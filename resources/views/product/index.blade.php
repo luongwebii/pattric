@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-All Products
+SPoT – Products
 @endsection
 @push('css')
 <!-- DataTables -->
@@ -24,7 +24,7 @@ All Products
   <div class="card-header border-bottom-0 mb-4">
     <div class="d-flex align-items-center">
       <div>
-        <h5>Controll Products</h5>
+        <h5>Control Products</h5>
       </div>
       <div class="ml-auto">
        
@@ -35,105 +35,137 @@ All Products
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table id="example" class="table table-striped table-bordered text-center table-hover">
+      <table id="example" class="table table-striped table-bordered text-center table-hover data-table">
         <thead>
           <tr>
             <th>#</th>
             <th>Action</th>
             <th>Status</th>
             <th>Name </th>
-            <th>Code</th>
+       
             <th>Price</th>
+            <th>Sale Price</th>
             <th>Quantity</th>
         
-            <th>Category</th>
+            <th style="width:15%;">Category</th>
           </tr>
         </thead>
         <tbody>
-          @foreach ($products as $key => $product)
-          <tr>
-            <td>{{ $key + 1 }}</td>
-            <td>
-            
-              <a class="btn btn-sm btn-success" href="{{ route('admin.product.edit', $product->id) }}" data-toggle="tooltip" title="Edit &#128221"><i class="fadeIn animated bx bx-edit"></i>
-              </a>
-              <a class="btn btn-sm btn-info" href="{{ route('admin.product.edit.multi-image', $product->id) }}" data-toggle="tooltip" title="Multi image &#127910;"><i class="fadeIn animated bx bx-camera"></i>
-              </a>
-              <a class="btn btn-sm btn-primary" href="{{ route('admin.product.stock', $product->id) }}" data-toggle="tooltip" title="Stock &#128688"><i class="fadeIn animated bx bx-data"></i>
-              </a>
-
-              <a class="btn btn-sm btn-secondary" href="{{ route('admin.product.show', $product->id) }}" data-toggle="tooltip" title="Show details &#128373"><i class="fadeIn animated bx bx-log-in-circle"></i>
-              </a>
         
-
-        
-              <form action="{{ route('admin.product.destroy', $product->id) }}" style="display: inline-block" method="post">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-sm btn-danger delete-confirm" type="submit" data-toggle="tooltip" title="Delete &#128683">
-                  <i class="fadeIn animated bx bx-trash"></i>
-                </button>
-              </form>
-            
-            </td>
-            <td>
-              @if ($product->status)
-              <a class="badge badge-info updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:;">Active</a>
-              @else
-              <a class="badge badge-warning updateProductStatus" id="product-{{ $product->id }}" product_id="{{ $product->id }}" href="javascript:;">Inactive</a>
-              @endif
-            </td>
-
-            <td>
-              <div class="media align-items-center mt-3">
-                <img @if (file_exists($product->image))
-                src="/{{ $product->image}}"
-                @else
-                src="/images/no_image.jpg"
-                @endif
-                class="rounded-circle"
-                alt=""
-                width="45"
-                height="45">
-                <div class="media-body" style="flex: 0.5;">
-                  <p class="font-weight-bold mb-0">{{ Str::limit( $product->product_name_en,20, '...') }}</p>
-                
-                </div>
-              </div>
-            </td>
-            <td>{{ $product->product_code }}</td>
-            <td>{{ $product->price}}</td>
-            <td>{{ $product->product_qty}}</td>
-         
-            <td>{{ $product->category->category_name_en }}</td>
-
-          </tr>
-          @endforeach
         </tbody>
       </table>
     </div>
   </div>
 </div>
-
-@endsection
-@push('js')
 <!-- DataTables  & Plugins -->
-<script src="{{ asset('backend/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/jszip/jszip.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-<script src="{{ asset('backend/assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-<script>
-  $(function() {
+
+<script type="text/javascript">
+
+$(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+  
+  // var data = $("form").serializeArray();
+   //console.log(data);
+   var table = $('.data-table').DataTable({
+      "order": [],
+      bFilter: false, bInfo: false,
+      processing: true,
+      "lengthChange": false,
+            "pageLength": 50,
+    "fnDrawCallback": function(oSettings) {                 
+        if (oSettings._iDisplayLength >= oSettings.fnRecordsDisplay()) {
+            $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+        }
+    },
+      type: "POST",
+      serverSide: true,
+      responsive: true,
+    //  pageLength:1,
+      language: {
+        'paginate': {
+        'previous': '<span class="prev-icon page-link"><</span>',
+        'next': '<span class="next-icon page-link">></span>'
+        }
+      },
+      ajax: {
+
+        url: "{{ route('admin.product.post') }}",
+        dataType: 'json',
+        type: 'POST',
+        data:   function (d) {
+                  
+                    d.first_name = $('input[name=first_name]').val();
+                    d.last_name = $('input[name=last_name]').val();
+         
+                },
+      },
+
+      columns: [
+        { "data": 'DT_RowIndex'}, // row index
+        {data: 'action'},
    
+   
+        {data: 'status_format'},
+        {data: 'image_format'},
+        {data: 'price_format'},
+        {data: 'sale_price_format'},
+         
+        {data: 'product_qty'},
+        {data: 'category_name_en'},
+      ]
+
   });
 
+ 
+
+  $(".search").click(function(e){
+      e.preventDefault();
+      table.draw();
+
+  });
+
+  $(".btn-group > button.btn").on("click", function(){
+      
+        //alert("Value is " + $(this).is(':focus'));
+        table.draw();
+    });
+
+   
+
+  $(".clear-search").click(function(e){
+      e.preventDefault();
+      $('#configform')[0].reset();
+    
+
+  });
+
+
+});
+
+function deleteProduct(userId) {
+        
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "{{ route('admin.product.delete') }}?product_id=" + userId;
+        }
+    });
+    return false;
+}
+    
 </script>
-@endpush
+
+@endsection
+

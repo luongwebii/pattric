@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-{{ isset($product->id) ? 'Update product' : 'Create product' }}
+SPoT – Products
 @endsection
 @push('css')
 <link rel="stylesheet" href="{{ asset('backend/assets/plugins/select2/css/select2.min.css') }}" />
@@ -126,6 +126,18 @@
 
             <div class="form-row">
               <div class="form-group col-md-12">
+                <label class="col-form-label">Sale Price <span class="text-danger"></span></label>
+                <input type="text" class="form-control  @error('sale_price') is-invalid @enderror" name="sale_price" value="{{ $product->sale_price ?? old('sale_price') }}" placeholder="Product Sale Price" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="10" >
+                @error('sale_price')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
                 <label class="col-form-label">Drawing</label>
                 <input type="text" class="form-control  @error('drawing') is-invalid @enderror" name="drawing" value="{{ $product->drawing ?? old('drawing') }}" placeholder="Drawing" >
                 @error('drawing')
@@ -212,8 +224,8 @@
 
 
             <div class="form-group">
-              <label class="col-form-label">Long description <span class="text-danger">*</span></label>
-              <textarea name="long_description_en" id="long_description_en" class="form-control" required>{{ $product->long_description_en ?? old('long_description_en') }}</textarea>
+              <label class="col-form-label">Long description <span class="text-danger"></span></label>
+              <textarea name="long_description_en" id="long_description_en" class="form-control" >{{ $product->long_description_en ?? old('long_description_en') }}</textarea>
               @error('long_description_en')
               <span class="text-danger" product="alert">
                 <strong>{{ $message }}</strong>
@@ -244,10 +256,10 @@
 
 
             <div class="form-group">
-              <label class="col-form-label">Main Thambnail <span class="text-danger">*</span></label>
+              <label class="col-form-label">Main Thambnail <span class="text-danger"></span></label>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($product->image))
               data-default-file="/{{ $product->image }}" @endif
-              {{ !isset($product->id) ? 'required' : '' }} />
+              {{ !isset($product->id) ? '' : '' }} />
               @error('image')
               <span class="text-danger" product="alert">
                 <strong>{{ $message }}</strong>
@@ -267,7 +279,7 @@
 
 
             <div class="form-group">
-              <label class="col-form-label">Meta Kewords</label>
+              <label class="col-form-label">Meta Title</label>
               <textarea name="meta_keywords_en" id="meta_keywords_en" class="form-control  @error('title') is-invalid @enderror" placeholder="Meta description">{{ $product->meta_keywords_en ?? old('meta_keywords_en') }}</textarea>
               @error('meta_keywords_en')
               <span class="text-danger" product="alert">
@@ -277,23 +289,14 @@
             </div>
 
 
-            <div class="form-group">
-              <label class="col-form-label">Meta Description</label>
-              <textarea name="meta_description_en" id="meta_description_en" class="form-control  @error('title') is-invalid @enderror" placeholder="Meta description">{{ $product->meta_description_en ?? old('meta_description_en') }}</textarea>
-              @error('meta_description_en')
-              <span class="text-danger" product="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-              @enderror
-            </div>
 
 
-            <div class="form-row">
+            <div class="form-row  mt-3">
 
               <div class="form-group col-md-6">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="featured" name="featured" @isset($product->id)
-                  {{ $product->featured == 1 ? 'selected' : '' }}
+                  <input type="checkbox" class="custom-control-input   " id="featured" name="featured" @isset($product->id)
+                  {{ $product->featured == 1 ? 'checked' : '' }}
                   @endisset>
                   <label class="custom-control-label" for="featured">Featured</label>
                 </div>
@@ -307,15 +310,23 @@
 
 
 
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($product->id)
-              {{ $product->status == 1 ? 'checked' : '' }}
-              @endisset
-              >
+            <div class="custom-control custom-switch  mt-3">
+           
               <label class="custom-control-label" for="status">Status</label>
+
+              <select name="status" id="cars" class="form-control">
+                <option value="">Select Status</option>
+                <option value="1"  {{ $product->status == 1 ? 'selected' : '' }}>Active</option>
+                <option value="0" {{ $product->status == 0 ? 'selected' : '' }}>Draft</option>
+                </select>
+
+
             </div>
+
+
+            
             <div class="float-right">
-              <div class="btn-group">
+              <div class="btn-group mt-3">
                 @if (isset($product->id))
                 <button type="submit" class="btn btn-primary px-2 submit" data-toggle="tooltip" title="Update those data &#128190;">Update</button>
                 @else
@@ -354,19 +365,28 @@
 
   tinymce.init({
         selector: "#long_description_en",
-        plugins: "a11ychecker advcode advlist advtable anchor autocorrect autolink autoresize autosave casechange charmap checklist code codesample directionality editimage emoticons export footnotes formatpainter fullscreen help image importcss inlinecss insertdatetime link linkchecker lists media mediaembed mentions mergetags nonbreaking pagebreak pageembed permanentpen powerpaste preview quickbars save searchreplace table tableofcontents template tinycomments tinydrive tinymcespellchecker typography visualblocks visualchars wordcount",
-        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media insertfile',
-        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader',
+        plugins: "   advlist  anchor  autolink autoresize   charmap  code codesample directionality  emoticons    help image importcss  insertdatetime link  lists media    nonbreaking pagebreak   preview quickbars save searchreplace table   tinydrive   visualblocks visualchars wordcount",
+        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media   forecolor backcolor ',
+        toolbar2: 'table tablecellprops tablecopyrow tablecutrow tabledelete tabledeletecol tabledeleterow tableinsertdialog tableinsertcolafter tableinsertcolbefore tableinsertrowafter tableinsertrowbefore tablemergecells tablepasterowafter tablepasterowbefore tableprops tablerowprops tablesplitcells tableclass tablecellclass tablecellvalign tablecellborderwidth tablecellborderstyle tablecaption tablecellbackgroundcolor tablecellbordercolor tablerowheader tablecolheader myCustomButton ',
+        convert_urls: false,
+        valid_elements : '*[*]',
+        cleanup: false,
+        allow_script_urls:true,
+        init_instance_callback: function (editor) {
+            editor.on("OpenWindow", function(e) {
+                const uploadBtns = document.querySelectorAll(".tox-dialog__body-nav-item.tox-tab")
+                if(uploadBtns.length === 2) {
+                    uploadBtns[1].style.display = "none";
 
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'rmartel',
-        tinycomments_author_name: 'Rosalina Martel',
+                }
+            })
+        },
         file_picker_callback: function(callback, value, meta) {
             let x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
             let y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
 
             let type = 'image' === meta.filetype ? 'Images' : 'Files',
-                url = '/laravel-filemanager?editor=tinymce5&type=' + type;
+                url = '/filemanager?editor=tinymce5&type=' + type;
 
             tinymce.activeEditor.windowManager.openUrl({
                 url: url,

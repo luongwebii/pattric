@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-All categories
+PoT - Menus
 @endsection
 @push('css')
 <style>
@@ -70,7 +70,7 @@ All categories
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group">
-                              <label>Link</label>
+                              <label>Link (category: /id/category, page: /id/page)</label>
                               <input type="text" name="url" class="form-control"  id="url">   
                            </div>
                         </div>

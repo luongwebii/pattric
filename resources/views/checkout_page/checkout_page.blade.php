@@ -16,7 +16,7 @@
                         <label class="info-title" for="shippingName">First Name<span>*</span></label>
                         <input type="text" class="form-control unicase-form-control text-input"
                             id="first_name" placeholder="Enter your First Name here"
-                            name="first_name" value="{{ Auth::user()->first_name }}">
+                            name="first_name" value="@if(auth()->check()){{ Auth::user()->first_name }} @endif">
                             @error('first_name')
                                 <span class="alert text-danger">{{ $message }}</span>
                             @enderror
@@ -25,7 +25,7 @@
                         <label class="info-title" for="shippingName">Last Name<span>*</span></label>
                         <input type="text" class="form-control unicase-form-control text-input"
                             id="last_name" placeholder="Enter your Last Name here"
-                            name="last_name" value="{{ Auth::user()->last_name }}">
+                            name="last_name" value="{{ Auth::user()->last_name ?? ''}}">
                             @error('last_name')
                                 <span class="alert text-danger">{{ $message }}</span>
                             @enderror
@@ -34,7 +34,7 @@
                         <label class="info-title" for="shippingPhone">Phone<span>*</span></label>
                         <input type="phone" class="form-control unicase-form-control text-input"
                             id="phone" placeholder="Enter your phone number"
-                            name="phone" value="{{ Auth::user()->phone }}">
+                            name="phone" value="{{ Auth::user()->phone ?? ''}}">
                             @error('phone')
                                 <span class="alert text-danger">{{ $message }}</span>
                             @enderror
@@ -44,7 +44,7 @@
                             <span>*</span></label>
                         <input type="email" class="form-control unicase-form-control text-input"
                             id="email" placeholder="Enter your email here"
-                            name="email" value="{{ Auth::user()->email }}">
+                            name="email" value="{{ Auth::user()->email ?? '' }}">
                             @error('email')
                                 <span class="alert text-danger">{{ $message }}</span>
                             @enderror
@@ -76,7 +76,7 @@
                                                 <label class="info-title" for="shippingEmail">Company Name <span>*</span></label>
                                                 <input type="text" class="form-control unicase-form-control text-input"
                                                     id="shipping_company_name" placeholder="Enter your email here"
-                                                    name="shipping_company_name" value="{{ $userProfile->shipping_company_name }}">
+                                                    name="shipping_company_name" value="{{ $userProfile->shipping_company_name ?? ''}}">
                                                     @error('shipping_company_name')
                                                         <span class="alert text-danger">{{ $message }}</span>
                                                     @enderror

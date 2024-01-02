@@ -57,9 +57,7 @@ $(function() {
         source: "{{ route('admin.pages.auto') }}",
         select: function( event, ui ) {
             event.preventDefault();
-            $('#product-name').html(ui.item.value);
-            $('#productId').val(ui.item.id);
-            $("#autocomplete-input").val(ui.item.value);
+           // window.location = ui.item.url
         }
     });
 });

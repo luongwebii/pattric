@@ -1,6 +1,6 @@
 @extends('layouts/contentNavbarLayout')
 @section('title')
-Product details
+SPoT – Products
 @endsection
 @push('css')
 
@@ -65,15 +65,13 @@ Product details
     <div class="card">
       <div class="card-body">
 
-        <p style="font-size:18px">Product Code <span class="badge badge-primary" style="font-size:13px">{{ $product->product_code }}</span></p>
+        <p style="font-size:18px">Product Name <span class="badge badge-primary" style="font-size:13px">{{ $product->product_name_en }}</span></p>
 
-        <p style="font-size:18px">Price <span style="font-size:13px">{{ $product->price_en }} Taka</span></p>
+        <p style="font-size:18px">Price <span style="font-size:13px">{{ $product->price }} Taka</span></p>
       
         <hr>
-        <p style="font-size:18px">Size Available <span style="font-size:13px">{{ $product->size }}</span></p>
-        <hr>
-        <p style="font-size:18px">Color <span style="font-size:13px">{{ $product->product_color_en }}</span></p>
-     
+        <p style="font-size:18px">Qty <span style="font-size:13px">{{ $product->product_qty }}</span></p>
+
         <hr>
         <p style="font-size:18px">Category <span class="badge badge-info" style="font-size:13px">{{ $product->category->category_name_en }}</span></p>
        

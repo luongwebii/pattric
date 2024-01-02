@@ -79,12 +79,18 @@
     <div class="col-xl-6 col-lg-5 col-md-12 col-sm-12">
 	<div class="product-deatils-box">
 	<div class="product-img-box">
-	<img src="{!! url($product->image) !!}" alt="swivelWheels-img" class="img-fluid">
+	<img src="{!! url($product->image ? $product->image : 'assets/img/no-image.jpg') !!}" alt="swivelWheels-img" class="img-fluid">
 	</div>
 	<div class="product-text-box">
 	<h4>{{ $product->product_name_en}}</h4>
 	<div class="product-price-box">
-	<h6>price: ${{ $product->price}}</h6>
+    @if(empty($product->sale_price))
+    <h6>price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+    @else
+    <h6 class="text-deco">price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+    <h6 class="text-top">price: ${{ Helper::format_numbers_2($product->sale_price)}}</h6>
+    @endif
+
 	</div>
 	</div>
 	</div>
@@ -162,8 +168,8 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     })
-    var offset = 1; // Initial offset 
-    var limit = 1; // Number of products to load per request 
+    var offset = 25; // Initial offset 
+    var limit = 25; // Number of products to load per request 
 
     $(document).ready(function () {
 

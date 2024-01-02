@@ -75,7 +75,7 @@
                         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
                             <div class="product-deatils-box">
                                 <div class="product-img-box">
-                                    <img src="{!! url($product->image) !!}" alt="swivelwheels-img-new">
+                                    <img src="{!! url($product->image ? $product->image : 'assets/img/no-image.jpg') !!}" alt="swivelwheels-img-new">
 
                                     <span onclick="openModal();currentSlide(1)" class="hover-shadow cursor"></span>
                                 </div>
@@ -84,7 +84,12 @@
                                     <h6>{!! html_entity_decode($product->short_description_en) !!} 
                                     </h6>
                                     <div class="product-price-box">
-                                        <h6>price: ${{ $product->price}}</h6>
+                                    @if(empty($product->sale_price))
+                                    <h6>price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+                                    @else
+                                    <h6 class="text-deco">price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+                                    <h6 class="text-top">price: ${{ Helper::format_numbers_2($product->sale_price)}}</h6>
+                                    @endif
                                         <div class="product-availability-box">
                                             <span>in stock</span>
                                         </div>

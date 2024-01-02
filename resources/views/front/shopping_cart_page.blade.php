@@ -194,7 +194,7 @@
                                                         <div class="form-group">
                                                             <label for="fname">First name<span>*</span></label>
                                                             <input type="text" class="form-control" id="fname"
-                                                                value="{{ Auth::user()->first_name }}"
+                                                                value="{{ Auth::user()->first_name ?? ''}}"
                                                                 placeholder="Enter First Name" name="first_name">
                                                             <span class="alert text-danger"
                                                                 id="first_name_error"></span>
@@ -207,7 +207,7 @@
                                                             <label for="lname">Last name<span>*</span></label>
                                                             <input type="text" class="form-control" id="lname"
                                                                 placeholder="Enter Last Name"
-                                                                value="{{ Auth::user()->last_name }}" name="last_name">
+                                                                value="{{ Auth::user()->last_name  ?? ''}}" name="last_name">
                                                             <span class="alert text-danger" id="last_name_error"></span>
 
                                                         </div>
@@ -217,7 +217,7 @@
                                                         <div class="form-group">
                                                             <label for="email">e-mail<span>*</span></label>
                                                             <input type="email" class="form-control"
-                                                                value="{{ Auth::user()->email }}"
+                                                                value="{{ Auth::user()->email  ?? ''}}"
                                                                 placeholder="Enter Email Address" name="email">
                                                             <span class="alert text-danger" id="email_error"></span>
                                                         </div>
@@ -227,7 +227,7 @@
                                                         <div class="form-group">
                                                             <label for="phone">Phone</label>
                                                             <input type="text" class="form-control" id="phone"
-                                                                value="{{ Auth::user()->phone }}"
+                                                                value="{{ Auth::user()->phone  ?? ''}}"
                                                                 placeholder="Enter Phone Number" name="phone">
                                                             <span class="alert text-danger" id="phone_error"></span>
                                                         </div>
@@ -236,9 +236,9 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="address">address<span>*</span></label>
-                                                            <input type="text" class="form-control" id="address"
-                                                                value="{{ $userProfile->billing_address }}"
-                                                                placeholder="" name="address">
+                                                            <input type="text" id="billing_address" class="form-control" id="address"
+                                                                value="{{ $userProfile->billing_address  ?? ''}}"
+                                                                placeholder="" name="billing_address">
                                                             <span class="alert text-danger"
                                                                 id="billing_address_error"></span>
                                                         </div>
@@ -248,8 +248,8 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="address-1">&nbsp;</label>
-                                                            <input type="text" class="form-control" id="address-1"
-                                                                placeholder="" value="{{ $userProfile->billing_suite }}"
+                                                            <input type="text" id="billing_suite" class="form-control" id="address-1"
+                                                                placeholder="" value="{{ $userProfile->billing_suite  ?? ''}}"
                                                                 name="billing_suite">
                                                             <span class="alert text-danger"
                                                                 id="billing_suite_error"></span>
@@ -260,9 +260,9 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="city-name">city<span>*</span></label>
-                                                            <input type="text" class="form-control" id="city-name"
+                                                            <input type="text" class="form-control" id="billing_city"
                                                                 placeholder="Enter City Name"
-                                                                value="{{ $userProfile->billing_city }}"
+                                                                value="{{ $userProfile->billing_city  ?? ''}}"
                                                                 name="billing_city">
                                                             <span class="alert text-danger"
                                                                 id="billing_city_error"></span>
@@ -273,7 +273,7 @@
                                                         <div class="form-group">
                                                             <label for="country-name">country<span>*</span></label>
                                                             <div class="select-dropdown">
-                                                                <select class="form-select"  name="billing_country"
+                                                                <select class="form-select"  id="billing_country" name="billing_country"
                                                                     aria-label="Default select example">
                                                                     <option selected="">United States</option>
                                                                     <option value="1">United States</option>
@@ -292,7 +292,7 @@
                                                             <label
                                                                 for="country-name">State/province<span>*</span></label>
                                                             <div class="select-dropdown">
-                                                                <select class="form-select" name="billing_state"
+                                                                <select class="form-select" id="billing_state" name="billing_state"
                                                                     aria-label="Default select example">
                                                                     <option selected="">Massachusetts</option>
                                                                     <option value="1">Massachusetts</option>
@@ -309,7 +309,7 @@
                                                     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
                                                         <div class="form-group form-check">
                                                             <input class="form-check-input" type="checkbox"
-                                                                name="remember" id="customSwitch1">
+                                                                name="create_account" id="customSwitch1">
                                                             <label class="form-check-label"
                                                                 for="customSwitch1"><span>Crete
                                                                     an account for later use</span></label>
@@ -321,9 +321,9 @@
 
                                                     <div class="col-xl-5 col-lg-5 col-md-6 col-sm-12">
                                                         <div class="form-group form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                name="remember" id="customSwitch2">
-                                                            <label class="form-check-label"
+                                                            <input class="form-check-input" type="checkbox" 
+                                                                name="ship_the_same" >
+                                                            <label class="form-check-label" id="thesamship"
                                                                 for="customSwitch2"><span>ship
                                                                     to the same address</span></label>
                                                         </div>
@@ -340,7 +340,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <button class="btn btn-link" type='button' data-toggle="collapse" data-target="#collapseThree">
+                                <button class="btn btn-link" type='button' data-toggle="collapse" id="ship-collapse" data-target="#collapseThree">
                                     <i class="fa fa-plus"></i> <span>3.Shipping Information</span>
                                 </button>
                             </div>
@@ -402,7 +402,7 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="address">address<span>*</span></label>
-                                                            <input type="text" class="form-control" placeholder=""
+                                                            <input id="shipping_street" type="text" class="form-control" placeholder=""
                                                                 value="{{ $userProfile->shipping_street }}"
                                                                 name="shipping_street">
                                                             <span class="alert text-danger"
@@ -415,7 +415,7 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="address-1">&nbsp;</label>
-                                                            <input type="text" class="form-control" id="address-1"
+                                                            <input type="text" id="shipping_suite" class="form-control" id="address-1"
                                                                 placeholder=""
                                                                 value="{{ $userProfile->shipping_suite }}"
                                                                 name="shipping_suite">
@@ -427,7 +427,7 @@
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12">
                                                         <div class="form-group">
                                                             <label for="city-name">city<span>*</span></label>
-                                                            <input type="text" class="form-control" id="city-name"
+                                                            <input type="text" id="shipping_city" class="form-control" id="city-name"
                                                                 placeholder="Enter City Name"
                                                                 value="{{ $userProfile->shipping_city }}"
                                                                 name="shipping_city">
@@ -440,7 +440,7 @@
                                                         <div class="form-group">
                                                             <label for="country-name">country<span>*</span></label>
                                                             <div class="select-dropdown">
-                                                                <select class="form-select"
+                                                                <select class="form-select" id="shipping_country"
                                                                     aria-label="Default select example"
                                                                     name="shipping_country">
                                                                     <option selected="">United States</option>
@@ -459,7 +459,7 @@
                                                             <label
                                                                 for="country-name">State/province<span>*</span></label>
                                                             <div class="select-dropdown">
-                                                                <select class="form-select"
+                                                                <select class="form-select" id="shipping_state"
                                                                     aria-label="Default select example"
                                                                     name="shipping_state">
                                                                     <option selected="">Massachusetts</option>
@@ -479,7 +479,7 @@
                                             <div class="row">
                                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
 
-                                                    <button type="submit" class="btn primary-btn">
+                                                    <button type="button" class="btn primary-btn save-address">
                                                         Save Address
                                                     </button>
 
@@ -515,9 +515,9 @@
                                                     <div class="pay-card">
                                                         <p>PAY WITH</p>
                                                         <ul>
-                                                            <li><img src="img/visa-icon.svg" alt="visa-icon"></li>
-                                                            <li><img src="img/maestro-icon.svg" alt="maestro-icon"></li>
-                                                            <li><img src="img/discover-icon.svg" alt="discover-icon">
+                                                            <li><img src="{!! url('assets/img/visa-icon.svg') !!}" alt="visa-icon"></li>
+                                                            <li><img src="{!! url('assets/img/maestro-icon.svg') !!}" alt="maestro-icon"></li>
+                                                            <li><img src="{!! url('assets/img/discover-icon.svg') !!}" alt="discover-icon">
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -549,39 +549,18 @@
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-6">
                                                             <div class="form-group">
                                                                 <label for="expiration-name">expiration date</label>
-                                                                <div class="select-dropdown">
-                                                                    <select class="form-select"
-                                                                        aria-label="Default select example"
-                                                                        name="card_month">
-                                                                        <option selected="">MM</option>
-                                                                        <option value="1">MM</option>
-                                                                        <option value="2">MM</option>
-                                                                        <option value="3">MM</option>
-                                                                    </select>
-                                                                </div>
-
+                                                                <input type="text" class="form-control" id="name-card_month" placeholder="Enter Month" name="card_month">
+                                                                <span class="alert text-danger"
+                                                                id="card_month_error"></span>                                   
                                                             </div>
-                                                            <span class="alert text-danger"
-                                                                id="card_month_error"></span>
+                                                           
                                                         </div>
 
 
                                                         <div class="col-xl-6 col-lg-6 col-md-6 col-6">
                                                             <div class="form-group">
                                                                 <label for="country-name">&nbsp;</label>
-                                                                <div class="select-dropdown">
-
-                                                                    <div class="select-dropdown">
-                                                                        <select class="form-select"
-                                                                            aria-label="Default select example"
-                                                                            name="card_year">
-                                                                            <option selected="">YYYY</option>
-                                                                            <option value="1">YYYY</option>
-                                                                            <option value="2">YYYY</option>
-                                                                            <option value="3">YYYY</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
+                                                                <input type="text" class="form-control" id="name-card_year" placeholder="Enter Year" name="card_year">
                                                                 <span class="alert text-danger"
                                                                     id="card_year_error"></span>
                                                             </div>
@@ -643,7 +622,32 @@
 
     $(document).ready(function () {
 
+        
+        $('.save-address').click(function (e) {
+            e.preventDefault();
+            var data = $(".shipping-form").serialize();
 
+            console.log(data);
+        });
+
+        
+        $('#thesamship').on('click', function() {
+            var flag = $(this).closest('.form-group').find('[type=checkbox]').is(':checked');
+            console.log(flag);
+            if(!flag) {
+                $('#shipping_street').val($('#billing_address').val());
+                $('#shipping_suite').val($('#billing_suite').val());
+                $('#shipping_city').val($('#billing_city').val());
+                $('#shipping_country').val($('#billing_country').val());
+                $('#shipping_state').val($('#billing_state').val());
+                $(this).closest('.form-group').find('[type=checkbox]').prop('checked', true);
+                $('#ship-collapse').trigger('click');
+            } else {
+                $(this).closest('.form-group').find('[type=checkbox]').prop('checked', false);
+            }
+           
+        });
+        
         $('.save-form').click(function (e) {
             e.preventDefault();
             var data = $(".shipping-form").serialize();
@@ -681,10 +685,25 @@
                     if( reject.status === 422 ) {
                         var errors = $.parseJSON(reject.responseText);
                         console.log(errors.errors);
+                        var errorString = '<ul>';
                         $.each(errors.errors, function (key, val) {
                             
                             $("#" + key + "_error").text(val[0]);
+                            errorString += '<li>' + val + '</li>';
                         });
+                        errorString += '</ul>';
+                        const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 3000
+                        });
+                        Toast.fire({
+                                type:'success',
+                                title: errorString,
+                            });
+                    
                     }
                 }
 

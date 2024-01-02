@@ -19,3 +19,20 @@
 	  
   </div>
 </footer>
+<style>
+
+
+    .text-top{margin-top:0px !important}
+    .text-deco {
+    position: relative;
+}
+
+.text-deco:before {
+    border-bottom: 3px solid red;
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 50%;
+}
+
+</style>

@@ -87,11 +87,9 @@ Multi Image update
           <input type="hidden" name="id" value="{{$id}}">
           <div class="form-body">
             <div class="form-group">
-              <div class="image-upload-wrap">
-                <input class="file-upload-input" type='file' id="files" name="multi_img[]" multiple accept="image/*" required/>
-                <div class="drag-text">
-                  <h3>Product Multiple Image</h3>
-                </div>
+              <div class="image-upload-wrapq">
+                <input class="file-upload-input dropify" type='file' id="files" name="multi_img[]" multiple accept="image/*" required/>
+                
               </div>
             </div>
             <div class="float-right">
