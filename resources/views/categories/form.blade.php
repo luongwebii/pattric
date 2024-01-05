@@ -82,17 +82,24 @@
 
           <div class="form-group">
               <label class="col-form-label">Select Parent Category</label>
-
+                @php
+                $parent_id = old('parent_id');
+                if(isset($category->id)) {
+                    $parent_id = $category->parent_id;
+                }
+           
+                
+                @endphp
               <select class="form-control single-select" name="parent_id">
 
               <option value="">Select a Category</option>
 
                 @foreach ($categoryData as $categoryList)
                     @if (empty($categoryList->parent_id))
-                    <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('parent_id') ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
+                    <option value="{{ $categoryList->id }}" {{ $categoryList->id == $parent_id ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
                     @if ($categoryList->children)
                         @foreach ($categoryList->children as $child)
-                            <option value="{{ $child->id }}" {{ $child->id === old('parent_id') ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
+                            <option value="{{ $child->id }}" {{ $child->id == $parent_id ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
                         @endforeach
                     @endif
                     @endif
@@ -114,14 +121,24 @@
               </span>
               @enderror
             </div>
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($category->id)
-              {{ $category->status == 1 ? 'checked' : '' }}
-              @endisset
-              >
-              <label class="custom-control-label" for="status">Status</label>
+   
+            <div class="custom-control custom-switch mt-2">
+       
+            <label class="form-label" for="status">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Select Status</option>
+                    <option value="1" @isset($category->id)
+            {{ $category->status == 1 ? 'selected' : '' }}
+            @endisset>Active</option>
+                    <option value="0" @isset($category->id)
+            {{ $category->status == 0 ? 'selected' : '' }}
+            @endisset>Draft</option>
+
+                </select>
+
             </div>
-            <div class="float-right">
+
+            <div class="float-right mt-3">
               <div class="btn-group">
                 @if (isset($category->id))
                 <button type="submit" class="btn btn-primary px-2 submit" >Update</button>

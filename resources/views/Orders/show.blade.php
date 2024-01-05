@@ -69,7 +69,7 @@ SPoT – Orders
                 <div class="box box-bordered border-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Order Details</h3>
-                        <span class="text-danger"> Invoice : {{ $order->invoice_number }}</span>
+                     
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">

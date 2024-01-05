@@ -40,7 +40,7 @@ SPoT – Categories
       <table id="example" class="table table-striped table-bordered text-center table-hover">
         <thead>
           <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Image</th>
             <th>Name</th>
             <th>Parent Category</th>
@@ -51,7 +51,7 @@ SPoT – Categories
         <tbody>
           @foreach ($categories as $key => $category)
           <tr>
-            <td>{{ $key + 1 }}</td>
+            <td>{{ $category->id }}</td>
             <td class="text-center">
               <div class="product-img bg-transparent ">
                 <img @if (file_exists($category->image)) src="/{{ $category->image }}"

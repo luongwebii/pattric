@@ -26,7 +26,7 @@ class HomeController extends Controller
             $page = new Page();
         }
        
-       
+        $body = $this->display_product($page->body);
         $categories =  Category::whereHas('products', function($query) {
             $query->where('featured', 1);
          })->get();
@@ -36,6 +36,51 @@ class HomeController extends Controller
        return view('home.index', [
         'products'=> $products, 
         'page'=> $page, 
+        'body'=> $body, 
        ]);
+    }
+
+    public function get_product($id) {
+        $product = Product::find($id);
+        $contentget = '
+        <form class="form-inline">
+         
+          <div class="form-check form-check-inline product-qty-box">
+            <label id="product-name">'.$product->product_name_en.':&nbsp;</label>
+            <span>qty.</span>
+            <div class="form-group qty-input">
+                <input type="hidden" name="productId" id="productId" value="'.$id.'"/>
+                <input type="text" id="qty" name="qty" value="1" class="form-control">
+            </div>
+            <a href="javascript:void(0);"  onclick="addToCart(this)" class="primary-btn ccc">Add to cart</a>
+           
+          </div>
+        </form>';
+      
+        return  $contentget;
+    }
+    
+    public function display_product($text) {
+        $feature = '';
+        $products = Product::where('featured', 1)->get();
+
+        foreach ($products as $product){ 
+            $url = route('category.front.list', $product->category_id);
+            $image =  url($product->image ? $product->image : 'assets/img/no-image.jpg');
+            $feature .= '<div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">';
+            $feature .= '<div class="page-featured-product-box">';
+            $feature .= '    <a href="'.$url.'"></a>';
+            $feature .= '    <div class="page-featured-product-img">';
+            $feature .= '        <img src="'.$image.'" alt="sub-category-1"';
+            $feature .= '            class="img-fluid">';
+            $feature .= '    </div>';
+            $feature .= '    <h5>'.$product->product_name_en.'</h5>';
+            $feature .= ' </div>';
+            $feature .= '</div>';
+
+    }
+
+        $body = str_replace("[Featured Products]", $feature, $text);
+       return $body;
     }
 }

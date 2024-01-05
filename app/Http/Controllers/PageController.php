@@ -30,7 +30,9 @@ class PageController extends Controller
     public function auto(Request $request)
     {
         $keyword = $request->input('term');
-        $products = Product::select('product_name_en', 'id')->where('product_name_en', 'LIKE', "%$keyword%")->get();
+        $products = Product::select('product_name_en', 'id')
+            ->where('status', '=', 1)
+            ->where('product_name_en', 'LIKE', "%$keyword%")->get();
         $result = [];
         foreach( $products as  $product){
             $data = [];
@@ -45,6 +47,7 @@ class PageController extends Controller
     {
         $keyword = $request->input('term');
         $products = ProductGroup::select('product_group_name', 'id')->
+            where('status', '=', 1)->
             where('product_group_name', 'LIKE', "%$keyword%")->
             get();
 
@@ -116,7 +119,7 @@ class PageController extends Controller
             'body'              => $request->body,
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
-            'status'            => $request->filled('status'),
+            'status'            => $request->status,
             'is_home'            => $request->filled('is_home'),
         ]);
         $file = $request->hasFile('image');
@@ -153,7 +156,7 @@ class PageController extends Controller
             'body'              => $request->body,
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
-            'status'            => $request->filled('status'),
+            'status'            => $request->status,
             'is_home'            => $request->filled('is_home'),
         ]);
         // upload images

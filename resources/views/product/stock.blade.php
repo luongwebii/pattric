@@ -19,6 +19,9 @@ Product stock update
 </div>
 
 <div class="row">
+<div class="mt-2">
+            @include('_partials.messages')
+        </div>
   <div class="col-12 col-lg-12">
     <div class="card radius-15 border-lg-top-info">
       <div class="card-header border-bottom-0">
@@ -38,10 +41,16 @@ Product stock update
             @csrf
           <input type="hidden" name="id" value="{{$product->id}}">
           <div class="form-body">
+
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="col-form-label"> {{$product->product_name_en}}</label>
+                </div>
+        </div>
             <div class="form-row">
-              <div class="form-group col-md-12">
+              <div class="form-group col-md-6">
                 <label class="col-form-label">Quantity <span class="text-danger">*</span></label>
-                <input type="text" class="form-control  @error('product_qty_en') is-invalid @enderror" name="product_qty" value="{{ $product->product_qty  }}" placeholder="Product quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="5" required>
+                <input type="text" class="form-control  @error('product_qty') is-invalid @enderror" name="product_qty" value="{{ $product->product_qty  }}" placeholder="Product quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="5" required>
                 @error('product_qty')
                 <span class="text-danger" product="alert">
                   <strong>{{ $message }}</strong>
@@ -50,7 +59,7 @@ Product stock update
               </div>
 
             </div>
-            <div class="float-right">
+            <div class="mt-2">
               <div class="btn-group">
                 @if (isset($product->id))
                 <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;"><i class="bx bx-task"></i> Update</button>

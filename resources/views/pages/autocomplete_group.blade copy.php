@@ -116,6 +116,35 @@ var groupId;
                     event.preventDefault();
                     groupId = ui.item.id;
                     $('#product-group').html(ui.item.value);
+                    var optionHtml = "";
+                    for (score of ui.item.products) {
+                        var drawing = (score.drawing === null) ? "" : score.drawing ;
+                        var url = '';
+                        if(drawing != ""){
+                            url = `<a href="${drawing}" target="_blank">Visit Link</a>`;
+                        }
+                        optionHtml += "<tr>";
+                        optionHtml += `
+                            <td>${score.model}</td>
+                            <td>${score.price}</td>
+                            <td>
+                                <div class="form-group qty-input">
+                                <input type="hidden" name="productIds[]" value="${score.id}" id="productId"/>
+                                    <input type="text" class="form-control	" name="qtys[]" value="1" placeholder="0" id="qty">
+                                </div>
+                            </td>
+                            <td class="dra-link">${url}</td>
+                            <td>${(score.orient === null) ? "" : score.orient}</td>
+                            <td>${(score.area_sm === null) ? "" : score.area_sm}</td>
+                            <td>${(score.bottom_butter === null) ? "" : score.bottom_butter}</td>
+                            <td>${(score.racking_butter === null) ? "" : score.racking_butter}</td>
+
+                               `;
+                               optionHtml += "</tr>";
+                    }
+                  
+                    //console.log(optionHtml);
+                    $('.group-content').html(optionHtml);
                     $("#autocomplete-input").val(ui.item.value);
 
                 }
@@ -137,7 +166,7 @@ var groupId;
         }
         function insertContent() {
             // Retrieve the content to be inserted
-            var content =  `[GROUP ID=${groupId}]`;//$('#form-template').html();
+            var content = $('#form-template').html();
 
             window.parent.postMessage({
                 mceAction: 'insertContent',

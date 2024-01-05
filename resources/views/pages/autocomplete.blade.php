@@ -35,6 +35,7 @@
 </div>
 
 <div class="d-none product-cart-box" id="form-template">
+<div>&nbsp;</div>
 <form class="form-inline">
  
   <div class="form-check form-check-inline product-qty-box">
@@ -48,16 +49,20 @@
    
   </div>
 </form>
-
+<div>&nbsp;</div>
+<br>
 </div>
 <script>
-
+var productId;
 $(function() {
     $("#autocomplete-input").autocomplete({
         source: "{{ route('admin.pages.auto') }}",
         select: function( event, ui ) {
             event.preventDefault();
            // window.location = ui.item.url
+           console.log(ui.item);
+           productId = ui.item.id;
+           $(this).val( ui.item.value)
         }
     });
 });
@@ -77,7 +82,7 @@ $(function() {
 }
 function insertContent() {
   // Retrieve the content to be inserted
-  var content = $('#form-template').html();
+  var content = `[PRODUCT ID=${productId}]`;// $('#form-template').html();
 
   window.parent.postMessage({
   mceAction: 'insertContent',

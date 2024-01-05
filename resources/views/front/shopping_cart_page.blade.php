@@ -275,10 +275,10 @@
                                                             <div class="select-dropdown">
                                                                 <select class="form-select"  id="billing_country" name="billing_country"
                                                                     aria-label="Default select example">
-                                                                    <option selected="">United States</option>
-                                                                    <option value="1">United States</option>
-                                                                    <option value="2">United States</option>
-                                                                    <option value="3">United States</option>
+                                                                    <option selected="">Select Country</option>
+                                                                    <option value="US">United States</option>
+                                                                    <option value="CA">Canada</option>
+                                                                    <option value="MX">Mexico</option>
                                                                 </select>
                                                             </div>
                                                             <span class="alert text-danger"
@@ -443,10 +443,10 @@
                                                                 <select class="form-select" id="shipping_country"
                                                                     aria-label="Default select example"
                                                                     name="shipping_country">
-                                                                    <option selected="">United States</option>
-                                                                    <option value="1">United States</option>
-                                                                    <option value="2">United States</option>
-                                                                    <option value="3">United States</option>
+                                                                    <option selected="">Select Country</option>
+                                                                    <option value="US">United States</option>
+                                                                    <option value="CA">Canada</option>
+                                                                    <option value="MX">Mexico</option>
                                                                 </select>
                                                             </div>
                                                             <span class="alert text-danger"
@@ -623,6 +623,42 @@
     $(document).ready(function () {
 
         
+
+        $('#billing_country').on('change', function(e) {
+             var country = this.value ;
+            e.preventDefault();
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                data: 'country='+ country,
+                url: "{{ route('get.state') }}",
+                success: function (data) {
+                    if(data.result == 'OK') {
+                        $('#billing_state').empty().append(data.txt);
+                    }
+                }
+            });
+          
+        });
+
+        $('#shipping_country').on('change', function(e) {
+             var country = this.value ;
+            e.preventDefault();
+            $.ajax({
+                type: 'get',
+                dataType: 'json',
+                data: 'country='+ country,
+                url: "{{ route('get.state') }}",
+                success: function (data) {
+                    if(data.result == 'OK') {
+                        $('#shipping_state').empty().append(data.txt);
+                    }
+                }
+            });
+          
+        });
+
+
         $('.save-address').click(function (e) {
             e.preventDefault();
             var data = $(".shipping-form").serialize();
@@ -642,6 +678,18 @@
                 $('#shipping_state').val($('#billing_state').val());
                 $(this).closest('.form-group').find('[type=checkbox]').prop('checked', true);
                 $('#ship-collapse').trigger('click');
+                
+              
+                var conceptName = $('#billing_country').find(":selected").val();
+                var state = $('#billing_state').find(":selected").val();
+                $('#shipping_country').val(conceptName);
+
+                var $options2 = $("#billing_state > option").clone();
+
+                $('#shipping_state').empty().append($options2);
+                $('#shipping_state').val(state);
+
+
             } else {
                 $(this).closest('.form-group').find('[type=checkbox]').prop('checked', false);
             }

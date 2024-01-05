@@ -32,7 +32,7 @@ SPoT – Pages
       <table id="example" class="table table-striped table-bordered text-center table-hover">
         <thead>
           <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Image</th>
             <th>Title</th>
             <th>Is Home</th>
@@ -44,7 +44,7 @@ SPoT – Pages
         <tbody>
           @foreach ($pages as $key => $page)
           <tr>
-            <td>{{ $key + 1 }}</td>
+            <td>{{ $page->id }}</td>
             <td>
               <div class="media align-items-center">
                 <img @if (file_exists($page->image)) src="/{{ $page->image }}"
@@ -72,7 +72,7 @@ SPoT – Pages
               <span class="badge badge-danger" data-toggle="tooltip" title="Page status is false &#128078">Draft</span>
               @endif
             </td>
-            <td>{{ $page->created_at->diffForHumans() }}</td>
+            <td>{{ $page->updated_at->diffForHumans() }}</td>
             <td>
             
               <a class="btn btn-sm btn-success" href="{{ route('admin.pages.editPage', $page->id) }}" data-toggle="tooltip" title="Edit &#128221"><i class="fadeIn animated bx bx-edit"></i>

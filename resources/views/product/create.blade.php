@@ -56,7 +56,7 @@ SPoT – Products
                  
 
                   @foreach ($categoryData as $categoryList)
-                  @if (!empty($categoryList->parent_id))
+                  @if (empty($categoryList->parent_id))
                     <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('parent_id') ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
                     @if ($categoryList->children)
                         @foreach ($categoryList->children as $child)
@@ -139,7 +139,8 @@ SPoT – Products
             <div class="form-row">
               <div class="form-group col-md-12">
                 <label class="col-form-label">Drawing</label>
-                <input type="text" class="form-control  @error('drawing') is-invalid @enderror" name="drawing" value="{{ $product->drawing ?? old('drawing') }}" placeholder="Drawing" >
+                <textarea name="drawing" id="drawing" class="form-control  @error('drawing') is-invalid @enderror" placeholder="">{{ $product->drawing ?? old('drawing') }}</textarea>
+              
                 @error('drawing')
                 <span class="text-danger" product="alert">
                   <strong>{{ $message }}</strong>
@@ -157,24 +158,8 @@ SPoT – Products
               </span>
               @enderror
             </div>
-            <div class="form-group">
-              <label class="col-form-label">Orient</label>
-              <input type="text" class="form-control  @error('orient') is-invalid @enderror" name="orient" value="{{ $product->orient ?? old('orient') }}" placeholder="Orient" >
-              @error('orient')
-              <span class="text-danger" product="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-              @enderror
-            </div>
-            <div class="form-group">
-              <label class="col-form-label">Orient</label>
-              <input type="text" class="form-control  @error('orient') is-invalid @enderror" name="orient" value="{{ $product->orient ?? old('orient') }}" placeholder="Orient" >
-              @error('orient')
-              <span class="text-danger" product="alert">
-                <strong>{{ $message }}</strong>
-              </span>
-              @enderror
-            </div>
+
+
             <div class="form-group">
               <label class="col-form-label">AreaSM</label>
               <input type="text" class="form-control  @error('area_sm') is-invalid @enderror" name="area_sm" value="{{ $product->area_sm ?? old('area_sm') }}" placeholder="AreaSM" >
@@ -360,6 +345,46 @@ SPoT – Products
       , 'error': 'Ooops, something wrong happended.'
     }
   });
+  
+
+  tinymce.init({
+        selector: "#drawing",
+        plugins: "   advlist    autolink    charmap  code  directionality       image   insertdatetime link  lists media    nonbreaking pagebreak    quickbars save  table   tinydrive   visualblocks visualchars ",
+        toolbar1: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | indent outdent | wordcount | image link imagetools media   forecolor backcolor ',
+     
+        convert_urls: false,
+        valid_elements : '*[*]',
+        cleanup: false,
+        allow_script_urls:true,
+        init_instance_callback: function (editor) {
+            editor.on("OpenWindow", function(e) {
+                const uploadBtns = document.querySelectorAll(".tox-dialog__body-nav-item.tox-tab")
+                if(uploadBtns.length === 2) {
+                    uploadBtns[1].style.display = "none";
+
+                }
+            })
+        },
+        file_picker_callback: function(callback, value, meta) {
+            let x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+            let y = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+
+            let type = 'image' === meta.filetype ? 'Images' : 'Files',
+                url = '/filemanager?editor=tinymce5&type=' + type;
+
+            tinymce.activeEditor.windowManager.openUrl({
+                url: url,
+                title: 'Filemanager',
+                width: x * 0.8,
+                height: y * 0.8,
+                onMessage: (api, message) => {
+                    callback(message.content);
+                }
+            });
+        }
+
+    });
+
 
   tinymce.init({
         selector: "#long_description_en",

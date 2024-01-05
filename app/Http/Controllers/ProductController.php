@@ -72,6 +72,10 @@ class ProductController extends Controller
                     if(!empty($row->image)) {
                         $path = '/'.  $row->image;
                     }
+                    $color = '';
+                    if($row->featured) {
+                        $color = 'color:red;';
+                    }
 
                     $btn = '<div class="media align-items-center mt-3">
                     <img  src="'.$path.'"
@@ -81,7 +85,7 @@ class ProductController extends Controller
                     height="45">
                     <div class="media-body" style="flex: 0.5;">
                       <p class="font-weight-bold mb-0">
-                      <a  href="'.$editUrl.'">'.$name.'</a></p>
+                      <a  href="'.$editUrl.'" style="'.$color.'">'.$name.'</a></p>
                     
                     </div>
                   </div>';
@@ -103,7 +107,7 @@ class ProductController extends Controller
                     $btn .= '<a class="btn btn-sm btn-success" href="' . $editUrl . '" data-toggle="tooltip" title="Edit &#128221"><i class="fadeIn animated bx bx-edit"></i></a> ';
                     $btn .= ' <a class="btn btn-sm btn-info" href="'.$mulUrl.'" data-toggle="tooltip" title="Multi image &#127910;"><i class="fadeIn animated bx bx-camera"></i></a> ';
                     $btn .= '<a class="btn btn-sm btn-primary" href="'.$stockUrl.'" data-toggle="tooltip" title="Stock &#128688"><i class="fadeIn animated bx bx-data"></i></a> ';
-                    $btn .= '<a class="btn btn-sm btn-secondary" href="'.$showUrl.'" data-toggle="tooltip" title="Show details &#128373"><i class="fadeIn animated bx bx-log-in-circle"></i></a> ';
+                  //  $btn .= '<a class="btn btn-sm btn-secondary" href="'.$showUrl.'" data-toggle="tooltip" title="Show details &#128373"><i class="fadeIn animated bx bx-log-in-circle"></i></a> ';
                     $btn .= '<a class="btn btn-sm btn-secondary" href="#" onclick="return deleteProduct('.$row->id.');"  data-toggle="tooltip" title="Show details &#128373"> <i class="fadeIn animated bx bx-trash"></i></a> ';
                     return $btn;
                 })
@@ -174,6 +178,7 @@ class ProductController extends Controller
             'model' => $request->model,
             'orient' => $request->orient,
             'area_sm' => $request->area_sm,
+            'man_way' => $request->man_way,
             'bottom_butter' => $request->bottom_butter,
             'racking_butter' => $request->racking_butter,
             'capacity' => $request->capacity,

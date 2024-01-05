@@ -90,7 +90,13 @@
     <h6 class="text-deco">price: ${{ Helper::format_numbers_2($product->price)}}</h6>
     <h6 class="text-top">price: ${{ Helper::format_numbers_2($product->sale_price)}}</h6>
     @endif
-
+    <div class="product-availability-box">
+                                        @if($product->product_qty > 0)
+                                            <span>in stock</span>
+                                        @else 
+                                        <span>out of stock</span>
+                                        @endif
+                                        </div>
 	</div>
 	</div>
 	</div>
@@ -103,7 +109,7 @@
     <input type="hidden" name="productId" value="{{ $product->id}}" />
     <input type="text" class="form-control" value="1" name="qty" placeholder="0" id="qty">
     </div>
-	<a href="javascript:void(0);"  onclick="addToCart(this)"  class="primary-btn" >Add to cart</a>
+	<a href="javascript:void(0);" @if($product->product_qty > 0) onclick="addToCart(this)" @endif  class="primary-btn" >Add to cart</a>
 	</div>
 	
 	</div>

@@ -39,7 +39,7 @@ class ProductGroupController extends Controller
         $groupProduct = ProductGroup::create([
             'product_group_name'      => $request->product_group_name,
             'description'      => $request->description,
-            'status'                => $request->filled('status'),
+            'status'                => $request->status,
         ]);
         $product_group_id =  $groupProduct->id;
       
@@ -116,7 +116,7 @@ class ProductGroupController extends Controller
         $groupProduct->update([
             'product_group_name'      => $request->product_group_name,
             'description'      => $request->description,
-            'status'             => $request->filled('status'),
+            'status'             => $request->status,
         ]);
         $file                    = $request->hasFile('image');
         if ($file) {

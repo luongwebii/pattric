@@ -133,7 +133,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/orders/cancel/index', [App\Http\Controllers\OrderController::class, 'cancelOrderIndex'])->name('cancel.orders');
     Route::get('/orders/return/index', [App\Http\Controllers\OrderController::class, 'returnOrderIndex'])->name('return.orders');
 
-    Route::get('/orders/status/update/{order_id}/{status}', [OrderController::class, 'orderStatusUpdate'])->name('order-status.update');
+    Route::get('/orders/status/update/{order_id}/{status}', [App\Http\Controllers\OrderController::class, 'orderStatusUpdate'])->name('order-status.update');
     // Download Invoice route - admin
     Route::get('/invoice-download/{order_id}', [App\Http\Controllers\OrderController::class, 'adminInvoiceDownload'])->name('admin-invoice-download');
 
@@ -142,6 +142,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::get('/menus-show', [App\Http\Controllers\MenuController::class,'show'])->name('menu.show');
     Route::post('/menus', [App\Http\Controllers\MenuController::class,'store'])->name('menus.store');
     Route::post('/menus-destroy', [App\Http\Controllers\MenuController::class,'destroy'])->name('menus.remove');
+
+    
+    Route::get('/option', [App\Http\Controllers\OptionController::class, 'index'])->name('option.index');
+    Route::post('/option/submit', [App\Http\Controllers\OptionController::class, 'store'])->name('option.submit');
+
     //Route::get('/menu',[App\Http\Controllers\MenuController::class,'index'])->name('menu.get');
 });
 
@@ -165,11 +170,12 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
     \UniSharp\LaravelFilemanager\Lfm::routes();
 });
 */
+
 Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('user.login');
+
 Route::post('/login', [App\Http\Controllers\LoginController::class, 'login'])->name('login.submit');
 Route::get('/logout', [App\Http\Controllers\LoginController::class, 'logout'])->name('user.logout');
 
-Route::get('/login', [App\Http\Controllers\AuthController::class, 'showLoginForm'])->name('user.login');
 
 Route::get('/register', [App\Http\Controllers\RegisterController::class, 'register'])->name('user.register');
 Route::post('/register', [App\Http\Controllers\RegisterController::class, 'store'])->name('user.register.submit');
@@ -216,7 +222,7 @@ Route::get('/{id}/page',[App\Http\Controllers\FrontEndController::class,'showPag
 
 Route::get('/search-store',[App\Http\Controllers\FrontEndController::class, 'search'])->name('search.page');
 Route::get('/search-store-autocomplete',[App\Http\Controllers\FrontEndController::class, 'searchAutocomplete'])->name('search.page.autocomplete');
-
+Route::get('/get-state',[App\Http\Controllers\FrontEndController::class, 'getState'])->name('get.state');
 
 Route::get('/registerUser',[App\Http\Controllers\FrontEndController::class,'register'])->name('register.user');
 

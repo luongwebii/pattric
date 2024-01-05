@@ -134,7 +134,7 @@ SPoT – Pages
                             </span>
                             @enderror
                         </div>
-                        <div class="custom-control custom-switch">
+                        <div class="custom-control custom-switch mt-2">
                             <input type="checkbox" class="custom-control-input" id="is_home" name="is_home" @isset($page->id)
                             {{ $page->is_home == 1 ? 'checked' : '' }}
                             @endisset
@@ -142,14 +142,24 @@ SPoT – Pages
                             <label class="custom-control-label" for="is_home">Is Home</label>
                         </div>
 
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($page->id)
-                            {{ $page->status == 1 ? 'checked' : '' }}
-                            @endisset
-                            >
-                            <label class="custom-control-label" for="status">Status</label>
-                        </div>
-                        <div class="float-right">
+                   
+                        <div class="custom-control custom-switch mt-2">
+                            
+                            <label class="form-label" for="status">Status</label>
+                                <select name="status" class="form-select">
+                                    <option value="">Select Status</option>
+                                    <option value="1" @isset($page->id)
+                            {{ $page->status == 1 ? 'selected' : '' }}
+                            @endisset>Active</option>
+                                    <option value="0" @isset($page->id)
+                            {{ $page->status == 0 ? 'selected' : '' }}
+                            @endisset>Draft</option>
+
+                                </select>
+
+                            </div>
+                            
+                        <div class="float-right mt-3">
                             <div class="btn-group">
                                 @if (isset($page->id))
                                 <button type="submit" class="btn btn-primary px-2" data-toggle="tooltip" title="Update those data &#128190;"><i class="bx bx-task"></i> Update</button>

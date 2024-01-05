@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
 use App\Models\Menu;
+use Illuminate\Support\Facades\View;
 
 class CategoryServiceProvider extends ServiceProvider
 {
@@ -42,10 +43,10 @@ class CategoryServiceProvider extends ServiceProvider
         }
         
 
-        \View::share('categoryData', $categoryData);
-        \View::share('categoryDataArray', $categoryDataArray);
-        \View::share('menuDataArray', $menus);
-        \View::share('left_menus', $left_menus);
+        View::share('categoryData', $categoryData);
+        View::share('categoryDataArray', $categoryDataArray);
+        View::share('menuDataArray', $menus);
+        View::share('left_menus', $left_menus);
 
 
     }

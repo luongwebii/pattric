@@ -133,14 +133,22 @@ SPoT – Product Groups
               </span>
               @enderror
             </div>
-            <div class="custom-control custom-switch">
-              <input type="checkbox" class="custom-control-input" id="status" name="status" @isset($groupProduct->id)
-              {{ $groupProduct->status == 1 ? 'checked' : '' }}
-              @endisset
-              >
-              <label class="custom-control-label" for="status">Status</label>
+            <div class="custom-control custom-switch mt-2">
+       
+              <label class="form-label" for="status">Status</label>
+                <select name="status" class="form-select">
+                    <option value="">Select Status</option>
+                    <option value="1" @isset($groupProduct->id)
+              {{ $groupProduct->status == 1 ? 'selected' : '' }}
+              @endisset>Active</option>
+                    <option value="0" @isset($groupProduct->id)
+              {{ $groupProduct->status == 0 ? 'selected' : '' }}
+              @endisset>Draft</option>
+
+                </select>
+
             </div>
-            <div class="float-right">
+            <div class="float-right mt-3">
               <div class="btn-group">
                 @if (isset($groupProduct->id))
                 <button type="submit" class="btn btn-primary px-2 submit">  Update</button>

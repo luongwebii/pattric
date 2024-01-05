@@ -4,7 +4,7 @@
         <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12">
             <div class="product-deatils-box">
                 <div class="product-img-box">
-                    <img src="{!! url($product->image) !!}" alt="swivelwheels-img-new">
+                    <img src="{!! url($product->image ? $product->image : 'assets/img/no-image.jpg') !!}" alt="swivelwheels-img-new">
 
                     <span onclick="openModal();currentSlide(1)"
                         class="hover-shadow cursor"></span>

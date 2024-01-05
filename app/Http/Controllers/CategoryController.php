@@ -43,7 +43,7 @@ class CategoryController extends Controller
             'category_slug_en'      =>  Str::slug($request->category_name_en),
             'meta_description_en'      => $request->meta_description_en,
             'parent_id'      => $request->parent_id,
-            'status'                => $request->filled('status'),
+            'status'                => $request->status,
         ];
       
         $category = Category::create($data);
@@ -83,7 +83,7 @@ class CategoryController extends Controller
             'category_slug_en'      => Str::slug($request->category_name_en),
             'parent_id'      => $request->parent_id,
             'meta_description_en'      => $request->meta_description_en,
-            'status'             => $request->filled('status'),
+            'status'             => $request->status,
         ]);
         $file                    = $request->hasFile('image');
         if ($file) {

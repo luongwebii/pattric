@@ -50,6 +50,12 @@
             "name": "Menus",
             "icon": "menu-icon tf-icons bx bx-detail",
             "slug": "admin.menu, admin.menu.create, admin.menu.edit"
+        },
+        {
+            "url": "/admin/option",
+            "name": "Tax",
+            "icon": "menu-icon tf-icons bx bx-detail",
+            "slug": "option.index"
         }
 
     ]

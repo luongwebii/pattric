@@ -38,7 +38,7 @@ SPoT – Orders
                                                     <td class="sorting_1">
                                                         {{ $loop->index+1 }}
                                                     </td>
-                                                    <td class="sorting_1">{{ \Carbon\Carbon::parse($order->created_at)->diffForHumans() }} </td>
+                                                    <td class="sorting_1">{{ \Carbon\Carbon::parse($order->updated_at)->diffForHumans() }} </td>
                                                     <td class="soring_1">{{ $order->invoice_number }}</td>
                                                     <td class="soring_1">{{ $order->first_name }} {{ $order->last_name }}</td>
                                                     <td class="sorting_1">${{ Helper::format_numbers($order->amount) }}</td>
@@ -67,8 +67,7 @@ SPoT – Orders
                                                             @if ($order->status =='pending')
 
                                                             @else
-                                                            <a href="{{ route('admin-invoice-download', $order->id) }}" class="btn btn-danger" title="Download"><i class="fa fa-download"></i>
-                                                            </a>
+                                                         
                                                             @endif
                                                            
                                                             
