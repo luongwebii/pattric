@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-
+use App\Models\Option;
 use Illuminate\Http\Request;
 use Cart;
 use Illuminate\Support\Facades\Auth;
@@ -24,22 +24,24 @@ class CartController extends Controller
         $qtys = $input['qtys'];
         foreach($productIds as $key => $productId){
             if(!empty($productId)) {
-                $qty = $qtys[$key];
+                if(isset($qtys[$key])) {
+                    $qty = $qtys[$key];
 
-                if(!empty($qty)) {
-                    $product = Product::findOrFail($productId);
-                    Cart::add([
-                        'id' => $productId,
-                        'name' => $product->product_name_en,
-                        'qty' => $qty,
-                        'price' => $product->price,
-                        'weight' => 1,
-                        'options' => [
-                            'image' => $product->image
-                            ]
-                    ]);
-        
-
+                    if(!empty($qty)) {
+                        $product = Product::findOrFail($productId);
+                        Cart::add([
+                            'id' => $productId,
+                            'name' => $product->product_name_en,
+                            'qty' => $qty,
+                            'price' => $product->price,
+                            'weight' => 1,
+                            'options' => [
+                                'image' => $product->image,
+                                'freight_only' => $product->freight_only
+                                ]
+                        ]);
+            
+                    }
 
                 }
 
@@ -50,6 +52,42 @@ class CartController extends Controller
 
        
        
+    }
+    
+    public function saveShipping(Request $request)//, $id
+    {
+        $this->validate($request, [
+           
+            'shipping_street'   => 'required',
+          //  'shipping_suite'   => 'required',
+            'shipping_city'   => 'required',
+            'shipping_state'   => 'required',
+          //  'shipping_zip'   => 'required',
+            'shipping_package'   => 'required',
+            'shipping_country'   => 'required',
+
+        ]);
+
+        $state = $request->shipping_state;
+        $country = $request->shipping_country;
+        if($state == 'TX' && $country == 'US'){
+            $option = Option::first();
+            Cart::setGlobalTax($option->value);
+        } else {
+            Cart::setGlobalTax(0);
+        }
+
+        $sub_total = Cart::subtotal();
+        $cart_qty = Cart::count();
+        $cart_total = Cart::total();
+        $tax = Cart::tax();
+        return response()->json([
+            'success' => 'Successfully added on your cart', 
+            'tax' => $tax,
+            'shipping_package' => $request->shipping_package,
+            'sub_total' => $sub_total,
+            'cart_qty' => $cart_qty,
+            'cart_total' => $cart_total,],200);
     }
 
     public function addToCart(Request $request)//, $id
@@ -71,7 +109,7 @@ class CartController extends Controller
         if(!empty($product->sale_price)){
             $price = $product->sale_price;
         }
-
+      
         if($product->discount_price == NULL){
             Cart::add([
                 'id' => $input['productId'],
@@ -80,7 +118,8 @@ class CartController extends Controller
                 'price' => $price,
                 'weight' => 1,
                 'options' => [
-                    'image' => $product->image
+                    'image' => $product->image,
+                    'freight_only' => $product->freight_only
                     ]
             ]);
 
@@ -93,7 +132,8 @@ class CartController extends Controller
                 'price' => $product->price,
                 'weight' => 1,
                 'options' => [
-                    'image' => $product->image
+                    'image' => $product->image,
+                    'freight_only' => $product->freight_only
                     ]
             ]);
            
@@ -107,10 +147,19 @@ class CartController extends Controller
         $cart_qty = Cart::count();
         $cart_total = Cart::total();
 
+        $freight_only = 0;
+        foreach($carts as $cart){//print_r( $cart);
+            $freight_only = $cart->options->freight_only;
+            if($freight_only) {
+                break;
+            }
+        }
+
         return response()->json([
             'carts' => $carts,
             'cart_qty' => $cart_qty,
             'cart_total' => $cart_total,
+            'freight_only' => $freight_only,
         ], 200);
     }
     
@@ -129,9 +178,9 @@ class CartController extends Controller
         $tax = Cart::tax();
 
         $data = [ 'cart_qty' => $cart_qty,
-            'cart_total' => round($cart_total),
-            'subtotal' => round($subtotal),
-            'tax' => round($tax)
+            'cart_total' => $cart_total,
+            'subtotal' => $subtotal,
+            'tax' => $tax
         ];
 
         return response()->json(['success' => 'Product Remove from Cart', 'data' =>  $data],200);

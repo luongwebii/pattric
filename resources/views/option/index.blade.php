@@ -52,10 +52,11 @@ SPoT – Pages
     <div class="row">
         <div class="col-12 col-lg-4">
             <div class="card radius-15 border-lg-top-info">
-                <div class="card-header border-bottom-0 mb-4">
+                <div class="card-header border-bottom-0 mb-42">
                     <div class="d-flex align-items-center">
                         <div>
                             <h5 class="mb-lg-0">Tax</h5>
+                            <div class="mt-3" style="color:red;">Zone: Texas, United States</div>
                         </div>
                         
                     </div>
@@ -64,7 +65,14 @@ SPoT – Pages
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-form-label">Value</label>
+                            <div class="input-group" style="width:150px;" >
+                            
+                         
                             <input type="text" class="form-control  @error('value') is-invalid @enderror" name="value" value="{{ $option->value ?? old('value') }}" placeholder="value" >
+                            <span class="input-group-text">%</span>
+                            </div>
+                            
+                            
                             @error('value')
                             <span class="text-danger" role="alert">
                                 <strong>{{ $message }}</strong>

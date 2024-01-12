@@ -31,7 +31,8 @@ class PageController extends Controller
     {
         $keyword = $request->input('term');
         $products = Product::select('product_name_en', 'id')
-            ->where('status', '=', 1)
+           // ->where('status', '=', 1)
+            ->whereIn('status', [0, 1])
             ->where('product_name_en', 'LIKE', "%$keyword%")->get();
         $result = [];
         foreach( $products as  $product){
@@ -154,6 +155,7 @@ class PageController extends Controller
             'slug'              => Str::slug($request->title),
             'excerpt'           => $request->excerpt,
             'body'              => $request->body,
+            'image' => $request->image_db,
             'meta_description'  => $request->meta_description,
             'meta_keywords'     => $request->meta_keywords,
             'status'            => $request->status,

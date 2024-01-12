@@ -138,6 +138,18 @@ SPoT – Products
 
             <div class="form-row">
               <div class="form-group col-md-12">
+                <label class="col-form-label">Size <span class="text-danger"></span></label>
+                <input type="text" class="form-control  @error('size') is-invalid @enderror" name="size" value="{{ $product->size ?? old('size') }}" placeholder="Size" maxlength="10" >
+                @error('size')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
                 <label class="col-form-label">Drawing</label>
                 
                 <textarea name="drawing" id="drawing" class="form-control  @error('drawing') is-invalid @enderror" placeholder="">{{ $product->drawing ?? old('drawing') }}</textarea>
@@ -242,6 +254,7 @@ SPoT – Products
 
             <div class="form-group">
               <label class="col-form-label">Main Thambnail <span class="text-danger"></span></label>
+              <input type="hidden" name="image_db" id="image" value="{{$product->image}}"/>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($product->image))
               data-default-file="/{{ $product->image }}" @endif
               {{ !isset($product->id) ? '' : '' }} />
@@ -276,9 +289,9 @@ SPoT – Products
 
 
 
-            <div class="form-row  mt-3">
+            <div class="row  mt-3">
 
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-6 mt-1">
                 <div class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input   " id="featured" name="featured" @isset($product->id)
                   {{ $product->featured == 1 ? 'checked' : '' }}
@@ -291,6 +304,21 @@ SPoT – Products
                 </span>
                 @enderror
               </div>
+
+              <div class="form-group col-md-6  mt-1">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input   " id="freight_only" name="freight_only" @isset($product->id)
+                  {{ $product->freight_only == 1 ? 'checked' : '' }}
+                  @endisset>
+                  <label class="custom-control-label" for="featured">Freight Only</label>
+                </div>
+                @error('freight_only')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+
             </div>
 
 
@@ -335,7 +363,14 @@ SPoT – Products
             e.preventDefault();
             $('form').submit();
         });
+        $('body').on('click', '.dropify-clear', function(e) {
+            e.preventDefault();
+            $('#image').val('');
+            
+        });
     });
+
+  
 
   window.onload = function() {
 

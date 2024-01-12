@@ -42,10 +42,12 @@ class AdminController extends Controller
             
             $totalQty += $item->qty;
          //   var_dump( $item->product->category->category_name_en);
-            if(isset($category[$item->product->category->category_name_en])){
-                $category[$item->product->category->category_name_en] += $item->unit_price * $item->qty;
-            } else {
-                $category[$item->product->category->category_name_en] = $item->unit_price * $item->qty;
+            if(isset($item->product->category)) {
+                if(isset($category[$item->product->category->category_name_en])){
+                    $category[$item->product->category->category_name_en] += $item->unit_price * $item->qty;
+                } else {
+                    $category[$item->product->category->category_name_en] = $item->unit_price * $item->qty;
+                }
             }
            // $category[$item->product->category->category_name_en] += $item->unit_price;
               

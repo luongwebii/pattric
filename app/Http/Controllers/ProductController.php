@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 
 use App\Models\ProductMultiImage;
 use App\Http\Controllers\Controller;
-
+use App\Models\OrderItem;
+use App\Models\ProductGroupItem;
 use Intervention\Image\Facades\Image;
 use DataTables;
 use Helper;
@@ -25,6 +26,7 @@ class ProductController extends Controller
 
         // $products = Product::latest('id')->with('category')->get();
         $query = Product::query();
+        $query->whereIn('status', [0, 1]);
         /*
          $query->where(function ($query) {
              $query->where('status', '!=', 'draft');
@@ -188,6 +190,7 @@ class ProductController extends Controller
             'meta_keywords_en' => $request->meta_keywords_en,
             'meta_description_en' => $request->meta_description_en,
             'featured' => $request->filled('featured'),
+            'freight_only' => $request->filled('freight_only'),
             'status' => $request->status,
         ]);
         // $product->product_code = $this->generateProductCode($product->id);
@@ -277,13 +280,15 @@ class ProductController extends Controller
             'bottom_butter' => $request->bottom_butter,
             'racking_butter' => $request->racking_butter,
             'capacity' => $request->capacity,
-
+            'image' => $request->image_db,
+            
             'long_description_en' => $long_description_en,
             'size' => $request->size,
             'product_color' => $request->product_color,
             'meta_keywords_en' => $request->meta_keywords_en,
             'meta_description_en' => $request->meta_description_en,
             'featured' => $request->filled('featured'),
+            'freight_only' => $request->filled('freight_only'),
             'status' => $request->status,
         ]);
 
@@ -330,19 +335,31 @@ class ProductController extends Controller
         $id = $data['product_id'];
 
         $product = Product::find($id);
-        if (file_exists($product->image)) {
-            unlink($product->image);
-        }
 
-        $images = ProductMultiImage::where('product_id', $product->id)->get();
-        foreach ($images as $img) {
-            if (file_exists($img->image_name)) {
-                unlink($img->image_name);
+        $orderItems = OrderItem::where('product_id', $id)->first();
+
+        if(empty($orderItems)) {
+
+            if (file_exists($product->image)) {
+                unlink($product->image);
             }
 
-            ProductMultiImage::where('product_id', $product->id)->delete();
+            $images = ProductMultiImage::where('product_id', $product->id)->get();
+            foreach ($images as $img) {
+                if (file_exists($img->image_name)) {
+                    unlink($img->image_name);
+                }
+
+                ProductMultiImage::where('product_id', $product->id)->delete();
+            }
+
+            $product->delete();
+        } else {
+            $product->status = 2;
+            $product->save();
         }
-        $product->delete();
+
+        ProductGroupItem::where('product_id', $id)->delete();
 
         // toastr()->success('Product deleted successfully');
         return redirect()->back()->withSuccess(__('Product deleted Successfully.'));
@@ -491,5 +508,22 @@ class ProductController extends Controller
     public function make_slug($string)
     {
         return preg_replace('/\s+/u', '-', trim($string));
+    }
+
+    public function checkOrder(Request $request)
+    {
+        //
+        $product_id = $request->input('product_id');
+
+        $orderItems = OrderItem::where('product_id', $product_id)->first();
+
+        if(empty($orderItems)) {
+            return response()->json(['result' => 'OK', 'mess' => ''],200);
+        } else {
+            return response()->json(['result' => false, 'mess' => 'This product has an order. Please delete the order first.'],200);
+        }
+
+
+       
     }
 }

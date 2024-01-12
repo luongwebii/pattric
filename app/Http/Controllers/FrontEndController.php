@@ -12,6 +12,7 @@ use App\Models\Category;
 use App\Models\UserProfile;
 use App\Models\Product;
 use App\Models\ProductGroup;
+use App\Models\ProductGroupItem;
 use App\Models\Page;
 use App\Models\Menu;
 use Cart;
@@ -23,7 +24,7 @@ class FrontEndController extends Controller
     public $jumTo = '';
     public function __construct()
     {  
-        $jum_menus =  Menu::where('title', 'like', '%jum%')->orderBy('title' ,'asc')->get();
+        $jum_menus =  Menu::where('title', 'like', '%jum%')->orderBy('icon', 'ASC')->get();
       
         $heardTxt = '
         <div class="product-category-search-box">
@@ -35,7 +36,7 @@ class FrontEndController extends Controller
              <select class="form-select" aria-label="Default select example" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                    <option value="">Select Option</option>';
         foreach($jum_menus as  $menuDataValueLeft){
-            $jum_childs =  Menu::where('parent_id', '=', $menuDataValueLeft->id)->orderBy('title' ,'asc')->get();
+            $jum_childs =  Menu::where('parent_id', '=', $menuDataValueLeft->id)->orderBy('icon', 'ASC')->get();
            
 
             foreach ($jum_childs as $menuDataValue){
@@ -134,12 +135,24 @@ class FrontEndController extends Controller
 
     public function get_group($id) {
         $group = ProductGroup::find($id);
-
+        $img = '';
+        $url = $group->image ? url($group->image) : '';
+        if(!empty($url)){
+          //  $img .= '<div class="product-img-box"><img src="'.$url.'" alt="swivelWheels-img" class="img-fluid"></div>';
+        }
+        $sizeFlag = true;
+        $drawingFlag = true;
+        $orientFlag = true;
+        $areaFlag = true;
+        $bottomFlag = true;
+        $rackingFlag = true;
+     
 
         $contentget = ' <form>
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <h2  id="product-name">'.$group->product_group_name.'</h2>
+                <div class="product-deatils-box"> '.$img. '<div class="product-text-box">'.$group->description.'</div></div>
             </div>
         </div>
         <section id="examples" class="order-form-product-list-table ">
@@ -148,17 +161,41 @@ class FrontEndController extends Controller
 
                 <table class="table  table-responsive">
                     <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Model</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">buy qty.</th>
-                            <th scope="col">drawing</th>
-                            <th scope="col">orient.</th>
-                            <th scope="col">area SM</th>
-                            <th scope="col">bottom butter.</th>
-                            <th scope="col">racking butter.</th>
+                        <tr>';
+            if($group->image_flag) {
+                $contentget .= ' <th scope="col"></th>';
+            }
+            $contentget .= '<th scope="col">Model</th>
+                <th scope="col">Price</th>
+                <th scope="col">buy qty.</th>';
 
-
+            if($group->size_flag) {
+                $contentget .= ' <th scope="col">Size</th>';
+            }
+            if($group->drawing_flag) {
+                $contentget .= ' <th scope="col">drawing</th>';
+            }
+           
+            if($group->orient_flag) {
+                $contentget .= ' <th scope="col">orient</th>';
+            }
+            if($group->area_sm_flag) {
+                $contentget .= ' <th scope="col">AreaSM</th>';
+            }
+            if($group->bottom_flag) {
+                $contentget .= ' <th scope="col">bottom butter.</th>';
+            }
+            if($group->racking_flag) {
+                $contentget .= ' <th scope="col">racking butter.</th>';
+            }
+            if($group->man_way_flag) {
+                $contentget .= ' <th scope="col">Man Way</th>';
+            }
+            if($group->capacity_flag) {
+                $contentget .= ' <th scope="col">Capacity</th>';
+            }
+        
+            $contentget .= '
                         </tr>
                     </thead>
                     <tbody class="group-content">';
@@ -169,28 +206,70 @@ class FrontEndController extends Controller
                 $area_sm = $score->product->area_sm === null ? "" : $score->product->area_sm;
                 $bottom_butter = $score->product->bottom_butter === null ? "" : $score->product->bottom_butter;
                 $racking_butter = $score->product->racking_butter === null ? "" : $score->product->racking_butter;
+                $size = $score->product->size === null ? "" : $score->product->size;
+                $man_way = $score->product->man_way === null ? "" : $score->product->man_way;
+                $capacity = $score->product->capacity === null ? "" : $score->product->capacity;
+                $url = $score->product->image ? url($score->product->image) : '';
+                $image = '';
+                if(!empty($url)){
+                    $image = '<div class="product-img-box"><img src="'.$url.'" alt="swivelWheels-img" class="img-fluid"></div>';
+                }
+               
 
-                $outofstock = 'name="qtys[]" value="1"';
+                $outofstock = 'name="qtys[]" value="0"';
                 if($score->product->product_qty <=0) {
                     $outofstock = 'name="qtys[]" value="0" disabled ';
                 }
                 $optionHtml .= "<tr>";
+
+                $price = '';
+                if(!empty($score->product->sale_price)){
+                
+                    $price .= '<div class="text-deco">$' . Helper::format_numbers_2($score->product->price) . '</div>';
+                    $price .= '<div>$' . Helper::format_numbers_2($score->product->sale_price). '</div>';
+                } else {
+                    $price .= '<div>$' . Helper::format_numbers_2($score->product->price) . '</div>';
+                }
+
+                if($group->image_flag) {
+                    $optionHtml .= ' <td >'.$image.'</td>';
+                }
+
                 $optionHtml .= '
                     <td>'.$score->product->model.'</td>
-                    <td>$'. Helper::format_numbers_2($score->product->price).'</td>
+                    <td>'. $price.'</td>
                     <td>
                         <div class="form-group qty-input">
                         <input type="hidden" name="productIds[]" value="'.$score->product->id.'" id="productId"/>
                             <input type="text" class="form-control	" '.$outofstock.' placeholder="0" id="qty">
                         </div>
-                    </td>
-                    <td class="dra-link">'.$drawing.'</td>
-                    <td>'.$orient.'</td>
-                    <td>'.$area_sm.'</td>
-                    <td>'.$bottom_butter.'</td>
-                    <td>'.$racking_butter.'</td>
+                    </td>';
 
-                      ';
+                    if($group->size_flag) {
+                        $optionHtml .= ' <td >'.$size.'</td>';
+                    }
+                    if($group->drawing_flag) {
+                        $optionHtml .= ' <td>'.$drawing.'</td>';
+                    }
+                    if($group->orient_flag) {
+                        $optionHtml .= '<td>'.$orient.'</td>';
+                    }
+                    if($group->bottom_flag) {
+                        $optionHtml .= ' <td>'.$area_sm.'</td>';
+                    }
+                    if($group->racking_flag) {
+                        $optionHtml .= '<td>'.$bottom_butter.'</td>';
+                    }
+                    if($group->racking_flag) {
+                        $optionHtml .= '<td>'.$racking_butter.'</td>';
+                    }
+                    if($group->man_way_flag) {
+                        $optionHtml .= '<td>'.$man_way.'</td>';
+                    }
+                    if($group->capacity_flag) {
+                        $optionHtml .= '<td>'.$capacity.'</td>';
+                    }
+                    
                     $optionHtml .= "</tr>";
 
             }
@@ -276,14 +355,35 @@ class FrontEndController extends Controller
                 $userProfile = new UserProfile;
             }
 
+            $freight_only = 0;
+            foreach($carts as $cart){//print_r( $cart);
+                $freight_only = $cart->options->freight_only;
+                if($freight_only) {
+                    break;
+                }
+            }
 
+            if(empty($freight_only)) {
+                $freight_only = 0;
+            }
+
+            $states = CountryState::getStates('US');
+            //print_r($states);
+            $txt = '';
+            foreach($states as $key => $state){
+                $txt .= '<option value="'.$key.'">'.$state.'</option>';
+            }
+
+           // echo $freight_only; die();
             return view('front.shopping_cart_page', [
                 'carts' => $carts,
                 'cart_qty' => $cart_qty,
                 'cart_total' => $cart_total,
                 'subtotal' => $subtotal,
                 'tax' => $tax,
+                'txt' => $txt,
                 'userProfile' => $userProfile,
+                'freight_only' => $freight_only,
             ]);
        /* } else {
            $notification = [
@@ -393,10 +493,15 @@ class FrontEndController extends Controller
        // echo $keyword;
         $categoryArray = [];
         $flag = true;
-        $products = Product::where('product_name_en', 'LIKE', "%$keyword%")
+        $products = Product::where(function ($query) use ($keyword) {
+            $query->where('product_name_en', 'LIKE', "%$keyword%")
+                  ->orWhere('model', 'LIKE', "%$keyword%");
+                    })
                     ->where('status', '=', 1)
                     ->get();
+        $productIdArray = [];
         foreach($products as $product ){
+            $productIdArray[] = $product->id;
             if(!empty($product->category_id)){
                 $categoryArray[$product->category_id] = $product->category->category_name_en;
                 $flag = false;
@@ -412,14 +517,18 @@ class FrontEndController extends Controller
             $categoryArray[$cata->id] = $cata->category_name_en;
         }
 
-        $groups = ProductGroup::select('product_group_name', 'id')->
-        where('product_group_name', 'LIKE', "%$keyword%")->
-        get();
+        $groups = ProductGroup::select('product_group_name', 'id')
+        ->where(function ($query) use ($keyword) {
+            $query->where('product_group_name', 'LIKE', "%$keyword%")
+                  ->orWhere('description', 'LIKE', "%$keyword%");
+                    })
+        ->where('status', '=', 1)
+        ->get();
 
         $resultGroups = [];
 
-        foreach( $groups as  $product){
-            $resultGroups[] = $product->id;
+        foreach( $groups as  $group){
+            $resultGroups[] = $group->id;
             $data = [];
             /*
             $data['id'] = $product['id']; 
@@ -434,15 +543,27 @@ class FrontEndController extends Controller
             array_push($resultGroups, $data); 
             */
         }
+      //  print_r($productIdArray);
+        $productGroupObj = ProductGroupItem::whereIn('product_id', $productIdArray)->get();
+        foreach($productGroupObj as $productGroupValue){
+            $resultGroups[] = $productGroupValue->product_group_id; 
+        }
 
+        $resultGroups = array_unique($resultGroups); 
+      
         $pages = Page::where('is_home', '!=', 1)
         ->where('status', '=', 1)
-        ->where(function ($query) use ($keyword, $resultGroups) {
+        ->where(function ($query) use ($keyword, $resultGroups, $productIdArray) {
             $query->where('title', 'LIKE', "%$keyword%");
             $query->orWhere('body', 'LIKE', "%$keyword%");
             $query->orWhere(function ($q) use ($resultGroups) {
                 collect($resultGroups)->each(function ($keyword) use ($q) {
                   $q->orWhere('body', 'like', '%[GROUP ID='. $keyword .']%');
+                });
+            });
+            $query->orWhere(function ($q) use ($productIdArray) {
+                collect($productIdArray)->each(function ($productId) use ($q) {
+                  $q->orWhere('body', 'like', '%[PRODUCT ID='. $productId .']%');
                 });
             });
 

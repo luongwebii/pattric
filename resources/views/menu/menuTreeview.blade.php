@@ -77,6 +77,15 @@ PoT - Menus
                      </div>
 
                      <div class="row">
+                        <div class="col-md-12">
+                           <div class="form-group">
+                              <label>Sort Position</label>
+                              <input type="number" name="icon" class="form-control"  id="icon">   
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="row">
 
                         <div class="col-md-12">
 
@@ -126,7 +135,7 @@ PoT - Menus
 
                          <li class="delete-row">
 
-                             <div>{{ $menu->title }} <a onclick="editMenu(this, '{{ $menu->title }}', '{{ $menu->id }}', '{{ $menu->parent_id }}', '{{ $menu->url }}')" class="btn btn-sm btn-success"><i class="fadeIn animated bx bx-edit"></i></a> <a  onclick="deleteMenu(this, '{{ $menu->id }}', '{{ $menu->parent_id }}')" class="btn btn-sm btn-danger delete-confirm"><i class="fadeIn animated bx bx-trash"></i></a></div>
+                             <div>{{ $menu->title }} <a onclick="editMenu(this, '{{ $menu->title }}', '{{ $menu->id }}', '{{ $menu->parent_id }}', '{{ $menu->url }}', '{{ $menu->icon }}')" class="btn btn-sm btn-success"><i class="fadeIn animated bx bx-edit"></i></a> <a  onclick="deleteMenu(this, '{{ $menu->id }}', '{{ $menu->parent_id }}')" class="btn btn-sm btn-danger delete-confirm"><i class="fadeIn animated bx bx-trash"></i></a></div>
 
                              @if(count($menu->childs))
                                  @include('_partials.manageChild',['childs' => $menu->childs])
@@ -213,13 +222,14 @@ $(document).ready(function() {
 
     }
 
-    function editMenu(elem, title, id, parent_id, url){
+    function editMenu(elem, title, id, parent_id, url, icon){
 
         $('#title').val(title);
         $('#id').val(id);
         $('#parent_id').val(parent_id);
         $('#url').val(url);
-      
+        $('#icon').val(icon);
+        
     }
 
 </script>

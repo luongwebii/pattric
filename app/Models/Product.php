@@ -34,6 +34,7 @@ class Product extends Model
         'image',
         'hot_deals',
         'featured',
+        'freight_only',
         'special_offer',
         'special_deals',
         'status',

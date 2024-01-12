@@ -113,6 +113,7 @@
 
             <div class="form-group">
               <label class="col-form-label">category image</label>
+              <input type="hidden" name="image_db" id="image" value="{{$category->image ?? ''}}"/>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($category->image)) data-default-file="/{{ $category->image }}" @endif
               {{ !isset($category->id) ? 'required' : '' }} data-height="160" data-allowed-file-extensions="jpg jpeg png "/>
               @error('image')
@@ -165,6 +166,13 @@
             e.preventDefault();
             $('form').submit();
         });
+
+        $('body').on('click', '.dropify-clear', function(e) {
+            e.preventDefault();
+            $('#image').val('');
+            
+        });
+
     });
 
   window.onload = function() {

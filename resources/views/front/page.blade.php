@@ -5,6 +5,33 @@
 <style>
 table{width:100%;}
 
+.page-detail ul {
+  padding-left: 2rem;
+}
+.page-detail ul li {
+  list-style: inherit;
+}
+.page-detail ul { 
+   list-style-type: disc; 
+
+}
+.page-detail ol { 
+   list-style-type: decimal; 
+
+}
+.page-detail ul ul, ol ul { 
+   list-style-type: circle; 
+
+   margin-left: 15px; 
+}
+.page-detail ol ol, ul ol { 
+   list-style-type: lower-latin; 
+
+   margin-left: 15px; 
+}
+.front-page .product-img-box{width:130px;}
+.front-page .product-img-box img{width:130px;}
+.front-page .product-img-box{margin-right:0;}
 </style>
 <main class="content-wrapper">
 
@@ -32,7 +59,7 @@ table{width:100%;}
 
 	
 	
-	<section class="vent-subcategory-product-section">
+	<section class="vent-subcategory-product-section page-detail front-page">
 	<div class="container-fluid">
 	
 

@@ -8,6 +8,8 @@ use App\Models\OrderItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PDF;
+use DataTables;
+use Helper;
 class OrderController extends Controller
 {
     /**
@@ -15,9 +17,66 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::latest('id')->get();
+       
+        $query = Order::query();
+
+        $orders = $query->latest()->get();
+        if ($request->ajax()) {
+
+            return Datatables::of($orders)
+
+                ->addIndexColumn()
+                ->addColumn('status_format', function ($row) {
+                    $txt = '';
+
+                    if ($row->status == 'pending')
+                        $txt .= '<span class="badge badge-primary">'.$row->status.'</span>';
+                    elseif ($row->status == 'confirmed')
+                        $txt .= '<span class="badge badge-secondary">'.$row->status.'</span>';
+                    elseif ($row->status == 'processing')
+                        $txt .= '<span class="badge badge-info">'.$row->status.'</span>';
+                    elseif ($row->status == 'picked')
+                        $txt .= '<span class="badge badge-warning">'.$row->status.'</span>';
+                    elseif ($row->status == 'shipped')
+                        $txt .= '<span class="badge badge-light">'.$row->status.'</span>';
+                    elseif ($row->status == 'delivered')
+                        $txt .= '<span class="badge badge-success">'.$row->status.'</span>';
+                    else
+                        $txt .= '<span class="badge badge-danger">'.$row->status.'</span>';
+                
+                    return $txt;
+                })
+                ->addColumn('date_format', function ($row) {
+                    return Helper::formatDate($row->updated_at);
+                })
+                ->addColumn('name', function ($row) {
+                    return $row->first_name . ' '.$row->last_name;
+                })
+                ->addColumn('amount_format', function ($row) {
+                    return Helper::format_numbers_2($row->amount);
+                })
+    
+
+                ->addColumn('action', function ($row) { //print_r($row);
+                    $editUrl = asset('assets/admin/img/edit-icon.svg');
+                 
+                   
+                    $editUrl = route('admin.orders.show', [$row->id]);
+
+                  //  $deleteUrl = route('admin.product.delete', [$row->id]);
+                    $btn = '';
+                    $btn .= '<a class="btn btn-sm btn-success" href="' . $editUrl . '" data-toggle="tooltip" title="Edit &#128221"><i class="fa fa-eye"></i></a> ';
+                   
+                    return $btn;
+                })
+
+                ->rawColumns(['action', 'status_format', 'image_format'])
+                ->make(true);
+
+        }
+
         return view('Orders.index', compact(
             'orders'
         ));

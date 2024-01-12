@@ -33,6 +33,15 @@ class ProductGroupController extends Controller
             'product_group_name'      => 'required',
             'description'   => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
+            'size_flag'   => 'nullable',
+            'drawing_flag'   => 'nullable',
+            'orient_flag'   => 'nullable',
+            'area_sm_flag'   => 'nullable',
+            'bottom_flag'   => 'nullable',
+            'racking_flag'   => 'nullable',
+            'man_way_flag'   => 'nullable',
+            'capacity_flag'   => 'nullable',
+            'image_flag'   => 'nullable',
         ]);
         $groupProductData = $request->post(); // DI
        // print_r($groupProductData); die();
@@ -40,6 +49,15 @@ class ProductGroupController extends Controller
             'product_group_name'      => $request->product_group_name,
             'description'      => $request->description,
             'status'                => $request->status,
+            'size_flag'                => $request->filled('size_flag'),
+            'drawing_flag'                => $request->filled('drawing_flag'),
+            'orient_flag'                => $request->filled('orient_flag'),
+            'area_sm_flag'                => $request->filled('area_sm_flag'),
+            'bottom_flag'                => $request->filled('bottom_flag'),
+            'racking_flag'                => $request->filled('racking_flag'),
+            'man_way_flag'                => $request->filled('man_way_flag'),
+            'capacity_flag'                => $request->filled('capacity_flag'),
+            'image_flag'                => $request->filled('image_flag'),
         ]);
         $product_group_id =  $groupProduct->id;
       
@@ -111,12 +129,31 @@ class ProductGroupController extends Controller
             'product_group_name'      => 'required',
             'description'   => 'nullable',
             'image'                 => 'nullable|image|mimes:jpg,png,jpeg,svg',
+            'size_flag'   => 'nullable',
+            'drawing_flag'   => 'nullable',
+            'orient_flag'   => 'nullable',
+            'area_sm_flag'   => 'nullable',
+            'bottom_flag'   => 'nullable',
+            'racking_flag'   => 'nullable',
+            'man_way_flag'   => 'nullable',
+            'capacity_flag'   => 'nullable',
+            'image_flag'   => 'nullable',
         ]);
 
         $groupProduct->update([
             'product_group_name'      => $request->product_group_name,
             'description'      => $request->description,
             'status'             => $request->status,
+            'image' => $request->image_db,
+            'size_flag'                => $request->filled('size_flag'),
+            'drawing_flag'                => $request->filled('drawing_flag'),
+            'orient_flag'                => $request->filled('orient_flag'),
+            'area_sm_flag'                => $request->filled('area_sm_flag'),
+            'bottom_flag'                => $request->filled('bottom_flag'),
+            'racking_flag'                => $request->filled('racking_flag'),
+            'man_way_flag'                => $request->filled('man_way_flag'),
+            'capacity_flag'                => $request->filled('capacity_flag'),
+            'image_flag'                => $request->filled('image_flag'),
         ]);
         $file                    = $request->hasFile('image');
         if ($file) {

@@ -138,6 +138,19 @@ SPoT – Products
 
             <div class="form-row">
               <div class="form-group col-md-12">
+                <label class="col-form-label">Size <span class="text-danger"></span></label>
+                <input type="text" class="form-control  @error('size') is-invalid @enderror" name="size" value="{{ $product->size ?? old('size') }}" placeholder="Size" maxlength="10" >
+                @error('size')
+                <span class="text-danger" product="alert">
+                  <strong>{{ $message }}</strong>
+                </span>
+                @enderror
+              </div>
+            </div>
+
+
+            <div class="form-row">
+              <div class="form-group col-md-12">
                 <label class="col-form-label">Drawing</label>
                 <textarea name="drawing" id="drawing" class="form-control  @error('drawing') is-invalid @enderror" placeholder="">{{ $product->drawing ?? old('drawing') }}</textarea>
               

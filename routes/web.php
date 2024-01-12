@@ -117,10 +117,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     Route::delete('/product/destroy', [App\Http\Controllers\ProductController::class, 'destroy'])->name('admin.product.destroy');
 
 
+    Route::get('/product/check/order', [App\Http\Controllers\ProductController::class, 'checkOrder'])->name('admin.product.check.order');
 
     // Orders routes
     //Route::resource('/orders', OrderController::class);
     Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])->name('admin.orders');
+    Route::post('/orders/post', [App\Http\Controllers\OrderController::class, 'index'])->name('admin.orders.post');
+    
 
     Route::get('/orders/show/{order}', [App\Http\Controllers\OrderController::class, 'show'])->name('admin.orders.show');
 
@@ -202,6 +205,9 @@ Route::get('/remove-row-cart-page',[App\Http\Controllers\CartController::class,'
 
 Route::get('/checkout-page',[App\Http\Controllers\CheckoutController::class,'checkoutPage'])->name('checkout-page');
 Route::post('/checkout-store',[App\Http\Controllers\CheckoutController::class, 'checkoutStore'])->name('checkout.store');
+
+Route::post('/save-shipping',[App\Http\Controllers\CartController::class, 'saveShipping'])->name('save.shipping');
+
 
 
 Route::get('/remove/from-cart/{rowId}',[App\Http\Controllers\CartPageController::class,'removeFromCart'])->name('removeFromCart');

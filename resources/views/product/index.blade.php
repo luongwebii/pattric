@@ -147,7 +147,7 @@ $(function () {
 
 });
 
-function deleteProduct(userId) {
+function deleteProduct(productId) {
         
     Swal.fire({
         title: "Are you sure?",
@@ -159,7 +159,9 @@ function deleteProduct(userId) {
         confirmButtonText: "Yes, delete it!"
         }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = "{{ route('admin.product.delete') }}?product_id=" + userId;
+
+            window.location.href = "{{ route('admin.product.delete') }}?product_id=" + productId;
+           
         }
     });
     return false;

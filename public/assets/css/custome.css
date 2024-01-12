@@ -48,3 +48,23 @@
     z-index: 100;
     visibility: hidden;
   }
+.empty-cart{
+    margin-bottom: 30px;padding: 0px 20px;margin-left: 15px;color: #242424; font-size: 18px;  font-weight: 700;
+}
+
+.app-brand-link img{max-width: 70px;}
+
+.baar {
+    -webkit-columns: 2;
+    -moz-columns: 2;
+    columns: 2;
+}
+.bg-navbar-theme {
+    color: #000;
+  }
+
+  .payment-method{width: 1.2em;height: 1.2em;}
+  .table-shipping-block-section{font-weight: 700;
+    text-transform: uppercase;padding-bottom: 20px;}
+.ship{color:#8A8A8A;}
+.ship span{color:#242424;}

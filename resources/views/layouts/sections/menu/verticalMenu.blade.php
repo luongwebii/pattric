@@ -3,7 +3,10 @@
   <!-- ! Hide app brand if navbar-full -->
   <div class="app-brand demo">
     <a href="{{ route('admin.dashboard') }}" class="app-brand-link">
+    <span class="app-brand-logo demo">
     <img src="{!! url('assets/img/logo-admin.png') !!}" alt="dry-care-footer-logo">
+    </span>
+   
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-autod-block d-xl-none">

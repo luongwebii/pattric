@@ -26,6 +26,7 @@ SPoT – Orders
                                                     <th>Date</th>
                                                     <th>Invoice</th>
                                                     <th>Name</th>
+                                                    <th>Payment Method</th>
                                                     <th>Amount</th>
                                                     <th>Qty</th>
                                                     <th>Status</th>
@@ -33,48 +34,7 @@ SPoT – Orders
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($orders as $order)
-                                                <tr role="row" class="odd">
-                                                    <td class="sorting_1">
-                                                        {{ $loop->index+1 }}
-                                                    </td>
-                                                    <td class="sorting_1">{{ \Carbon\Carbon::parse($order->updated_at)->diffForHumans() }} </td>
-                                                    <td class="soring_1">{{ $order->invoice_number }}</td>
-                                                    <td class="soring_1">{{ $order->first_name }} {{ $order->last_name }}</td>
-                                                    <td class="sorting_1">${{ Helper::format_numbers($order->amount) }}</td>
-                                                    <td class="soring_1">{{ $order->qty ? $order->qty : '' }}</td>
-                                                    <td class="sorting_1">
-                                                        @if ($order->status == 'pending')
-                                                        <span class="badge badge-primary">{{ $order->status }}</span>
-                                                        @elseif ($order->status == 'confirmed')
-                                                        <span class="badge badge-secondary">{{ $order->status }}</span>
-                                                        @elseif ($order->status == 'processing')
-                                                        <span class="badge badge-info">{{ $order->status }}</span>
-                                                        @elseif ($order->status == 'picked')
-                                                        <span class="badge badge-warning">{{ $order->status }}</span>
-                                                        @elseif ($order->status == 'shipped')
-                                                        <span class="badge badge-light">{{ $order->status }}</span>
-                                                        @elseif ($order->status == 'delivered')
-                                                        <span class="badge badge-success">{{ $order->status }}</span>
-                                                        @else
-                                                        <span class="badge badge-danger">{{ $order->status }}</span>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-success" title="View"><i class="fa fa-eye"></i>
-                                                            </a>
-                                                            @if ($order->status =='pending')
-
-                                                            @else
-                                                         
-                                                            @endif
-                                                           
-                                                            
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
+   
                                             </tbody>
                                         </table>
                                     </div>
@@ -90,4 +50,117 @@ SPoT – Orders
         </div>
         <!-- /.row -->
     </section>
+
+    <script type="text/javascript">
+
+$(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+  
+  // var data = $("form").serializeArray();
+   //console.log(data);
+   var table = $('.dataTable').DataTable({
+      "order": [],
+      bFilter: false, bInfo: false,
+      processing: true,
+      "lengthChange": false,
+            "pageLength": 50,
+    "fnDrawCallback": function(oSettings) {                 
+        if (oSettings._iDisplayLength >= oSettings.fnRecordsDisplay()) {
+            $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+        }
+    },
+      type: "POST",
+      serverSide: true,
+      responsive: true,
+    //  pageLength:1,
+      language: {
+        'paginate': {
+        'previous': '<span class="prev-icon page-link"><</span>',
+        'next': '<span class="next-icon page-link">></span>'
+        }
+      },
+      ajax: {
+
+        url: "{{ route('admin.orders.post') }}",
+        dataType: 'json',
+        type: 'POST',
+        data:   function (d) {
+                  
+                    d.first_name = $('input[name=first_name]').val();
+                    d.last_name = $('input[name=last_name]').val();
+         
+                },
+      },
+
+      columns: [
+        { "data": 'DT_RowIndex'}, // row index
+        {data: 'date_format'},
+   
+   
+        {data: 'invoice_number'},
+        {data: 'name'},
+        {data: 'payment_method'},
+        {data: 'amount_format'},
+         
+        {data: 'qty'},
+        {data: 'status_format'},
+        {data: 'action'},
+      ]
+
+  });
+
+ 
+
+  $(".search").click(function(e){
+      e.preventDefault();
+      table.draw();
+
+  });
+
+  $(".btn-group > button.btn").on("click", function(){
+      
+        //alert("Value is " + $(this).is(':focus'));
+        table.draw();
+    });
+
+   
+
+  $(".clear-search").click(function(e){
+      e.preventDefault();
+      $('#configform')[0].reset();
+    
+
+  });
+
+
+});
+
+function deleteProduct(productId) {
+        
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+        if (result.isConfirmed) {
+
+            window.location.href = "{{ route('admin.product.delete') }}?product_id=" + productId;
+           
+        }
+    });
+    return false;
+}
+    
+</script>
+
+
 @endsection

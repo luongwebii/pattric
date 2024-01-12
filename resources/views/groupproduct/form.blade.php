@@ -11,10 +11,37 @@ SPoT – Product Groups
     /*.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }*/
     .autocomplete-group { padding: 2px 5px; }
     .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
 </style>
 @endpush
 @section('content')
+<style>
 
+.form-check-input:checked[type="checkbox"] {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
+    }
+.form-check-input[type="checkbox"] {
+  border-radius: .25em;
+}
+.form-check-input {
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+  border: 2px solid #000;
+  left: 0;
+  margin: 0;
+    margin-top: 0px;
+  margin-top: 0px;
+  padding: 0;
+  cursor: pointer;
+}
+.form-check-input:checked {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+
+</style>
 <div class="page-breadcrumb d-none d-md-flex align-items-center mb-3">
   <div class="breadcrumb-title pr-3">Dashboard</div>
   <div class="pl-3">
@@ -33,7 +60,7 @@ SPoT – Product Groups
   @method('PATCH')
   @endisset
   <div class="row">
-    <div class="col-12 col-lg-8">
+    <div class="col-12 col-lg-9">
       <div class="card radius-15 border-lg-top-info">
         <div class="card-header border-bottom-0 mb-4">
           <div class="d-flex align-items-center">
@@ -70,6 +97,74 @@ SPoT – Product Groups
               @enderror
             </div>
 
+            <div class="form-group mt-3">
+                <label class="col-form-label">Columns</label>
+                <table id="example" class="table table-striped table-bordered text-center table-hover">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Size</th>
+                    <th>Drawing</th>
+                    <th>Orient</th>
+                    <th>AreaSM</th>
+                    <th>Bottom Butter</th>
+                    <th>Racking Butter</th>
+                    <th>Man Way</th>
+                    <th>Capacity</th>
+                </tr>
+                </thead>
+                <tbody class="list-products">
+                    <tr>
+                    <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="image_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->image_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="size_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->size_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="drawing_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->drawing_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="orient_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->orient_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="area_sm_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->area_sm_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="bottom_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->bottom_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="racking_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->racking_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="man_way_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->man_way_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="capacity_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->capacity_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+
+                    </tr>
+                </tbody>
+                </table>
+            </div>
 
             <div class="form-group">
                 <label class="col-form-label">Add Product</label>
@@ -112,7 +207,7 @@ SPoT – Product Groups
       </div>
     </div>
 
-    <div class="col-12 col-lg-4">
+    <div class="col-12 col-lg-3">
       <div class="card radius-15 border-lg-top-info">
         <div class="card-header border-bottom-0 mb-4">
           <div class="d-flex align-items-center">
@@ -125,6 +220,7 @@ SPoT – Product Groups
           <div class="form-body">
             <div class="form-group">
               <label class="col-form-label">Product Group image</label>
+              <input type="hidden" name="image_db" id="image" value="{{$groupProduct->image ?? ''}}"/>
               <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($groupProduct->image)) data-default-file="/{{ $groupProduct->image }}" @endif
               {{ !isset($groupProduct->id) ? 'required' : '' }} data-height="160" data-allowed-file-extensions="jpg jpeg png "/>
               @error('image')
@@ -175,6 +271,12 @@ SPoT – Product Groups
         $('body').on('click', '.submit', function(e) {
             e.preventDefault();
             $('form').submit();
+        });
+
+        $('body').on('click', '.dropify-clear', function(e) {
+            e.preventDefault();
+            $('#image').val('');
+            
         });
 
         $("#autocomplete-input").autocomplete({

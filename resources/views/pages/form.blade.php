@@ -108,6 +108,7 @@ SPoT – Pages
                     <div class="form-body">
                         <div class="form-group">
                             <label class="col-form-label">Image</label>
+                            <input type="hidden" name="image_db" id="image" value="{{$page->image ?? ''}}"/>
                             <input type="file" name="image" class="dropify @error('image') is-invalid @enderror" data-max-file-size-preview="8M" @if (isset($page->image)) data-default-file="/{{ $page->image }}" @endif
                             {{ !isset($page->id) ? '' : '' }} />
                             @error('image')
@@ -185,6 +186,12 @@ SPoT – Pages
                 'remove': 'Remove',
                 'error': 'Ooops, something wrong happended.'
             }
+        });
+
+        $('body').on('click', '.dropify-clear', function(e) {
+            e.preventDefault();
+            $('#image').val('');
+            
         });
 
 

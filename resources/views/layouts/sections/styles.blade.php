@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="{!! url('assets/vendor/css/theme-default.css') !!}" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css" />
 <link rel="stylesheet" href="{!! url('assets/css/demo.css') !!}" />
-<link rel="stylesheet" href="{!! url('assets/css/custome.css') !!}" />
+<link rel="stylesheet" href="{!! url('assets/css/custome.css') !!}?x=@php echo time(); @endphp" />
 <link rel="stylesheet" href="{!! url('assets/css/multiimage.css') !!}" />
 <link rel="stylesheet" href="{!! url('assets/css/treeview.css') !!}" />
 <link rel="stylesheet" href="{!! url('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') !!}" />

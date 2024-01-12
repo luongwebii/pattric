@@ -17,8 +17,9 @@ $navbarDetached = ($navbarDetached ?? '');
       @if(isset($navbarFull))
       <div class="navbar-brand app-brand demo d-none d-xl-flex py-0 me-4">
         <a href="{{url('/')}}" class="app-brand-link gap-2">
-        <img src="{!! url('assets/img/logo-admin.png') !!}" alt="dry-care-footer-logo">
+        <img src="{!! url('assets/img/logo-admin.png') !!}" alt="dry-care-footer-">
         </a>
+       
       </div>
       @endif
 
@@ -33,7 +34,14 @@ $navbarDetached = ($navbarDetached ?? '');
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <!-- Search -->
-
+        <div class="navbar-nav align-items-center">
+          <div class="nav-item navbar-search-wrapper mb-0">
+            
+           
+              <span class="d-none d-md-inline-block ">St. Patrick's of Texas Web Admin</span>
+         
+          </div>
+        </div>
         <!-- /Search -->
         <ul class="navbar-nav flex-row align-items-center ms-auto">
 

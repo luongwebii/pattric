@@ -83,6 +83,7 @@ class CategoryController extends Controller
             'category_slug_en'      => Str::slug($request->category_name_en),
             'parent_id'      => $request->parent_id,
             'meta_description_en'      => $request->meta_description_en,
+            'image' => $request->image_db,
             'status'             => $request->status,
         ]);
         $file                    = $request->hasFile('image');

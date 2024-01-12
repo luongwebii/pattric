@@ -1,1 +1,2 @@
 [Thu Sep 14 12:02:24.670744 2023] [php7:error] [pid 14316:tid 2024] [client 127.0.0.1:53906] PHP Fatal error:  Trait 'App\\Services\\Login\\RememberMeExpiration' not found in D:\\htdoc\\patric\\patrick\\app\\Http\\Controllers\\AdminAuthController.php on line 11
+[Wed Jan 10 10:44:24.716425 2024] [php7:error] [pid 5540:tid 1972] [client 127.0.0.1:52017] PHP Fatal error:  Cannot use temporary expression in write context in D:\\htdoc\\patric\\patrick\\app\\Http\\Controllers\\CheckoutController.php on line 184, referer: http://patrick.com/shopping-cart-page

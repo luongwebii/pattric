@@ -32,12 +32,12 @@ class CategoryServiceProvider extends ServiceProvider
             $categoryDataArray[$value->id] = $value->category_name_en;
         }
 
-        $menus = Menu::where('title', 'like', 'Bottom')->orderBy('id', 'ASC')->get();
+        $menus = Menu::where('title', 'like', 'Bottom')->orderBy('icon', 'ASC')->get();
         if($menus == null) {
             $menus = [];
         }
 
-        $left_menus = Menu::where('title', 'like', 'Left Category Menu')->orderBy('id', 'ASC')->get();
+        $left_menus = Menu::where('title', 'like', 'Left Category Menu')->orderBy('icon', 'ASC')->get();
         if($left_menus == null) {
             $left_menus = [];
         }

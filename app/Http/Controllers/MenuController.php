@@ -10,7 +10,7 @@ class MenuController extends Controller
     //
     public function index(){
 
-        $menus = Menu::where('parent_id', '=', 0)->get();
+        $menus = Menu::where('parent_id', '=', 0)->orderBy('icon', 'ASC')->get();
 
         $allMenus = Menu::pluck('title','id')->all();
       
@@ -39,6 +39,7 @@ class MenuController extends Controller
             $menu = new Menu();
             $menu->title = $input['title'];
             $menu->url = $input['url'];
+            $menu->icon = $input['icon'];
             $menu->parent_id = empty($input['parent_id']) ? 0 : $input['parent_id'];
             $menu->save();
 
@@ -51,6 +52,7 @@ class MenuController extends Controller
             $menu = Menu::find($input['id']);
             $menu->title = $input['title'];
             $menu->url = $input['url'];
+            $menu->icon = $input['icon'];
             $menu->parent_id = empty($input['parent_id']) ? 0 : $input['parent_id'];
             $menu->save();
          

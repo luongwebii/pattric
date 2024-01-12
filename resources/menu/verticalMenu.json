@@ -7,9 +7,6 @@
             "slug": "admin.dashboard"
         },
         {
-            "menuHeader": "Users"
-        },
-        {
             "url": "/admin/users",
             "name": "List Users",
             "icon": "menu-icon tf-icons bx bx-home-circle",

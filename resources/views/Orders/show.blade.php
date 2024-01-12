@@ -29,7 +29,10 @@ SPoT – Orders
                                 <th> Email : </th>
                                 <th> {{ $order->email }} </th>
                             </tr>
-                          
+                            <tr>
+                                <th> Shipping Package : </th>
+                                <th> {{ $order->shipping_package }} </th>
+                            </tr>
                           
                           
                             <tr>
@@ -88,8 +91,16 @@ SPoT – Orders
                                 <th class="text-danger"> {{ $order->invoice_number }} </th>
                             </tr>
                             <tr>
+                                <th> Sub Total : </th>
+                                <th>$ {{ Helper::format_numbers($order->sub_total) }} </th>
+                            </tr>
+                            <tr>
+                                <th> Tax : </th>
+                                <th>$ {{ Helper::format_numbers($order->tax) }} </th>
+                            </tr>
+                            <tr>
                                 <th> Order Total : </th>
-                                <th>$ {{ $order->amount }} </th>
+                                <th>$ {{ Helper::format_numbers($order->amount) }} </th>
                             </tr>
                             <tr>
                                 <th> Status : </th>
@@ -183,7 +194,7 @@ SPoT – Orders
                                                 <label for=""> {{ $item->product->product_name_en }}</label>
                                             </td>
                                             <td class="col-md-3">
-                                                <label for=""> {{ $item->product->model }}</label>
+                                                <label for=""> {{ $item->model }}</label>
                                             </td>
                                  
                                            

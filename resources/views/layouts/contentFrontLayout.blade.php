@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/jquery.mCustomScrollbar.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/css/scroll-style.css') }}" />
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
-
+    <link rel="stylesheet" href="{!! url('assets/css/custome.css') !!}?x=@php echo time(); @endphp" />
     <!-- Include Styles -->
     {{--custom css item suggest search--}}
 <style>
@@ -48,6 +48,9 @@
 
     <!-- Include Scripts for customizer, helper, analytics, config -->
     @include('layouts/sections/scriptsIncludes')
+    <script>
+          var freight_only;
+    </script>
 </head>
 
 <body>
@@ -146,6 +149,7 @@
                     // $('span[id="cartSubTotal"]').text(response.cart_total);
                     //$('span[id="cartQty"]').text(response.cart_qty);
                     var miniCart = "";
+                   
                     $.each(response.carts, function (key, value) {
                         console.log(value);
                         miniCart += `
@@ -272,6 +276,14 @@
                     // $('span[id="cartSubTotal"]').text(response.cart_total);
                     //$('span[id="cartQty"]').text(response.cart_qty);
                     $('.total-cart').text(response.cart_qty);
+                    freight_only = response.freight_only;
+                    if(response.cart_qty > 0) {
+                        $('.empty-cart1').hide();
+                    } else {
+                        $('.empty-cart1').show();
+                    } 
+                    checkoutFunction();
+
                 }
             })
         }
@@ -386,6 +398,19 @@
                 }
             });
         }
+
+    function checkoutFunction(){
+        if(freight_only == 1) {
+            $('.credit-card-col').hide();
+            $('.sub-Food1').hide();
+            $('#shipping_package').val('Large Freight Shipping').change();
+            
+        } else {
+            $('.credit-card-col').show();
+            $('.sub-Food1').show();
+            $('#shipping_package').val('Ground Shipping').change();
+        }
+    }
     // End to Cart Product
     </script>
 </body>
