@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use PDF;
 use DataTables;
 use Helper;
+use CountryState;
 class OrderController extends Controller
 {
     /**
@@ -19,8 +20,29 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-       
+        $data = $request->all();
         $query = Order::query();
+
+        if ($request->has('first_name') && !empty($request->first_name)) {
+            $query->where('first_name', 'LIKE', '%' . $request->first_name . '%');
+        }
+
+        if ($request->has('last_name') && !empty($request->last_name)) {
+            $query->where('last_name', 'LIKE', '%' . $request->last_name . '%');
+        }
+       
+        if ($request->has('order_id') && !empty($request->order_id)) { 
+            $query->where('invoice_number', 'LIKE',  $request->order_id  );
+        }
+
+        if ($request->has('from_date') && !empty($request->from_date)) {
+            $query->where('created_at', '>=',   $request->from_date  );
+        }
+
+        if ($request->has('to_date') && !empty($request->to_date)) {
+            $query->where('created_at', '<=',   $request->to_date  );
+        }
+
 
         $orders = $query->latest()->get();
         if ($request->ajax()) {
@@ -63,11 +85,13 @@ class OrderController extends Controller
                     $editUrl = asset('assets/admin/img/edit-icon.svg');
                  
                    
-                    $editUrl = route('admin.orders.show', [$row->id]);
+                    $viewUrl = route('admin.orders.show', [$row->id]);
+                    $editUrl = route('admin.orders.edit', [$row->id]);
 
                   //  $deleteUrl = route('admin.product.delete', [$row->id]);
                     $btn = '';
-                    $btn .= '<a class="btn btn-sm btn-success" href="' . $editUrl . '" data-toggle="tooltip" title="Edit &#128221"><i class="fa fa-eye"></i></a> ';
+                    $btn .= '<a class="btn btn-sm btn-success" href="' . $viewUrl . '" data-toggle="tooltip" title="Edit &#128221"><i class="fa fa-eye"></i></a> ';
+                    $btn .= '<a class="btn btn-sm btn-success" href="' . $editUrl . '" data-toggle="tooltip" title="Edit &#128221"><i class="bx bx-edit"></i></a> ';
                    
                     return $btn;
                 })
@@ -133,6 +157,28 @@ class OrderController extends Controller
     public function edit(Order $order)
     {
         //
+        $states = CountryState::getStates('US');
+        $statuses = array('pending', 'confirmed', 'processing', 'picked', 'delivered', 'completed');
+        return view('Orders.edit', compact(
+            'order', 'states', 'statuses'
+
+        ));
+    }
+
+    public function print(Order $order)
+    {
+        //
+        $order = Order::whereId($order->id)
+            ->with(['user'])
+            ->first();
+        $orderItems = OrderItem::where('order_id', $order->id)
+            ->with('product')
+            ->orderBy('id', 'DESC')->get();
+
+        return view('Orders.print', compact(
+            'order',
+            'orderItems'
+        ));
     }
 
     /**
@@ -145,6 +191,29 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         //
+        $data = $request->all();
+        if ($order) {
+            $order->update($data);
+            $item_ids = $data['item_id'];
+          
+            foreach($item_ids as $key => $item_id){
+                if(!empty($item_id)){ 
+                    $orderItem = OrderItem::find($item_id);
+                    $orderItem->product_qty =  $data['qtyy'][$key];
+                    $orderItem->price = $data['price'][$key];
+                    $orderItem->unit_price = $data['price'][$key];
+                    $orderItem->color = $data['total_item'][$key];
+                    $orderItem->save();
+
+                }
+                
+
+            }
+            return redirect()->route('admin.orders')->with('success', 'Order updated successfully.');
+           
+        }
+       
+      
     }
 
     /**

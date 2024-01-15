@@ -540,7 +540,7 @@
                                      
                                         <div class="payment-information-section">
                                             <div class="row">
-                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 credit-card-col">
+                                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 credit-card-col-top">
                                                     <div class="pay-card credit-card">
                                                         <p><input type="radio" class=" payment-method" name="payment_method" id="payment_method" value="Credit Card" />  <span style="padding-left:5px;">PAY WITH CREDIT CARD</span></p>
                                                         <ul>
@@ -554,7 +554,7 @@
 
                                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
                                                     <div class="pay-card ach-payment">
-                                                        <p><input type="radio" class=" payment-method"  name="payment_method" id="payment_method" value=" Check / ACH Payment" /> <span style="padding-left:5px;">  Check / ACH Payment</span></p>
+                                                        <p><input type="radio" class=" payment-method"  name="payment_method" id="payment_method" value="Check / ACH Payment" /> <span style="padding-left:5px;">  Check / ACH Payment</span></p>
                                                         
                                                     </div>
                                                 </div>
@@ -661,7 +661,22 @@
     $(document).ready(function () {
 
         checkoutFunction();
-
+        
+        $('.payment-method').on('change', function(e) {
+            var method = this.value ;
+            if(method != 'Credit Card') {
+                $('.credit-card-col').hide();
+                if(freight_only == 1) {
+                   
+                    $('.credit-card-col-top').hide();
+                }
+                $('.sub-Food1').hide();
+            } else {
+                $('.credit-card-col').show();
+                $('.sub-Food1').show();
+            }
+          
+        });
         $('#billing_country').on('change', function(e) {
              var country = this.value ;
             e.preventDefault();

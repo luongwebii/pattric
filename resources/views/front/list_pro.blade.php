@@ -32,27 +32,11 @@
 	 <div class="row">
 	 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
 	  <div class="category-product-group">
-	 <h2>product category</h2>
+	 <h2>@if(isset($categories->id)){{$categories->category_name_en}}    @endif</h2>
 	  </div>
 	 </div>
 	 
-	 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-	 <div class="product-category-search-box">
-	 <span>Jump to </span>
-	 
-	 <div class="form-group">
-          
-          <div class="select-dropdown">
-			<select class="form-select" aria-label="Default select example" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                <option value="">Select Option</option>
-            @foreach ($pages as $page)
-			    <option value="{{ route('show.page', $page->id) }}">{{$page->title}}</option>
-            @endforeach
-			</select>
-		</div>
-        </div>
-	 </div>
-	  </div>
+
 	 </div>
 	  </div>
 	  </div>
@@ -61,12 +45,7 @@
 	
 	<section class="vent-subcategory-product-section">
 	<div class="container-fluid">
-	
-	<div class="row">
-    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-	<h2>subcategory name</h2>
-	</div>
-	</div>	
+
 	
 
 	<div id="product-list">

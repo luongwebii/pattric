@@ -239,7 +239,7 @@ class ProductController extends Controller
         $this->validate($request, [
             'category_id1' => 'required|integer',
             'product_name_en' => 'required|string',
-            'product_qty' => 'required',
+            'product_qty' => 'nullable',
             'price' => 'required',
             'sale_price' => 'nullable',
             'discount' => 'nullable',

@@ -102,8 +102,8 @@ SPoT – Products
 
             <div class="form-row">
               <div class="form-group col-md-12">
-                <label class="col-form-label">Quantity <span class="text-danger">*</span></label>
-                <input type="text" class="form-control  @error('product_qty') is-invalid @enderror" name="product_qty" value="{{ $product->product_qty ?? old('product_qty') }}" placeholder="Product quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="5" required>
+                <label class="col-form-label">Quantity <span class="text-danger"></span></label>
+                <input type="text" class="form-control  @error('product_qty') is-invalid @enderror" name="product_qty" value="{{ $product->product_qty ?? old('product_qty') }}" placeholder="Product quantity" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" maxlength="5" >
                 @error('product_qty')
                 <span class="text-danger" product="alert">
                   <strong>{{ $message }}</strong>

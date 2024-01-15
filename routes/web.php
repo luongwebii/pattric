@@ -126,6 +126,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
     
 
     Route::get('/orders/show/{order}', [App\Http\Controllers\OrderController::class, 'show'])->name('admin.orders.show');
+    Route::get('/orders/edit/{order}', [App\Http\Controllers\OrderController::class, 'edit'])->name('admin.orders.edit');
+    Route::post('/orders/update/{order}', [App\Http\Controllers\OrderController::class, 'update'])->name('admin.orders.update');
+
+    Route::get('/orders/print/{order}', [App\Http\Controllers\OrderController::class, 'print'])->name('admin.orders.print');
+
 
     Route::get('/orders/pending/index', [App\Http\Controllers\OrderController::class, 'pendingOrderIndex'])->name('pending.orders');
     Route::get('/orders/confirmed/index', [App\Http\Controllers\OrderController::class, 'confirmedOrderIndex'])->name('confirmed.orders');

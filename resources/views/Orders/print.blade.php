@@ -1,20 +1,62 @@
-@extends('layouts/contentNavbarLayout')
+@extends('layouts/contentNavbarLayout_print')
 @section('title')
 SPoT – Orders
 @endsection
 @section('content')
+<style>
+    @media print {
+   .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+        float: left;
+   }
+   .col-sm-12 {
+        width: 100%;
+   }
+   .col-sm-11 {
+        width: 91.66666667%;
+   }
+   .col-sm-10 {
+        width: 83.33333333%;
+   }
+   .col-sm-9 {
+        width: 75%;
+   }
+   .col-sm-8 {
+        width: 66.66666667%;
+   }
+   .col-sm-7 {
+        width: 58.33333333%;
+   }
+   .col-sm-6 {
+        width: 50%;
+   }
+   .col-sm-5 {
+        width: 41.66666667%;
+   }
+   .col-sm-4 {
+        width: 33.33333333%;
+   }
+   .col-sm-3 {
+        width: 25%;
+   }
+   .col-sm-2 {
+        width: 16.66666667%;
+   }
+   .col-sm-1 {
+        width: 8.33333333%;
+   }
+   .delivery-menu {
+  width: 49%;
+}
+.delivery-menu {
+  width: 50%;
+  float: right;
+}
+}
+</style>
     <section class="content">
-    <div class="row">
-
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                <div class="add-user-register-box">
-                    <a href="{{ route('admin.orders.print', $order) }}" onClick="printPage();return false;" class="btn-secondary-small">Print</a>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-5 col-lg-5 delivery-menu">
                 <div class="box box-bordered border-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Shipping Details</h3>
@@ -78,7 +120,7 @@ SPoT – Orders
                 <!-- /.box -->
             </div>
             <!-- /.col -->
-            <div class="col-md-6 col-lg-6">
+            <div class="col-md-5 col-lg-5 delivery-menu">
                 <div class="box box-bordered border-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Order Details</h3>
@@ -121,39 +163,7 @@ SPoT – Orders
                             </tr>
                             <tr>
                                 <th>Return Reason: <p>{{ $order->return_reason }}</p></th>
-                                <th>
-                                    @if ($order->status == 'pending')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'confirmed'
-                                    ]) }}" class="btn btn-block btn-success">Confirm Order</a>
-                                    @elseif ($order->status == 'confirmed')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'processing'
-                                    ]) }}" class="btn btn-block btn-success">Process Order</a>
-                                    @elseif ($order->status == 'processing')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'picked'
-                                    ]) }}" class="btn btn-block btn-success">Pick Order</a>
-                                    @elseif ($order->status == 'picked')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'shipped'
-                                    ]) }}" class="btn btn-block btn-success">Ship Order</a>
-                                    @elseif ($order->status == 'shipped')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'delivered'
-                                    ]) }}" class="btn btn-block btn-success">Deliverd Order</a>
-                                    @elseif ($order->status == 'cancel')
-                                    <a href="{{ route('order-status.update', [
-                                        'order_id' => $order->id,
-                                        'status' => 'return'
-                                    ]) }}" class="btn btn-block btn-danger">Return Order</a>
-                                    @endif
-                                </th>
+                                
                             </tr>
                         </table>
                     </div>
@@ -235,17 +245,6 @@ SPoT – Orders
         </div>
         <!-- /.row -->
     </section>
-<script type="text/javascript">
-<!--
-var POP;
-function printPage() {
-	var w = 600;
-	var h = 450;
-	var left = (screen.width/2)-(w/2);
-	var top = (screen.height/2)-(h/2);
-	POP = window.open("{{ route('admin.orders.print', $order) }}", 
-		'thePopup', 'width=800,height=450,toolbar=1,resizable=yes,scrollbars=yes, top='+top+', left='+left);
-}
-</script>
+
 
 @endsection

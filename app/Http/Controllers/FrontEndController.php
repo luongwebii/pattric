@@ -99,10 +99,11 @@ class FrontEndController extends Controller
     public function get_product($id) {
         $product = Product::find($id);
 
-        $outofstock = '<span>qty.</span>
+        
+        $outofstock = '<span>qty: </span>
         <div class="form-group qty-input">
             <input type="hidden" name="productId" id="productId" value="'.$id.'"/>
-            <input type="text" id="qty" name="qty" value="1" class="form-control">
+            <input type="number" id="qty" name="qty" value="1" class="form-control">
         </div>
         <a href="javascript:void(0);"  onclick="addToCart(this)" class="primary-btn ccc">Add to cart</a>';
         if($product->product_qty <= 0) {
@@ -110,12 +111,32 @@ class FrontEndController extends Controller
             <span>out of stock</span>
             ';
         }
+    
+        $url = $product->image ? url($product->image) : '';
+        $img = '';
+        if(!empty($url)){
+            $img .= '<div class="product-img-box"><img src="'.$url.'" alt="swivelWheels-img" class="img-fluid"></div>';
+        }
+
+        $price = '';
+        if(!empty($product->sale_price)){
+        
+            $price .= '<div  style="padding:5px;"><div class="text-deco">$' . Helper::format_numbers_2($product->price) . '</div>';
+            $price .= '<div>$' . Helper::format_numbers_2($product->sale_price). '</div></div>';
+        } else {
+            $price .= '<div>$' . Helper::format_numbers_2($product->price) . '</div>';
+        }
+
+       
+
+
         $contentget = '
         <form class="form-inline">
          
           <div class="form-check form-check-inline product-qty-box">
-            <label id="product-name">'.$product->product_name_en.':&nbsp;</label>
-            '.$outofstock.'
+            '.$img.'
+            <label id="product-name" style="padding-left:5px;">&nbsp;'.$product->product_name_en.'&nbsp;</label>
+            &nbsp; <span>Price:</span> '.$price.'&nbsp;'.$outofstock.'
            
           </div>
         </form>';
@@ -241,7 +262,7 @@ class FrontEndController extends Controller
                     <td>
                         <div class="form-group qty-input">
                         <input type="hidden" name="productIds[]" value="'.$score->product->id.'" id="productId"/>
-                            <input type="text" class="form-control	" '.$outofstock.' placeholder="0" id="qty">
+                            <input type="number" class="form-control	" '.$outofstock.' placeholder="0" id="qty">
                         </div>
                     </td>';
 

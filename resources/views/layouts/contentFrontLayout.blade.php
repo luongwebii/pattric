@@ -402,12 +402,14 @@
     function checkoutFunction(){
         if(freight_only == 1) {
             $('.credit-card-col').hide();
+            $('.credit-card-col-top').hide();
             $('.sub-Food1').hide();
             $('#shipping_package').val('Large Freight Shipping').change();
             
         } else {
             $('.credit-card-col').show();
             $('.sub-Food1').show();
+            $('.credit-card-col-top').show();
             $('#shipping_package').val('Ground Shipping').change();
         }
     }
