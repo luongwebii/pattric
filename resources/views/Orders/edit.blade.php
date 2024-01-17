@@ -3,7 +3,7 @@
 SPoT – Orders
 @endsection
 @section('content')
-<form method="post" action="{{ route('admin.orders.update', $order) }}">
+<form method="post" action="{{ route('admin.orders.update', $order) }}" id="form">
 @csrf
     <section class="content">
         <div class="row">
@@ -136,7 +136,7 @@ SPoT – Orders
                                         name="payment_method">
                                         <option value="">Select Payment Method</option>
                                         <option value="Credit Card" {{ $order->payment_method == 'Credit Card' ? 'selected' : '' }}>Credit Card</option>
-                                        <option value="Check / ACH Payment" {{ $order->shipping_country == 'Check / ACH Payment' ? 'selected' : '' }}>Check / ACH Payment</option>
+                                        <option value="Check / ACH Payment" {{ $order->payment_method == 'Check / ACH Payment' ? 'selected' : '' }}>Check / ACH Payment</option>
                                     </select>
                                     
                                  </th>
@@ -273,8 +273,35 @@ SPoT – Orders
         </div>
         <!-- /.row -->
         <div class="container mt-2">
-    <button type="submit" class="btn btn-primary mt-2 updateShipping">Update</button>
+    <button type="button" class="btn btn-primary mt-2 updateShipping">Update</button>
     </div>
     </section>
 </form>
+
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    var questionIndex = 1;
+
+    $('.updateShipping').click(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: "Are you sure that you want to save these changes to this order? ",
+
+            showCancelButton: true,
+            confirmButtonText: "Save",
+
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+          
+               document.getElementById("form").submit();
+            } 
+        });
+        return;
+
+    });
+});    
+</script>
 @endsection

@@ -85,10 +85,10 @@
                                     </h6>
                                     <div class="product-price-box">
                                     @if(empty($product->sale_price))
-                                    <h6>price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+                                    <h6>price: ${{ Helper::format_numbers($product->price)}}</h6>
                                     @else
-                                    <h6 class="text-deco">price: ${{ Helper::format_numbers_2($product->price)}}</h6>
-                                    <h6 class="text-top">price: ${{ Helper::format_numbers_2($product->sale_price)}}</h6>
+                                    <h6 class="text-deco">price: ${{ Helper::format_numbers($product->price)}}</h6>
+                                    <h6 class="text-top">price: ${{ Helper::format_numbers($product->sale_price)}}</h6>
                                     @endif
                                         <div class="product-availability-box">
                                         @if($product->product_qty > 0)

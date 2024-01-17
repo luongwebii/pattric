@@ -106,64 +106,112 @@ class CheckoutController extends Controller
 
         $input = $request->all();
         $shipping_package = $request->shipping_package;
-        if($shipping_package != 'Large Freight Shipping') {
-            $validate = [
-                'first_name'             => 'required',
-                'last_name'           => 'required',
-              //  'phone'              => 'required',
-                'email'  => 'required',
-                'shipping_company_name'   => 'nullable',
-                'shipping_department'   => 'nullable',
-                'shipping_street'   => 'required',
-              //  'shipping_suite'   => 'required',
-                'shipping_city'   => 'required',
-                'shipping_state'   => 'required',
-              //  'shipping_zip'   => 'required',
-                'shipping_package'   => 'required',
-                'shipping_country'   => 'required',
-                'shipping_instructions'             => 'nullable',
-                'billing_address'   => 'required',
-                'payment_method'   => 'required',
-               
+        $shipping_quote = $request->shipping_quote;
+        $payment_method = $request->payment_method;
+        if($shipping_quote  == 2) { //'Local Pickup'
+       
+            if($payment_method != 'Check / ACH Payment') {
+                $validate = [
+                    'first_name'             => 'required',
+                    'last_name'           => 'required',
+                  //  'phone'              => 'required',
+                    'email'  => 'required',
+          
+                    'billing_address'   => 'required',
+                    'payment_method'   => 'required',
                    
-                'billing_suite'   => 'nullable',
-                'billing_city'   => 'required',
-                'billing_state'   => 'required',
-             //   'billing_zip'   => 'required',
-                'card_name'   => 'required',
-                'card_number'   => 'required',
-                'card_month'   => 'required',
-                'card_year'   => 'required',
-            //    'card_expired'   => 'required',
-                'card_code'   => 'required',
-    
-            ];
+                       
+                    'billing_suite'   => 'nullable',
+                    'billing_city'   => 'required',
+                    'billing_state'   => 'required',
+                 //   'billing_zip'   => 'required',
+                    'card_name'   => 'required',
+                    'card_number'   => 'required',
+                    'card_month'   => 'required',
+                    'card_year'   => 'required',
+                //    'card_expired'   => 'required',
+                    'card_code'   => 'required',
+        
+                ];
+            } else {
+                $validate = [
+                    'first_name'             => 'required',
+                    'last_name'           => 'required',
+                  //  'phone'              => 'required',
+                    'email'  => 'required',
+
+
+                    'billing_address'   => 'required',
+                   
+                    'payment_method'   => 'required',
+                    'billing_suite'   => 'nullable',
+                    'billing_city'   => 'required',
+                    'billing_state'   => 'required',
+        
+        
+                ];
+            }
         } else {
-            $validate = [
-                'first_name'             => 'required',
-                'last_name'           => 'required',
-              //  'phone'              => 'required',
-                'email'  => 'required',
-                'shipping_company_name'   => 'nullable',
-                'shipping_department'   => 'nullable',
-                'shipping_street'   => 'required',
-              //  'shipping_suite'   => 'required',
-                'shipping_city'   => 'required',
-                'shipping_state'   => 'required',
-              //  'shipping_zip'   => 'required',
-              'shipping_package'   => 'required',
-                'shipping_country'   => 'required',
-                'shipping_instructions'             => 'nullable',
-                'billing_address'   => 'required',
-               
-                'payment_method'   => 'required',
-                'billing_suite'   => 'nullable',
-                'billing_city'   => 'required',
-                'billing_state'   => 'required',
-    
-    
-            ];
+            if($payment_method != 'Check / ACH Payment') {
+                $validate = [
+                    'first_name'             => 'required',
+                    'last_name'           => 'required',
+                  //  'phone'              => 'required',
+                    'email'  => 'required',
+                    'shipping_company_name'   => 'nullable',
+                    'shipping_department'   => 'nullable',
+                    'shipping_street'   => 'required',
+                  //  'shipping_suite'   => 'required',
+                    'shipping_city'   => 'required',
+                    'shipping_state'   => 'required',
+                  //  'shipping_zip'   => 'required',
+                    'shipping_package'   => 'required',
+                    'shipping_country'   => 'required',
+                    'shipping_instructions'             => 'nullable',
+                    'billing_address'   => 'required',
+                    'payment_method'   => 'required',
+                   
+                       
+                    'billing_suite'   => 'nullable',
+                    'billing_city'   => 'required',
+                    'billing_state'   => 'required',
+                 //   'billing_zip'   => 'required',
+                    'card_name'   => 'required',
+                    'card_number'   => 'required',
+                    'card_month'   => 'required',
+                    'card_year'   => 'required',
+                //    'card_expired'   => 'required',
+                    'card_code'   => 'required',
+        
+                ];
+            } else {
+                $validate = [
+                    'first_name'             => 'required',
+                    'last_name'           => 'required',
+                  //  'phone'              => 'required',
+                    'email'  => 'required',
+                    'shipping_company_name'   => 'nullable',
+                    'shipping_department'   => 'nullable',
+                    'shipping_street'   => 'required',
+                  //  'shipping_suite'   => 'required',
+                    'shipping_city'   => 'required',
+                    'shipping_state'   => 'required',
+                  //  'shipping_zip'   => 'required',
+                  'shipping_package'   => 'required',
+                    'shipping_country'   => 'required',
+                    'shipping_instructions'             => 'nullable',
+                    'billing_address'   => 'required',
+                   
+                    'payment_method'   => 'required',
+                    'billing_suite'   => 'nullable',
+                    'billing_city'   => 'required',
+                    'billing_state'   => 'required',
+        
+        
+                ];
+            }
         }
+       
       
         $this->validate($request, $validate,
         ['card_month.required' => 'Field is required.', 'card_year.required' => 'Field is required.']);
@@ -197,7 +245,7 @@ class CheckoutController extends Controller
         $invoiceNumber = 'AAF'.mt_rand(10000000,99999999);
         $transaction_id = uniqid();
       
-        if($shipping_package != 'Large Freight Shipping') {
+        if($payment_method == 'Credit Card') {
 
             $gw = new gwapi;
             $gw->setLogin("83RhcjNm98CG8pV5A3tRbpJDv7sdTVFS");

@@ -142,17 +142,7 @@
                                                                     </td>
 
                                                                 </tr>
-                                                                <tr>
-                                                                    <td>shipping :</td>
-                                                                    <td>Shipping amount will be added when the order is
-                                                                        shipped</td>
-
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>taxes :</td>
-                                                                    <td>$<span class="tax">{{$tax}}</span></td>
-
-                                                                </tr>
+                                                 
                                                             </tbody>
                                                         </table>
 
@@ -170,20 +160,7 @@
                                                         <div class="col-xl-6 col-lg-6 col-md-8 col-sm-12">
 
 
-                                                            <table class="table-total-block">
-
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Total :</td>
-                                                                        <td>$<span
-                                                                                class="cart_total">{{$cart_total}}</span>
-                                                                        </td>
-
-                                                                    </tr>
-
-
-                                                                </tbody>
-                                                            </table>
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -393,8 +370,7 @@
                                                             <input type="radio" class="form-check-input"  value="2" name="shipping_quote"
                                                                 id="customSwitch4">
                                                             <label class="form-check-label"
-                                                                for="customSwitch4"><span>Local
-                                                                    Pickup</span></label>
+                                                                for="customSwitch4"><span>Local Pickup</span></label>
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12"></div>
@@ -507,7 +483,7 @@
                                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
 
                                                     <button type="button" class="btn primary-btn save-address">
-                                                        Save Address
+                                                    SAVE AND CONTINUE
                                                     </button>
 
                                                 </div>
@@ -728,8 +704,11 @@
                     $('.tax-section').text(data.tax);
                     $('.tax-section').text(data.tax);
                     $('.total1-section').text(data.cart_total);
-                  
-                   
+                    
+                    if(data.tax > 0){
+                        $('.tax-hide').hide();
+                    }
+                    $('.tax-hide').hide();
                     $('#payment-info').attr('data-toggle',"collapse");
                  
                    

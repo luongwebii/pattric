@@ -117,6 +117,16 @@ SPoT – Pages
                             </span>
                             @enderror
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-form-label">Meta Title</label>
+                            <textarea name="meta_keywords" id="meta_keywords" class="form-control  @error('meta_keywords') is-invalid @enderror" placeholder="Meta Title">{{ $page->meta_keywords ?? old('meta_keywords') }}</textarea>
+                            @error('meta_keywords')
+                            <span class="text-danger" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label class="col-form-label">Meta description</label>
                             <textarea name="meta_description" id="meta_description" class="form-control  @error('title') is-invalid @enderror" placeholder="Meta description">{{ $page->meta_description ?? old('meta_description') }}</textarea>
@@ -126,15 +136,7 @@ SPoT – Pages
                             </span>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Meta keywords</label>
-                            <textarea name="meta_keywords" id="meta_keywords" class="form-control  @error('meta_keywords') is-invalid @enderror" placeholder="Meta keywords">{{ $page->meta_keywords ?? old('meta_keywords') }}</textarea>
-                            @error('meta_keywords')
-                            <span class="text-danger" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                            @enderror
-                        </div>
+                      
                         <div class="custom-control custom-switch mt-2">
                             <input type="checkbox" class="custom-control-input" id="is_home" name="is_home" @isset($page->id)
                             {{ $page->is_home == 1 ? 'checked' : '' }}

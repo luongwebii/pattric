@@ -1,5 +1,6 @@
 @extends('layouts/contentFrontLayout')
-
+@section('title', 'My California Permit - '.$page->meta_keywords)
+@section('description', $page->meta_description)
 
 @section('content')
 <style>
@@ -80,4 +81,12 @@ table{width:100%;}
 
 <div class="space-footer-section"></div>
 </main>
+
+
+<script>
+    $(function () {
+        $table = $('.container-fluid table').addClass('table table-condensed table-responsive');
+        $('.container-fluid table').css("height", "auto");
+    });
+</script>
 @endsection

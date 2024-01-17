@@ -81,7 +81,7 @@
   .search-btn-group-student ul li {
     list-style: none;
   }
-  .btn-secondary {
+  .btn-secondary2 {
     display: inline-block;
     color: #FF662C;
     background-color: transparent;
@@ -117,3 +117,5 @@
     line-height: 40px;
     min-height: 40px;
   }
+
+  .group-pro{min-width: 130px;padding: 0; }

@@ -8,6 +8,7 @@ SPoT – Orders
 
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 <div class="add-user-register-box">
+                    <a href="{{ route('admin.orders.edit', $order->id) }}"   class="btn-secondary-small">Edit</a>
                     <a href="{{ route('admin.orders.print', $order) }}" onClick="printPage();return false;" class="btn-secondary-small">Print</a>
                 </div>
             </div>
@@ -43,7 +44,10 @@ SPoT – Orders
                                 <th> Shipping Package : </th>
                                 <th> {{ $order->shipping_package }} </th>
                             </tr>
-                          
+                            <tr>
+                                <th> Shipping Type : </th>
+                                <th> {{ $order->shipping_quote == 1 ? "Custom Shipping Quote" : "Local Pickup" }} </th>
+                            </tr>
                           
                             <tr>
                                 <th> Street : </th>

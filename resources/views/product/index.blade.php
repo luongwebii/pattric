@@ -33,6 +33,91 @@ SPoT – Products
       </div>
     </div>
   </div>
+  <section class="main-section">
+                        <div class="container">
+                            <div class="outer-container1">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                
+                                        <div class="heading-box">
+                                            <h4>Search</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col col1-large">
+                                        <div class="form-group">
+                                            <label for="exampleinputcourse">Name</label>
+                                            <input value="{{ old('name', request()->input('name'))}}" type="text"
+                                                        class="form-control" name="name" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col col1-large">
+                                        <div class="form-group">
+                                            <label for="exampleinputcourse">Model</label>
+                                            <input value="{{ old('model', request()->input('model'))}}" type="text"
+                                                        class="form-control" name="model" placeholder="">
+                                        </div>
+                                    </div>
+
+                                    <div class="col col1-large">
+                                        <div class="form-group">
+                                            <label for="exampleinputcourse">Category</label>
+                                            <select class="form-control single-select" name="category_id" id="category_id">
+                                                <option value="">Select Category</option>
+
+                                                
+
+                                                @foreach ($categoryData as $categoryList)
+                                                @if (empty($categoryList->parent_id))
+                                                    <option value="{{ $categoryList->id }}" {{ $categoryList->id === old('category_id', request()->input('category_id')) ? 'selected' : '' }}>{{ $categoryList->category_name_en }}</option>
+                                                    @if ($categoryList->children)
+                                                        @foreach ($categoryList->children as $child)
+                                                            <option value="{{ $child->id }}" {{ $child->id === old('category_id', request()->input('category_id')) ? 'selected' : '' }}>&nbsp;&nbsp;{{ $child->category_name_en }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                    @endif
+
+                                                
+                                                @endforeach
+                                                </select>
+                                           
+                                        </div>
+                                    </div>
+
+                           
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                                        <div class="search-btn-group-student pt-4">
+                                            <ul style="justify-content: flex-end;">
+                                                <li> <button class="dt-button add-new btn btn-primary search" tabindex="0" type="button"><span><span
+                                                                class="d-none d-sm-inline-block">Search</span></span></button></li>
+                                                <li style="margin-right: 0;">  <button class="btn btn-label-secondary clear-search" tabindex="0"
+                                                        type="submit"><span><span class="d-none d-sm-inline-block">Clear
+                                                                Search</span></span></button> </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+
+                    </section>
   <div class="card-body">
     <div class="table-responsive">
       <table id="example" class="table table-striped table-bordered text-center table-hover data-table">
@@ -99,8 +184,9 @@ $(function () {
         type: 'POST',
         data:   function (d) {
                   
-                    d.first_name = $('input[name=first_name]').val();
-                    d.last_name = $('input[name=last_name]').val();
+                    d.name = $('input[name=name]').val();
+                    d.model = $('input[name=model]').val();
+                    d.category_id = $('#category_id').val();
          
                 },
       },

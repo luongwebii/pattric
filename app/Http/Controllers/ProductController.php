@@ -27,6 +27,20 @@ class ProductController extends Controller
         // $products = Product::latest('id')->with('category')->get();
         $query = Product::query();
         $query->whereIn('status', [0, 1]);
+
+        if ($request->has('name') && !empty($request->name)) {
+            $query->where('product_name_en', 'LIKE', '%' . $request->name . '%');
+        }
+
+        if ($request->has('model') && !empty($request->model)) {
+            $query->where('model', 'LIKE', '%' . $request->model . '%');
+        }
+       
+        if ($request->has('category_id') && !empty($request->category_id)) { 
+            $query->where('category_id', '=',  $request->category_id  );
+        }
+
+       
         /*
          $query->where(function ($query) {
              $query->where('status', '!=', 'draft');
@@ -119,8 +133,8 @@ class ProductController extends Controller
 
         }
 
-
-        return view('product.index', compact('products'));
+        $categories = Category::latest('id')->get();
+        return view('product.index', compact('products', 'categories'));
     }
 
 

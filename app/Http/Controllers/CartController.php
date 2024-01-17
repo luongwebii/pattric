@@ -56,6 +56,21 @@ class CartController extends Controller
     
     public function saveShipping(Request $request)//, $id
     {
+        $shipping_quote = $request->shipping_quote;
+        if($shipping_quote  == 2) { //'Local Pickup'
+            $sub_total = Cart::subtotal();
+            $cart_qty = Cart::count();
+            $cart_total = Cart::total();
+            $tax = Cart::tax();
+            return response()->json([
+                'success' => 'Successfully added on your cart', 
+                'tax' => $tax,
+                'shipping_package' => $request->shipping_package,
+                'sub_total' => $sub_total,
+                'cart_qty' => $cart_qty,
+                'cart_total' => $cart_total,],200);
+
+        }
         $this->validate($request, [
            
             'shipping_street'   => 'required',

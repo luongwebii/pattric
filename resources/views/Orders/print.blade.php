@@ -86,7 +86,10 @@ SPoT – Orders
                                 <th> {{ $order->shipping_package }} </th>
                             </tr>
                           
-                          
+                            <tr>
+                                <th> Shipping Type : </th>
+                                <th> {{ $order->shipping_quote == 1 ? "Custom Shipping Quote" : "Local Pickup" }} </th>
+                            </tr>
                             <tr>
                                 <th> Street : </th>
                                 <th> {{ $order->shipping_street }} </th>

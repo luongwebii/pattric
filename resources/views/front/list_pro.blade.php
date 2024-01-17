@@ -64,10 +64,10 @@
 	<h4>{{ $product->product_name_en}}</h4>
 	<div class="product-price-box">
     @if(empty($product->sale_price))
-    <h6>price: ${{ Helper::format_numbers_2($product->price)}}</h6>
+    <h6>price: ${{ Helper::format_numbers($product->price)}}</h6>
     @else
-    <h6 class="text-deco">price: ${{ Helper::format_numbers_2($product->price)}}</h6>
-    <h6 class="text-top">price: ${{ Helper::format_numbers_2($product->sale_price)}}</h6>
+    <h6 class="text-deco">price: ${{ Helper::format_numbers($product->price)}}</h6>
+    <h6 class="text-top">price: ${{ Helper::format_numbers($product->sale_price)}}</h6>
     @endif
     <div class="product-availability-box">
                                         @if($product->product_qty > 0)
@@ -175,6 +175,19 @@
 
                     $.each(data, function(index, product) { 
                         // Append the product to the list 
+                        var price = '';
+                        if(product.is_price_sale.length !== 0){
+                            price += '<h6  class="text-deco">price: $'+product.is_price +'</h6>';
+                            price += '<h6 class="text-top">price: $'+product.is_price_sale +'</h6>';
+                        } else {
+                            price += '<h6>price: $'+product.is_price +'</h6>';
+                        }
+                        if(product.product_qty > 0){
+                            price += '<div class="product-availability-box"><span>in stock</span></div>';
+                        } else {
+                            price += '<div class="product-availability-box"><span>out of stock</span></div>';
+                        }
+
                         var html = `
                         <form>
                             <div class="row mb-3 product">
@@ -189,7 +202,7 @@
                             <div class="product-text-box">
                             <h4>${product.product_name_en}</h4>
                             <div class="product-price-box">
-                            <h6>price: ${product.price}</h6>
+                           ${price}
                             </div>
                             </div>
                             </div>

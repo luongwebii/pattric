@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Helper;
 class Product extends Model
 {
     use HasFactory;
@@ -41,6 +41,24 @@ class Product extends Model
         'meta_keywords_en',
         'meta_description_en',
     ];
+    protected $appends = ['is_price', 'is_price_sale'];
+
+
+    public function getIsPriceSaleAttribute() {
+    
+        if (!empty($this->sale_price)){
+            return Helper::format_numbers($this->sale_price) ;
+        }
+        return '';
+    }
+
+    public function getIsPriceAttribute() {
+    
+        if (!empty($this->price)){
+            return Helper::format_numbers($this->price) ;
+        }
+        return '';
+    }
 
     public function category()
     {

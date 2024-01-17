@@ -105,7 +105,7 @@ class FrontEndController extends Controller
             <input type="hidden" name="productId" id="productId" value="'.$id.'"/>
             <input type="number" id="qty" name="qty" value="1" class="form-control">
         </div>
-        <a href="javascript:void(0);"  onclick="addToCart(this)" class="primary-btn ccc">Add to cart</a>';
+        <a href="javascript:void(0);"  onclick="addToCart(this)" class="primary-btn ccc group-pro">Add to cart</a>';
         if($product->product_qty <= 0) {
             $outofstock = '
             <span>out of stock</span>
@@ -121,10 +121,10 @@ class FrontEndController extends Controller
         $price = '';
         if(!empty($product->sale_price)){
         
-            $price .= '<div  style="padding:5px;"><div class="text-deco">$' . Helper::format_numbers_2($product->price) . '</div>';
-            $price .= '<div>$' . Helper::format_numbers_2($product->sale_price). '</div></div>';
+            $price .= '<div  style="padding:5px;"><div class="text-deco">$' . Helper::format_numbers($product->price) . '</div>';
+            $price .= '<div>$' . Helper::format_numbers($product->sale_price). '</div></div>';
         } else {
-            $price .= '<div>$' . Helper::format_numbers_2($product->price) . '</div>';
+            $price .= '<div>$' . Helper::format_numbers($product->price) . '</div>';
         }
 
        
@@ -136,7 +136,7 @@ class FrontEndController extends Controller
           <div class="form-check form-check-inline product-qty-box">
             '.$img.'
             <label id="product-name" style="padding-left:5px;">&nbsp;'.$product->product_name_en.'&nbsp;</label>
-            &nbsp; <span>Price:</span> '.$price.'&nbsp;'.$outofstock.'
+            &nbsp; <span>Price:</span> '.$price.'&nbsp;&nbsp;'.$outofstock.'
            
           </div>
         </form>';
@@ -193,6 +193,9 @@ class FrontEndController extends Controller
             if($group->size_flag) {
                 $contentget .= ' <th scope="col">Size</th>';
             }
+            if($group->capacity_flag) {
+                $contentget .= ' <th scope="col">Capacity'.$group->capacity_flag.'</th>';
+            }
             if($group->drawing_flag) {
                 $contentget .= ' <th scope="col">drawing</th>';
             }
@@ -212,9 +215,7 @@ class FrontEndController extends Controller
             if($group->man_way_flag) {
                 $contentget .= ' <th scope="col">Man Way</th>';
             }
-            if($group->capacity_flag) {
-                $contentget .= ' <th scope="col">Capacity</th>';
-            }
+           
         
             $contentget .= '
                         </tr>
@@ -246,10 +247,10 @@ class FrontEndController extends Controller
                 $price = '';
                 if(!empty($score->product->sale_price)){
                 
-                    $price .= '<div class="text-deco">$' . Helper::format_numbers_2($score->product->price) . '</div>';
-                    $price .= '<div>$' . Helper::format_numbers_2($score->product->sale_price). '</div>';
+                    $price .= '<div class="text-deco">$' . Helper::format_numbers($score->product->price) . '</div>';
+                    $price .= '<div>$' . Helper::format_numbers($score->product->sale_price). '</div>';
                 } else {
-                    $price .= '<div>$' . Helper::format_numbers_2($score->product->price) . '</div>';
+                    $price .= '<div>$' . Helper::format_numbers($score->product->price) . '</div>';
                 }
 
                 if($group->image_flag) {
@@ -269,6 +270,10 @@ class FrontEndController extends Controller
                     if($group->size_flag) {
                         $optionHtml .= ' <td >'.$size.'</td>';
                     }
+                    if($group->capacity_flag) {
+                        $optionHtml .= '<td>'.$capacity.'</td>';
+                    }
+
                     if($group->drawing_flag) {
                         $optionHtml .= ' <td>'.$drawing.'</td>';
                     }
@@ -287,9 +292,7 @@ class FrontEndController extends Controller
                     if($group->man_way_flag) {
                         $optionHtml .= '<td>'.$man_way.'</td>';
                     }
-                    if($group->capacity_flag) {
-                        $optionHtml .= '<td>'.$capacity.'</td>';
-                    }
+                   
                     
                     $optionHtml .= "</tr>";
 

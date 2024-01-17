@@ -104,13 +104,14 @@ SPoT – Product Groups
                 <tr>
                     <th>Image</th>
                     <th>Size</th>
+                    <th>Capacity</th>
                     <th>Drawing</th>
                     <th>Orient</th>
                     <th>AreaSM</th>
                     <th>Bottom Butter</th>
                     <th>Racking Butter</th>
                     <th>Man Way</th>
-                    <th>Capacity</th>
+                  
                 </tr>
                 </thead>
                 <tbody class="list-products">
@@ -120,9 +121,15 @@ SPoT – Product Groups
                   {{ $groupProduct->image_flag == 1 ? 'checked' : '' }}
                   @endisset >
                         </td>
+                       
                         <td>
                         <input type="checkbox" class="custom-control-input form-check-input"  name="size_flag" @isset($groupProduct->id)
                   {{ $groupProduct->size_flag == 1 ? 'checked' : '' }}
+                  @endisset >
+                        </td>
+                        <td>
+                        <input type="checkbox" class="custom-control-input form-check-input"  name="capacity_flag" @isset($groupProduct->id)
+                  {{ $groupProduct->capacity_flag == 1 ? 'checked' : '' }}
                   @endisset >
                         </td>
                         <td>
@@ -155,11 +162,7 @@ SPoT – Product Groups
                   {{ $groupProduct->man_way_flag == 1 ? 'checked' : '' }}
                   @endisset >
                         </td>
-                        <td>
-                        <input type="checkbox" class="custom-control-input form-check-input"  name="capacity_flag" @isset($groupProduct->id)
-                  {{ $groupProduct->capacity_flag == 1 ? 'checked' : '' }}
-                  @endisset >
-                        </td>
+                       
 
                     </tr>
                 </tbody>
